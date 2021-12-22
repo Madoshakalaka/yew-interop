@@ -76,7 +76,7 @@ use crate::interop::use_library_a;
 
 #[function_component(Consumer)]
 pub fn consumer() -> Html {
-    let library_a_ready = use_library_a;
+    let library_a_ready = use_library_a();
 
     html! {
         if library_a_ready{
