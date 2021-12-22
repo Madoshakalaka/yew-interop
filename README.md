@@ -2,7 +2,8 @@
 
 ## Demo
 
-The example folder has a demo website built with`yew-interop`,
+[The example folder](https://github.com/Madoshakalaka/yew-interop/tree/master/example) 
+has a demo website built with`yew-interop`,
 the animation below shows the first two use cases.
 To see a full example of every use case,
 cd into example and run `trunk serve`.
@@ -49,7 +50,8 @@ declare_resources!(
 );
 ```
 
-This macro expands into a `<ResourceProvider/>` component, you want to wrap your application in the provider:
+This macro expands into a `<ResourceProvider/>` component.
+you want to wrap your application in the provider:
 
 ```rust
 // main.rs
@@ -100,9 +102,10 @@ With `yew-interop`, each resource is requested on demand when a consuming compon
 
 If you include your libraries using the
 [JS-snippet method with wasm-bindgen](https://rustwasm.github.io/wasm-bindgen/reference/js-snippets.html)
-or insert them as `<script/>` or `<link/>` directly in the `index.html`. Then the resources will be loaded
-for every request, even if there is no consuming component. This can cause congestion and
-waste data.
+or insert them as `<script/>` or `<link/>` directly in the `index.html`, 
+the resources will be loaded for every request,
+even if there is no consuming component.
+This can cause congestion and wasted data.
 
 
 ### Load Once, Use Everywhere
@@ -113,7 +116,8 @@ Subsequent hook calls will return `true` immediately.
 
 ## Side Effect Javascript
 
-If your javascript is a side effect script, you can use the `yew_interop::use_script_effect()` hook.
+If your javascript is a side effect script,
+you can use the `yew_interop::use_script_effect()` hook.
 The hook will run the script every time your component finishes rendering.
 
 ```rust
@@ -126,7 +130,8 @@ The script will also asynchronously load,
 so expect the first execution to have a delay,
 the browser will cache the script so subsequent execution will be fast.
 
-If you only want to re-run the script conditionally, use the `yew_interop::use_conditional_script_effect()` hook.
+If you only want to run the script conditionally,
+use the `yew_interop::use_conditional_script_effect()` hook.
 
 ```rust
 use yew_interop::use_conditional_script_effect;
@@ -139,4 +144,5 @@ use_conditional_script_effect(
 some_dep);
 ```
 
-[The example crate](https://github.com/Madoshakalaka/yew-interop/tree/master/example) has demos for both hooks, run `trunk serve` and play around!
+[The example crate](https://github.com/Madoshakalaka/yew-interop/tree/master/example)
+has demos for both hooks, run `trunk serve` and play around!
