@@ -101,7 +101,7 @@ With `yew-interop`, each resource is requested on demand when a consuming compon
 If you include your libraries using the
 [JS-snippet method with wasm-bindgen](https://rustwasm.github.io/wasm-bindgen/reference/js-snippets.html)
 or insert them as `<script/>` or `<link/>` directly in the `index.html`. Then the resources will be loaded
-for every request, even if the consuming component doesn't need the library. This can cause congestion and
+for every request, even if there is no consuming component. This can cause congestion and
 waste data.
 
 
