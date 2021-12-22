@@ -2,6 +2,13 @@
 name = "yew-interop"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+description = "use javascript and css asynchrously in yew"
+homepage = "https://github.com/Madoshakalaka/yew-interop"
+repository = "https://github.com/Madoshakalaka/yew-interop"
+
+keywords = ["yew", "interop", "js", "css", "npm"]
+categories = ["api-bindings", "asynchronous", "wasm", "web-programming"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
