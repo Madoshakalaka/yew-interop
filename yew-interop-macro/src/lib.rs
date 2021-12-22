@@ -234,10 +234,10 @@ pub fn declare_resources(input: TokenStream) -> TokenStream {
 
                                 let src: ::yew::virtual_dom::AttrValue = link.src.clone().into();
                                 match link.r#type {
-                                    ::yew_interop::LinkType::Js => ::yew::html! {
+                                    ::yew_interop::LinkType::Js => ::yew::html_nested! {
                                         <script {src} type="text/javascript" onload={onload.clone()}/>
                                     },
-                                    ::yew_interop::LinkType::Css => ::yew::html! {
+                                    ::yew_interop::LinkType::Css => ::yew::html_nested! {
                                         <link rel="stylesheet" type="text/css" href={src} onload={onload.clone()}/>
                                     }
                                 }
