@@ -1,0 +1,2 @@
+[workspace]
+members = ["yew-interop", "yew-interop-macro", "example", "yew-interop-core"]
