@@ -4,14 +4,16 @@ use web_sys::{HtmlCanvasElement, HtmlImageElement};
 use yew_interop::declare_resources;
 
 declare_resources!(
-toast
-"https://cdn.jsdelivr.net/npm/toastify-js@1.11.2/src/toastify.min.js"
-"https://cdn.jsdelivr.net/npm/toastify-js@1.11.2/src/toastify.min.css"
-cropper
-"https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"
-"https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css"
+    toast
+    "https://cdn.jsdelivr.net/npm/toastify-js@1.11.2/src/toastify.min.js"
+    "https://cdn.jsdelivr.net/npm/toastify-js@1.11.2/src/toastify.min.css"
+
+    cropper
+    "https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"
+    "https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css"
 );
 
+// The javascript API: https://github.com/apvarun/toastify-js/blob/572517040fae6a7f8be4a99778dacda9c933db45/README.md
 #[wasm_bindgen]
 extern "C" {
     #[wasm_bindgen(js_name = Toastify)]
@@ -36,6 +38,7 @@ pub fn show_congrats_toast() {
     toast.show_toast();
 }
 
+// The javascript API: https://www.npmjs.com/package/cropperjs/v/1.5.12
 #[wasm_bindgen]
 extern "C" {
     #[wasm_bindgen(js_name = Cropper)]
