@@ -3,7 +3,7 @@
 ## Demo
 
 The example folder has a demo website built with`yew-interop`,
-the animation below shows the first two examples.
+the animation below shows the first two use cases.
 To see a full example of every use case,
 cd into example and run `trunk serve`.
 
