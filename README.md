@@ -8,6 +8,8 @@ the animation below shows the first two use cases.
 To see a full example of every use case,
 cd into example and run `trunk serve`.
 
+(loading speed is throttled in the animation for demo purposes)
+
 ![yew interop demo](https://raw.githubusercontent.com/Madoshakalaka/yew-interop/v0.1.2/static/yew-interop-demo.gif)
 
 # Install
