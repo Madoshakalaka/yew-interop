@@ -47,7 +47,8 @@ declare_resources!(
 );
 ```
 
-This macro expands into a `<ResourceProvider/>` component, you want to wrap your application in the provider:
+This macro expands into a `<ResourceProvider/>` component.
+you want to wrap your application in the provider:
 
 ```rust
 // main.rs
@@ -74,7 +75,7 @@ use crate::interop::use_library_a;
 
 #[function_component(Consumer)]
 pub fn consumer() -> Html {
-    let library_a_ready = use_library_a;
+    let library_a_ready = use_library_a();
 
     html! {
         if library_a_ready{
