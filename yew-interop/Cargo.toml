@@ -1,11 +1,12 @@
 [package]
 name = "yew-interop"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 license = "MIT"
 description = "use javascript and css asynchrously in yew"
 homepage = "https://github.com/Madoshakalaka/yew-interop"
 repository = "https://github.com/Madoshakalaka/yew-interop"
+readme = "../README.md"
 
 keywords = ["yew", "interop", "js", "css", "npm"]
 categories = ["api-bindings", "asynchronous", "wasm", "web-programming"]

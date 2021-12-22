@@ -8,7 +8,7 @@ pub use yew_interop_core::{Link, LinkType};
 pub use yew_interop_macro::declare_resources;
 
 /// Run javascript after a component is rendered.
-/// Note the script will be re-run for every re-render.
+/// Note the script will run for every render.
 /// If you want to conditionally run the script, see [`use_conditional_script_effect`]
 pub fn use_script_effect(src: &'static str) {
     use_effect(move || {
@@ -36,7 +36,10 @@ fn insert_script(src: &str, document: &Document) {
     }
 }
 
-/// The script will be re-run when `should_rerun` returns true.
+/// Run a script conditionally.
+///
+/// `should_run` receives `d` as the argument and returns a `bool`.
+/// The script will only run when `should_rerun` returns true.
 pub fn use_conditional_script_effect<Dep, Filter>(src: &'static str, should_run: Filter, d: Dep)
 where
     Dep: PartialEq + 'static,

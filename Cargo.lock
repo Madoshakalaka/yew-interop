@@ -561,20 +561,26 @@ dependencies = [
 
 [[package]]
 name = "yew-interop"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "gloo-events",
  "gloo-utils",
  "wasm-bindgen",
  "web-sys",
  "yew",
- "yew-interop-core",
- "yew-interop-macro",
+ "yew-interop-core 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "yew-interop-macro 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "yew-interop-core"
 version = "0.1.0"
+
+[[package]]
+name = "yew-interop-core"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "70dbb150eb7be7538552293c0095108899c1cecb3dd0f99d6ed74e91e612a04e"
 
 [[package]]
 name = "yew-interop-macro"
@@ -585,7 +591,21 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
- "yew-interop-core",
+ "yew-interop-core 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "yew-interop-macro"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "58f383978e86c12cfb8e5a5ccf1ff594eaa2c52a062f6fdc36902975126e5d24"
+dependencies = [
+ "convert_case",
+ "itertools",
+ "proc-macro2",
+ "quote",
+ "syn",
+ "yew-interop-core 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
