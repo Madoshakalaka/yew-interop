@@ -1,4 +1,8 @@
-# yew-interop
+<div style="text-align: center;">
+<h1>Yew Interop</h1>
+<img alt="Crates.io" src="https://img.shields.io/crates/v/yew-interop">
+<a href="https://madoshakalaka.github.io/yew-interop"><img alt="demo badge" src="https://img.shields.io/badge/demo-up-brightgreen"/></a>
+</div>
 
 ## Load On Demand
 
@@ -11,6 +15,7 @@ the resources will load for every request,
 even if there is no consuming component.
 This can cause congestion and wasted data.
 
+
 ## Load Once, Use Everywhere
 
 Each resource is strictly requested once.
@@ -18,6 +23,7 @@ If a resource has been requested in one component,
 other consuming components won't trigger a reload.
 Other requests to the same resource will either wait for the load to complete,
 or return ready immediately if the resource is loaded.
+
 
 ## Demo
 
