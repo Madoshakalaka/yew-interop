@@ -1,0 +1,4 @@
+[tasks.build]
+description = "build the production website"
+command = "trunk"
+args = ["build", "--release", "--dist", "../website"]

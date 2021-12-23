@@ -4,3 +4,9 @@ members = ["yew-interop", "yew-interop-macro", "example", "yew-interop-core"]
 # patch for stylist in the example crate
 [patch.crates-io]
 yew = {git = "https://github.com/yewstack/yew.git", branch="master"}
+
+# optimization for the website
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = 'z'

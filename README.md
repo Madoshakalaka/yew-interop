@@ -1,5 +1,24 @@
 # yew-interop
 
+## Load On Demand
+
+With `yew-interop`, each resource is requested on demand when a consuming component requests it.
+
+If you include your libraries using the
+[JS-snippet method with wasm-bindgen](https://rustwasm.github.io/wasm-bindgen/reference/js-snippets.html)
+or insert them as `<script/>` or `<link/>` directly in the `index.html`,
+the resources will load for every request,
+even if there is no consuming component.
+This can cause congestion and wasted data.
+
+## Load Once, Use Everywhere
+
+Each resource is strictly requested once.
+If a resource has been requested in one component,
+other consuming components won't trigger a reload.
+Other requests to the same resource will either wait for the load to complete,
+or return ready immediately if the resource is loaded.
+
 ## Demo
 
 [The example folder](https://github.com/Madoshakalaka/yew-interop/tree/master/example) 
@@ -10,7 +29,7 @@ cd into example and run `trunk serve`.
 
 (loading speed is throttled in the animation for demo purposes)
 
-![yew interop demo](https://raw.githubusercontent.com/Madoshakalaka/warehouse/master/images/yew-interop-demo.gif)
+![yew interop demo animation](https://raw.githubusercontent.com/Madoshakalaka/warehouse/master/images/yew-interop-demo.gif)
 
 # Install
 
@@ -94,25 +113,6 @@ pub fn consumer() -> Html {
 you will also need to write some stubs using `wasm-bindgen` and `js-sys` before using the library in Rust.
 The wasm-bindgen book has [a good chapter](https://rustwasm.github.io/wasm-bindgen/examples/import-js.html) on that.
 You can also run the `example` website and have a look [how it's done there](https://github.com/Madoshakalaka/yew-interop/blob/master/example/src/interop.rs)
-
-
-### Load On Demand
-
-With `yew-interop`, each resource is requested on demand when a consuming component requests it.
-
-If you include your libraries using the
-[JS-snippet method with wasm-bindgen](https://rustwasm.github.io/wasm-bindgen/reference/js-snippets.html)
-or insert them as `<script/>` or `<link/>` directly in the `index.html`, 
-the resources will be loaded for every request,
-even if there is no consuming component.
-This can cause congestion and wasted data.
-
-
-### Load Once, Use Everywhere
-
-If a resource has been requested in one component,
-other consuming components won't trigger a reload.
-Subsequent hook calls will return `true` immediately.
 
 ## Side Effect Javascript
 

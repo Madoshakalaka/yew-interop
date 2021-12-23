@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8"/>
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Yew-interop Example</title>
-    <link data-trunk rel="rust" data-wasm-opt="4"/>
+    <script type="module">import init from '/index-dbc2787836cd579f.js';init('/index-dbc2787836cd579f_bg.wasm');</script>
 
     <style>
         /* accessibility: open in new tab icon */
@@ -14,7 +12,9 @@
         }
     </style>
 
-</head>
+
+<link rel="preload" href="/index-dbc2787836cd579f_bg.wasm" as="fetch" type="application/wasm" crossorigin="">
+<link rel="modulepreload" href="/index-dbc2787836cd579f.js"></head>
 
 
-</html>
+<body></body></html>
