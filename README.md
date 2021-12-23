@@ -1,7 +1,7 @@
 <div align="center">
 <h1>Yew Interop</h1>
 <img alt="Crates.io" src="https://img.shields.io/crates/v/yew-interop">
-<a href="https://madoshakalaka.github.io/yew-interop"><img alt="demo badge" src="https://img.shields.io/badge/demo-up-brightgreen"/></a>
+<a href="https://madoshakalaka.github.io/yew-interop/next"><img alt="demo badge" src="https://img.shields.io/badge/demo-up-brightgreen"/></a>
 </div>
 
 ## Load On Demand
@@ -28,14 +28,14 @@ or return ready immediately if the resource is loaded.
 ## Demo
 
 [The example folder](https://github.com/Madoshakalaka/yew-interop/tree/master/example) 
-has a demo website built with`yew-interop`,
-the animation below shows the first two use cases.
-To see a full example of every use case,
-cd into example and run `trunk serve`.
+has a demo website built with`yew-interop`
 
-(loading speed is throttled in the animation for demo purposes)
+[Check out the demo](https://madoshakalaka.github.io/yew-interop/next)
 
-![yew interop demo animation](https://raw.githubusercontent.com/Madoshakalaka/warehouse/master/images/yew-interop-demo.gif)
+The gif below shows the first two use cases,
+loading speed is throttled for demo purposes.
+
+![yew interop demo gif](https://raw.githubusercontent.com/Madoshakalaka/warehouse/master/images/yew-interop-demo.gif)
 
 # Install
 
@@ -136,6 +136,10 @@ The script will also asynchronously load,
 so expect the first execution to have a delay,
 the browser will cache the script so subsequent execution will be fast.
 
+> In a soon 0.2 version,
+> I will add the possibility to load the script in memory,
+> and the consuming component will get notified when the script is ready.
+
 If you only want to run the script conditionally,
 use the `yew_interop::use_conditional_script_effect()` hook.
 
@@ -149,6 +153,3 @@ use_conditional_script_effect(
 },
 some_dep);
 ```
-
-[The example crate](https://github.com/Madoshakalaka/yew-interop/tree/master/example)
-has demos for both hooks, run `trunk serve` and play around!

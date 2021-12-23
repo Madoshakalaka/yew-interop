@@ -1,5 +1,5 @@
 [workspace]
-members = ["yew-interop", "yew-interop-macro", "example", "yew-interop-core"]
+members = ["yew-interop", "yew-interop-macro", "example", "yew-interop-core", "dev-tool"]
 
 # patch for stylist in the example crate
 [patch.crates-io]
