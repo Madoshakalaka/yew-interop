@@ -1,4 +1,4 @@
-<div style="text-align: center;">
+<div align="center">
 <h1>Yew Interop</h1>
 <img alt="Crates.io" src="https://img.shields.io/crates/v/yew-interop">
 <a href="https://madoshakalaka.github.io/yew-interop"><img alt="demo badge" src="https://img.shields.io/badge/demo-up-brightgreen"/></a>
