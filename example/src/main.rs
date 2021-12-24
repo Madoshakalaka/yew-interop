@@ -11,7 +11,7 @@ use yew::prelude::*;
 
 #[function_component(BlessingsExample)]
 pub fn blessings_example() -> Html {
-    yew_interop::use_script_effect("/static/blessings.js");
+    yew_interop::use_script_effect("/next/static/blessings.js");
     html! {<p>{"Now check your console!"}</p>}
 }
 
@@ -218,7 +218,7 @@ pub fn cropper_example() -> Html {
             }
 
             <div>
-                <img ref={image_ref} src="/static/yew-logo.png" class={css!("width: 10rem; height: 10rem; display: block; max-width: 100%;")}/>
+                <img ref={image_ref} src="/next/static/yew-logo.png" class={css!("width: 10rem; height: 10rem; display: block; max-width: 100%;")}/>
             </div>
         </>
     }
@@ -327,7 +327,7 @@ pub fn app() -> Html {
 
                     <ExampleSection title="Blessings Example">
                         <p><small>{"using "} <code>{"yew_interop::use_script_effect"}</code> {" and "}
-                            <a target="_blank" rel="noopener" href="/static/blessings.js">{"blessings.js"}</a>
+                            <a target="_blank" rel="noopener" href="/next/static/blessings.js">{"blessings.js"}</a>
                         </small></p>
 
                         if *show_blessings_example{
