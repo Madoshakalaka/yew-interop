@@ -11,9 +11,7 @@ use yew::prelude::*;
 
 #[function_component(BlessingsExample)]
 pub fn blessings_example() -> Html {
-    yew_interop::use_script_effect(
-        "https://mattyan-cdn.s3.us-east-2.amazonaws.com/js/blessings.js",
-    );
+    yew_interop::use_script_effect("/static/blessings.js");
     html! {<p>{"Now check your console!"}</p>}
 }
 
@@ -158,14 +156,23 @@ pub fn cropper_example() -> Html {
         )
     };
 
+    let destroy_cropper = |cropper: &UseStateHandle<Option<Cropper>>| {
+        if let Some(c) = cropper.as_ref() {
+            c.destroy();
+        }
+        cropper.set(None);
+    };
+
     let confirm_button = {
         let cropper = cropper.clone();
         let cropped_image_src = cropped_image_src.clone();
         let onclick = move |_| {
             let canvas = cropper.as_ref().map(|c| c.get_cropped_canvas()).unwrap();
             let data_url = canvas.to_data_url().unwrap();
-            cropped_image_src.set(Some(data_url))
+            cropped_image_src.set(Some(data_url));
+            destroy_cropper(&cropper);
         };
+
         html_nested!(
             <button {onclick}>{"Confirm"}</button>
         )
@@ -174,7 +181,7 @@ pub fn cropper_example() -> Html {
     let destroy_cropper_button = {
         let cropper = cropper.clone();
         html_nested!(
-            <button onclick={move |_| {if let Some(c) = cropper.as_ref() { c.destroy() }}}>{"Cancel"}</button>
+            <button onclick={move |_| destroy_cropper(&cropper)}>{"Cancel"}</button>
         )
     };
 
@@ -210,10 +217,8 @@ pub fn cropper_example() -> Html {
             ).unwrap_or_default()
             }
 
-
-
             <div>
-                <img ref={image_ref} src="https://raw.githubusercontent.com/Madoshakalaka/warehouse/master/images/yew-logo.png" class={css!("width: 10rem; height: 10rem; display: block; max-width: 100%;")}/>
+                <img ref={image_ref} src="/static/yew-logo.png" class={css!("width: 10rem; height: 10rem; display: block; max-width: 100%;")}/>
             </div>
         </>
     }
@@ -322,7 +327,7 @@ pub fn app() -> Html {
 
                     <ExampleSection title="Blessings Example">
                         <p><small>{"using "} <code>{"yew_interop::use_script_effect"}</code> {" and "}
-                            <a target="_blank" rel="noopener" href="https://github.com/Madoshakalaka/warehouse/blob/master/js/print-blessings.js">{"blessings.js"}</a>
+                            <a target="_blank" rel="noopener" href="/static/blessings.js">{"blessings.js"}</a>
                         </small></p>
 
                         if *show_blessings_example{

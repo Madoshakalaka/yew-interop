@@ -35,7 +35,7 @@ has a demo website built with`yew-interop`
 The gif below shows the first two use cases,
 loading speed is throttled for demo purposes.
 
-![yew interop demo gif](https://raw.githubusercontent.com/Madoshakalaka/warehouse/master/images/yew-interop-demo.gif)
+![yew interop demo gif](https://madoshakalaka.github.io/yew-interop/next/static/yew-interop-demo.gif)
 
 # Install
 
