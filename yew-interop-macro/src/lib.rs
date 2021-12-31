@@ -11,14 +11,14 @@ use itertools::{izip, Either};
 use proc_macro::TokenStream;
 use proc_macro2::Span;
 use quote::quote;
-use std::borrow::Cow;
+
 use syn::parse::{Parse, ParseStream};
 
 use syn::{
     parse_macro_input, Error as SynError, Expr, ExprLit, Ident, Lit, LitInt, LitStr,
     Result as SynResult, Token,
 };
-use yew_interop_core::{Link, LinkType};
+use yew_interop_core::{LinkType};
 
 struct ResourceDeclaration {
     idents: Vec<Ident>,

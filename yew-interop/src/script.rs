@@ -1,11 +1,11 @@
 use js_sys::JsString;
 use std::borrow::Cow;
 use std::rc::Rc;
-use wasm_bindgen::{JsCast, UnwrapThrowExt};
+use wasm_bindgen::{JsCast};
 use wasm_bindgen_futures::JsFuture;
-use web_sys::{Element, HtmlScriptElement, Request, RequestInit, RequestMode, Response};
+use web_sys::{Request, RequestInit, RequestMode, Response};
 use yew::{
-    create_portal, function_component, html, Component, Context, Html, Properties, Reducible,
+    create_portal, function_component, html, Properties, Reducible,
 };
 
 #[doc(hidden)]

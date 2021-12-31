@@ -1,9 +1,9 @@
-use itertools::{Either, Itertools};
-use proc_macro::Ident;
+
+
 use proc_macro2::TokenStream;
 use quote::ToTokens;
-use syn::parse::{Parse, ParseStream};
-use syn::{Error as SynError, Expr, ExprLit, Lit, LitStr, Result as SynResult};
+
+use syn::{Error as SynError, Expr, LitStr};
 use yew_interop_core::LinkType;
 
 pub struct LibraryUrl {

@@ -1,6 +1,6 @@
-use syn::parse::{Error as SynError, Parse, ParseStream, Result as SynResult};
+use syn::parse::{Parse, ParseStream, Result as SynResult};
 use syn::{Expr, Ident, Token};
-use syn::{LitStr, Macro};
+
 
 pub(crate) struct EffectScriptEntry {
     pub ident: Ident,
