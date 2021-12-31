@@ -8,7 +8,7 @@ use std::str::FromStr;
 enum Version {
     YewNext,
     Master,
-    SemverVersion(String),
+    Semver(String),
 }
 
 impl Version {
@@ -16,7 +16,7 @@ impl Version {
         match self {
             Version::YewNext => "yew-next".into(),
             Version::Master => "master".into(),
-            Version::SemverVersion(v) => v.into(),
+            Version::Semver(v) => v.into(),
         }
     }
 }
@@ -28,7 +28,7 @@ impl FromStr for Version {
         match s {
             "yew-next" | "next" => Ok(Self::YewNext),
             "master" => Ok(Self::Master),
-            other => SemverVersion::parse(other).map(|_| Version::SemverVersion(s.to_string())),
+            other => SemverVersion::parse(other).map(|_| Version::Semver(s.to_string())),
         }
     }
 }

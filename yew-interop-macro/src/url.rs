@@ -1,5 +1,3 @@
-
-
 use proc_macro2::TokenStream;
 use quote::ToTokens;
 
@@ -45,7 +43,7 @@ impl TryFrom<LitStr> for LibraryUrl {
 
 pub(crate) enum Url {
     UnSpecified(LitStr),
-    TypeSpecified(Expr),
+    TypeSpecified(Box<Expr>),
 }
 
 impl ToTokens for Url {

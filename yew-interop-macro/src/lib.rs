@@ -18,7 +18,7 @@ use syn::{
     parse_macro_input, Error as SynError, Expr, ExprLit, Ident, Lit, LitInt, LitStr,
     Result as SynResult, Token,
 };
-use yew_interop_core::{LinkType};
+use yew_interop_core::LinkType;
 
 struct ResourceDeclaration {
     idents: Vec<Ident>,
@@ -50,11 +50,17 @@ fn parse_library_urls(input: ParseStream) -> SynResult<Vec<LibraryUrl>> {
         if input.peek(kw::js) {
             input.parse::<kw::js>().unwrap();
             let expr = input.parse::<Expr>()?;
-            urls.push(LibraryUrl::new(Url::TypeSpecified(expr), LinkType::Js))
+            urls.push(LibraryUrl::new(
+                Url::TypeSpecified(Box::new(expr)),
+                LinkType::Js,
+            ))
         } else if input.peek(kw::css) {
             input.parse::<kw::css>().unwrap();
             let expr = input.parse::<Expr>()?;
-            urls.push(LibraryUrl::new(Url::TypeSpecified(expr), LinkType::Css))
+            urls.push(LibraryUrl::new(
+                Url::TypeSpecified(Box::new(expr)),
+                LinkType::Css,
+            ))
         } else if input.peek(LitStr) {
             urls.push(LibraryUrl::try_from(input.parse::<LitStr>().unwrap())?);
         } else {
@@ -206,11 +212,11 @@ pub fn declare_resources(input: TokenStream) -> TokenStream {
 
     #[cfg(feature = "script")]
     let (script_hooks, script_handle_enums, script_urls, script_loaders, script_handles): (
-        Vec<Ident>,
-        Vec<Ident>,
-        Vec<Expr>,
-        Vec<Ident>,
-        Vec<Ident>,
+        Vec<_>,
+        Vec<_>,
+        Vec<_>,
+        Vec<_>,
+        Vec<_>,
     ) = itertools::multiunzip(effect_scripts.into_iter().map(
         |EffectScriptEntry { ident, url }| {
             let ident_string = ident.to_string();
