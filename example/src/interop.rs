@@ -1,15 +1,21 @@
+use crate::static_url::static_url;
 use js_sys::{Object, Reflect};
 use wasm_bindgen::{prelude::*, JsValue};
 use web_sys::{HtmlCanvasElement, HtmlImageElement};
-use yew_interop::declare_resources;
+use yew::{Html, UseReducerDispatcher, UseReducerHandle};
+use yew_interop::{declare_resources, LinkGroupStatus};
 
 declare_resources!(
-toast
-"https://cdn.jsdelivr.net/npm/toastify-js@1.11.2/src/toastify.min.js"
-"https://cdn.jsdelivr.net/npm/toastify-js@1.11.2/src/toastify.min.css"
-cropper
-"https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"
-"https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css"
+    toast
+    "https://cdn.jsdelivr.net/npm/toastify-js@1.11.2/src/toastify.min.js"
+    "https://cdn.jsdelivr.net/npm/toastify-js@1.11.2/src/toastify.min.css"
+    cropper
+    "https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"
+    "https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css"
+    ! blessings
+    static_url!("blessings.js")
+    ! social_media_buttons
+    "https://cdn.jsdelivr.net/npm/share-buttons@1.9.0/dist/share-buttons.min.js"
 );
 
 // The javascript API: https://github.com/apvarun/toastify-js/blob/572517040fae6a7f8be4a99778dacda9c933db45/README.md

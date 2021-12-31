@@ -1,7 +1,7 @@
 <div align="center">
 <h1>Yew Interop</h1>
 <img alt="Crates.io" src="https://img.shields.io/crates/v/yew-interop">
-<a href="https://madoshakalaka.github.io/yew-interop/next"><img alt="demo badge" src="https://img.shields.io/badge/demo-up-brightgreen"/></a>
+<a href="https://madoshakalaka.github.io/yew-interop/yew-next"><img alt="demo badge" src="https://img.shields.io/badge/demo-up-brightgreen"/></a>
 </div>
 
 ## Load On Demand
@@ -27,19 +27,19 @@ or return ready immediately if the resource is loaded.
 
 ## Demo
 
-[The example folder](https://github.com/Madoshakalaka/yew-interop/tree/master/example) 
+[The example folder](https://github.com/Madoshakalaka/yew-interop/tree/yew-next/example) 
 has a demo website built with`yew-interop`
 
-[Check out the demo](https://madoshakalaka.github.io/yew-interop/next)
+[Check out the demo](https://madoshakalaka.github.io/yew-interop/yew-next)
 
 The gif below shows the first two use cases,
 loading speed is throttled for demo purposes.
 
-![yew interop demo gif](https://madoshakalaka.github.io/yew-interop/next/static/yew-interop-demo.gif)
+![yew interop demo gif](https://madoshakalaka.github.io/yew-interop/yew-next/static/yew-interop-demo.gif)
 
 # Install
 
-This branch works with yew's `master` branch.
+This branch works with yew next (yew's `master` branch)
 
 To install, add this in your `Cargo.toml`
 
@@ -118,7 +118,7 @@ pub fn consumer() -> Html {
 >For javascript libraries,
 you will also need to write some stubs using `wasm-bindgen` and `js-sys` before using the library in Rust.
 The wasm-bindgen book has [a good chapter](https://rustwasm.github.io/wasm-bindgen/examples/import-js.html) on that.
-You can also run the `example` website and have a look [how it's done there](https://github.com/Madoshakalaka/yew-interop/blob/master/example/src/interop.rs)
+You can also run the `example` website and have a look [how it's done there](https://github.com/Madoshakalaka/yew-interop/blob/yew-next/example/src/interop.rs)
 
 ## Side Effect Javascript
 

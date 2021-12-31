@@ -2,59 +2,47 @@ use js_sys::{Object, Reflect};
 use std::rc::Rc;
 mod fontawesome;
 mod interop;
+mod static_url;
+
 use fontawesome::FontawesomeSvg;
+use static_url::static_url;
 
 use interop::{Cropper, ResourceProvider};
-use stylist::yew::{styled_component, Global};
+use stylist::yew::styled_component;
+use stylist::yew::Global;
 use web_sys::HtmlImageElement;
 use yew::prelude::*;
-
-/// production/development aware static url
-#[cfg(debug_assertions)]
-macro_rules! static_url {
-    ($rest:tt) => {
-        concat!("/static/", $rest)
-    };
-}
-#[cfg(not(debug_assertions))]
-macro_rules! static_url {
-    ($rest:tt) => {
-        concat!("/yew-interop/next/static/", $rest)
-    };
-}
+use yew_interop::script::ScriptEffect;
 
 #[function_component(BlessingsExample)]
 pub fn blessings_example() -> Html {
-    let url = static_url!("blessings.js");
-    yew_interop::use_script_effect(url);
-    html! {<p>{"Now check your console!"}</p>}
+    let script = interop::use_blessings();
+
+    html! {
+        if script.is_some() {
+            <ScriptEffect {script}/>
+            <p>{"Now check your console!"}</p>
+        }else{
+            <Progress id="blessings-progress" label="blessings.js is loading"/>
+        }
+    }
 }
 
 #[styled_component(SocialMediaButtonsExample)]
 pub fn social_media_buttons_example() -> Html {
-    #[derive(PartialEq)]
-    enum State {
-        Show,
-        Hide,
+    #[derive(PartialEq, Default)]
+    struct Toggle {
+        state: bool,
     }
-    struct Toggle;
-    impl Reducible for State {
-        type Action = Toggle;
+    impl Reducible for Toggle {
+        type Action = ();
         fn reduce(self: Rc<Self>, _action: Self::Action) -> Rc<Self> {
-            match &*self {
-                State::Show => Rc::new(Self::Hide),
-                State::Hide => Rc::new(Self::Show),
-            }
+            Rc::new(Self { state: !self.state })
         }
     }
-    let show_buttons = use_reducer(|| State::Hide);
+    let show_buttons = use_reducer(Toggle::default);
 
-    // only run script when the buttons are shown
-    yew_interop::use_conditional_script_effect(
-        "https://cdn.jsdelivr.net/npm/share-buttons@1.9.0/dist/share-buttons.min.js",
-        |s| matches!(**s, State::Show),
-        show_buttons.clone(),
-    );
+    let script = interop::use_social_media_buttons();
 
     let class = classes!(
         css!(
@@ -110,26 +98,41 @@ pub fn social_media_buttons_example() -> Html {
     html! {
         <>
 
-        <button onclick={move |_| dispatcher.dispatch(Toggle)}>{"Toggle"}</button>
+        if script.is_none(){
+            <Progress id="social-media-button-progress" label="share-this.js is loading"/>
+        }else{
+            {
+            html!{
+                <>
+                <button onclick={move |_| dispatcher.dispatch(())}>{"Toggle"}</button>
 
-        if matches!(*show_buttons, State::Show){
-            <div {class}>
-                <a class="btn-vk" data-id="vk">
-                    <FontawesomeSvg view_box="0 0 576 512" d="M545 117.7c3.7-12.5 0-21.7-17.8-21.7h-58.9c-15 0-21.9 7.9-25.6 16.7 0 0-30 73.1-72.4 120.5-13.7 13.7-20 18.1-27.5 18.1-3.7 0-9.4-4.4-9.4-16.9V117.7c0-15-4.2-21.7-16.6-21.7h-92.6c-9.4 0-15 7-15 13.5 0 14.2 21.2 17.5 23.4 57.5v86.8c0 19-3.4 22.5-10.9 22.5-20 0-68.6-73.4-97.4-157.4-5.8-16.3-11.5-22.9-26.6-22.9H38.8c-16.8 0-20.2 7.9-20.2 16.7 0 15.6 20 93.1 93.1 195.5C160.4 378.1 229 416 291.4 416c37.5 0 42.1-8.4 42.1-22.9 0-66.8-3.4-73.1 15.4-73.1 8.7 0 23.7 4.4 58.7 38.1 40 40 46.6 57.9 69 57.9h58.9c16.8 0 25.3-8.4 20.4-25-11.2-34.9-86.9-106.7-90.3-111.5-8.7-11.2-6.2-16.2 0-26.2.1-.1 72-101.3 79.4-135.6z"/>
-                    <span>{"VK"}</span>
-                </a>
-                <a class="btn-facebook" data-id="fb">
-                    <FontawesomeSvg view_box="0 0 512 512" d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/>
-                    <span>{"Facebook"}</span>
-                </a>
-                <a class="btn-twitter" data-id="tw">
-                    <FontawesomeSvg view_box="0 0 512 512" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/>
-                    <span>{"Twitter"}</span>
-                </a>
-            </div>
+                if show_buttons.state{
+                    <ScriptEffect {script}/>
+
+                    <div {class}>
+                        <a class="btn-vk" data-id="vk">
+                            <FontawesomeSvg view_box="0 0 576 512" d="M545 117.7c3.7-12.5 0-21.7-17.8-21.7h-58.9c-15 0-21.9 7.9-25.6 16.7 0 0-30 73.1-72.4 120.5-13.7 13.7-20 18.1-27.5 18.1-3.7 0-9.4-4.4-9.4-16.9V117.7c0-15-4.2-21.7-16.6-21.7h-92.6c-9.4 0-15 7-15 13.5 0 14.2 21.2 17.5 23.4 57.5v86.8c0 19-3.4 22.5-10.9 22.5-20 0-68.6-73.4-97.4-157.4-5.8-16.3-11.5-22.9-26.6-22.9H38.8c-16.8 0-20.2 7.9-20.2 16.7 0 15.6 20 93.1 93.1 195.5C160.4 378.1 229 416 291.4 416c37.5 0 42.1-8.4 42.1-22.9 0-66.8-3.4-73.1 15.4-73.1 8.7 0 23.7 4.4 58.7 38.1 40 40 46.6 57.9 69 57.9h58.9c16.8 0 25.3-8.4 20.4-25-11.2-34.9-86.9-106.7-90.3-111.5-8.7-11.2-6.2-16.2 0-26.2.1-.1 72-101.3 79.4-135.6z"/>
+                            <span>{"VK"}</span>
+                        </a>
+                        <a class="btn-facebook" data-id="fb">
+                            <FontawesomeSvg view_box="0 0 512 512" d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/>
+                            <span>{"Facebook"}</span>
+                        </a>
+                        <a class="btn-twitter" data-id="tw">
+                            <FontawesomeSvg view_box="0 0 512 512" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/>
+                            <span>{"Twitter"}</span>
+                        </a>
+                    </div>
+
+                    <p>{"The script attaches onclick listeners to the buttons."}<br/>
+                    {"It is only run every time the buttons are toggled open."}</p>
+                }
+                </>
+            }
+
+            }
 
         }
-
         </>
     }
 }
@@ -265,7 +268,7 @@ pub struct ExampleSectionProps {
 #[styled_component(ExampleSection)]
 pub fn example_section(props: &ExampleSectionProps) -> Html {
     html! {
-        <section class={css!("border: 4px dashed gray; padding: 0 8px 1.25rem 16px; border-radius: 8px;")}>
+        <section class={css!("border: 4px dashed gray; padding: 0 16px 1.25rem 16px; border-radius: 8px;")}>
             <h1>{props.title}</h1>
             {for props.children.iter()}
         </section>
@@ -307,8 +310,7 @@ pub fn app() -> Html {
                 }
             "#/>
 
-
-            <h1 style="justify-self: start;">{"yew-interop demo"}</h1>
+            <h1 style="justify-self: start;">{"Yew Interop Demo"}</h1>
 
             <div class={examples}>
                 <ExampleSection title="Toast Example">
@@ -340,7 +342,10 @@ pub fn app() -> Html {
                 </ExampleSection>
 
                 <ExampleSection title="Blessings Example">
-                    <p><small>{"using "} <code>{"yew_interop::use_script_effect"}</code> {" and "}
+                    <p>{"An example of a side effect script"}</p>
+
+
+                    <p><small>{"using "} <code>{"yew_interop::declare_resources!"}</code> {" and "}
                         <a target="_blank" rel="noopener" href={static_url!("blessings.js")}>{"blessings.js"}</a>
                     </small></p>
 
@@ -348,13 +353,16 @@ pub fn app() -> Html {
                         <BlessingsExample/>
                     }else{
                         <button onclick={move |_| show_blessings_example.set(true)}>
-                            {"Run blessings.js"}
+                            {"Load blessings.js asynchrously"}
                         </button>
                     }
                 </ExampleSection>
 
                 <ExampleSection title="Social Media Buttons Example">
-                    <p><small>{"using "} <code>{"yew_interop::use_conditional_script_effect"}</code> {" and "}
+
+                    <p>{"Conditionally run a side effect script"}</p>
+
+                    <p><small>{"using "} <code>{"yew_interop::declare_resources!"}</code> {" and "}
                         <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/share-buttons/v/1.9.0">{"share-buttons 1.9.0"}</a>
                     </small></p>
 
@@ -362,7 +370,7 @@ pub fn app() -> Html {
                         <SocialMediaButtonsExample/>
                     }else{
                         <button onclick={move |_| show_social_media_buttons_example.set(true)}>
-                            {"Run share-buttons.js"}
+                            {"Load share-buttons.js asynchronously"}
                         </button>
                     }
                 </ExampleSection>

@@ -6,15 +6,28 @@ use std::str::FromStr;
 
 #[derive(Debug)]
 enum Version {
-    Next,
+    YewNext,
+    Master,
     SemverVersion(String),
 }
+
+impl Version {
+    fn into_sub_folder(self) -> Cow<'static, str> {
+        match self {
+            Version::YewNext => "yew-next".into(),
+            Version::Master => "master".into(),
+            Version::SemverVersion(v) => v.into(),
+        }
+    }
+}
+
 impl FromStr for Version {
     type Err = SemverError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
-            "next" | "master" => Ok(Self::Next),
+            "yew-next" | "next" => Ok(Self::YewNext),
+            "master" => Ok(Self::Master),
             other => SemverVersion::parse(other).map(|_| Version::SemverVersion(s.to_string())),
         }
     }
@@ -31,11 +44,9 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
-    let sub_folder: Cow<'static, str> = match args.version {
-        Version::Next => "next".into(),
-        Version::SemverVersion(v) => v.into(),
-    };
+    let sub_folder: Cow<'static, str> = args.version.into_sub_folder();
     let status = Command::new("trunk")
+        .env("YEW_INTEROP_DEMO_VERSION", &*sub_folder)
         .args([
             "build",
             "--release",
