@@ -28,24 +28,34 @@ or return ready immediately if the resource is loaded.
 
 ## Demo
 
-[The example folder](https://github.com/Madoshakalaka/yew-interop/tree/v0.2.1/example) 
+[The example folder](https://github.com/Madoshakalaka/yew-interop/tree/master/example) 
 has a demo website built with`yew-interop`
 
 The gif below shows the first two use cases,
 loading speed is throttled for demo purposes.
 
-![yew interop demo gif](https://madoshakalaka.github.io/yew-interop/v0.2.1/static/yew-interop-demo.gif)
+![yew interop demo gif](https://madoshakalaka.github.io/yew-interop/master/static/yew-interop-demo.gif)
 
-[Check out the full online demo](https://madoshakalaka.github.io/yew-interop/v0.2.1)
+[Check out the full online demo](https://madoshakalaka.github.io/yew-interop/master)
 
 # Install
+
+Master branch is the in-development branch,
+
+```toml
+yew-interop = {git="https://github.com/Madoshakalaka/yew-interop.git", branch="master", features=["yew-stable"]}
+```
+
+If you are using yew-next (yew's master branch), change the `yew-stable` feature to `yew-next`.
+
+Or you can install the latest version published on crates.io, which uses yew 0.19.
 
 ```toml
 yew-interop = "0.2"
 ```
 
-This should work with yew `0.19.x`, 
-in particular, `0.2.1` is tested against yew `0.19.3`.
+Note the `yew-next`/`yew-stable` features only exist in the master branch
+since published crates can't have git dependencies.
 
 # API
 
@@ -112,7 +122,7 @@ pub fn consumer() -> Html {
 >For javascript libraries,
 you will also need to write some stubs using `wasm-bindgen` and `js-sys` before using the library in Rust.
 The wasm-bindgen book has [a good chapter](https://rustwasm.github.io/wasm-bindgen/examples/import-js.html) on that.
-You can also check out our demo website and have a look [how it's done there](https://github.com/Madoshakalaka/yew-interop/blob/v0.2.1/example/src/interop.rs)
+You can also check out our demo website and have a look [how it's done there](https://github.com/Madoshakalaka/yew-interop/blob/master/example/src/interop.rs)
 
 ## Explicit Resource Type
 
@@ -156,7 +166,11 @@ you want to enable the `script` feature.
 
 
 ```toml
-yew-interop = {version = "0.2",  features=["script"]}
+yew-interop = {git="https://github.com/Madoshakalaka/yew-interop.git",  features=["yew-stable", "script"]}
+```
+or
+```toml
+yew-interop = {version = "0.2", features = ["script"]}
 ```
 
 You will need to prepend the identifier of a script with an exclamation mark (!).
@@ -211,7 +225,7 @@ pub fn app() -> Html {
 ```
 
 If your script depends on other components being rendered,
-such as the fourth example [in the demo](https://madoshakalaka.github.io/yew-interop/v0.2.1/static/yew-interop-demo.gif),
+such as the fourth example [in the demo](https://madoshakalaka.github.io/yew-interop/master/static/yew-interop-demo.gif),
 where the script adds onclick handlers to the rendered elements,
 you will need to guarantee the script is rendered after all the dependees.
 
