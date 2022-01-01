@@ -27,4 +27,5 @@ Use stable yew instead.
 
 # After a Release
 
-Tag the branch and delete the branch.
+Tag the branch, do not delete the branch, 
+for some of them tree is referenced in the readme published on crates.io.
