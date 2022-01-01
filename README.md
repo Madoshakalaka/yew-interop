@@ -45,12 +45,13 @@ loading speed is throttled for demo purposes.
 
 # Install
 
-Master branch is the in-development branch,
+The master branch has the the lastest in-development code.
 
 ```toml
 yew-interop = {git="https://github.com/Madoshakalaka/yew-interop.git", branch="master", features=["yew-stable"]}
 ```
 
+The `yew-stable` feature works with the latest release of yew on crates.io, currently 0.19.  
 If you are using yew-next (yew's master branch), change the `yew-stable` feature to `yew-next`.
 
 Or you can install the latest version published on crates.io, which uses yew 0.19.
