@@ -38,12 +38,3 @@ optional = true
 yew-stable = ["yew_19", "yew-interop-macro/yew-stable"]
 yew-next = ["yew_master", "yew-interop-macro/yew-next"]
 script = ["wasm-bindgen-futures", "web-sys", "js-sys", "wasm-bindgen", "yew-interop-macro/script"]
-
-
-[[test]]
-name = "compile"
-required-features = ["yew-stable"]
-
-[[test]]
-name = "script_compile"
-required-features = ["yew-stable", "script"]
