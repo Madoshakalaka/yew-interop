@@ -106,7 +106,7 @@ dependencies = [
  "stylist",
  "wasm-bindgen",
  "web-sys",
- "yew",
+ "yew 0.19.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "yew-interop",
 ]
 
@@ -291,14 +291,6 @@ dependencies = [
  "js-sys",
  "wasm-bindgen",
  "web-sys",
-]
-
-[[package]]
-name = "integration-test"
-version = "0.1.0"
-dependencies = [
- "yew",
- "yew-interop",
 ]
 
 [[package]]
@@ -511,7 +503,8 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 [[package]]
 name = "stylist"
 version = "0.10.0"
-source = "git+https://github.com/futursolo/stylist-rs.git#181347ea3efdcef6a3aa14d0ed80b9a748102b4a"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "60e9891bea9a4ce255d4acb69f29cbaf935c7feb1d884f351f420f1ee3c58371"
 dependencies = [
  "fastrand",
  "gloo-events",
@@ -521,13 +514,14 @@ dependencies = [
  "stylist-macros",
  "wasm-bindgen",
  "web-sys",
- "yew",
+ "yew 0.19.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "stylist-core"
 version = "0.10.0"
-source = "git+https://github.com/futursolo/stylist-rs.git#181347ea3efdcef6a3aa14d0ed80b9a748102b4a"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "333985f39743918cb904b0fda040e333702d3bad8badd52070285733d84858a8"
 dependencies = [
  "nom",
  "once_cell",
@@ -538,7 +532,8 @@ dependencies = [
 [[package]]
 name = "stylist-macros"
 version = "0.10.0"
-source = "git+https://github.com/futursolo/stylist-rs.git#181347ea3efdcef6a3aa14d0ed80b9a748102b4a"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "871fd12661cfc46fbf90d4075121d895fa6c21016882599a8b2704e3c208ab8d"
 dependencies = [
  "itertools",
  "litrs",
@@ -769,6 +764,25 @@ checksum = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
 [[package]]
 name = "yew"
 version = "0.19.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2a1ccb53e57d3f7d847338cf5758befa811cabe207df07f543c06f502f9998cd"
+dependencies = [
+ "console_error_panic_hook",
+ "gloo",
+ "gloo-utils",
+ "indexmap",
+ "js-sys",
+ "scoped-tls-hkt",
+ "slab",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+ "web-sys",
+ "yew-macro 0.19.3 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "yew"
+version = "0.19.3"
 source = "git+https://github.com/yewstack/yew.git?branch=master#c46cda1e6f17cca11619f06e7bffe352ed7c3f19"
 dependencies = [
  "console_error_panic_hook",
@@ -781,7 +795,7 @@ dependencies = [
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "web-sys",
- "yew-macro",
+ "yew-macro 0.19.3 (git+https://github.com/yewstack/yew.git?branch=master)",
 ]
 
 [[package]]
@@ -792,7 +806,8 @@ dependencies = [
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "web-sys",
- "yew",
+ "yew 0.19.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "yew 0.19.3 (git+https://github.com/yewstack/yew.git?branch=master)",
  "yew-interop-core",
  "yew-interop-macro",
 ]
@@ -811,6 +826,20 @@ dependencies = [
  "syn",
  "url",
  "yew-interop-core",
+]
+
+[[package]]
+name = "yew-macro"
+version = "0.19.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5fab79082b556d768d6e21811869c761893f0450e1d550a67892b9bce303b7bb"
+dependencies = [
+ "boolinator",
+ "lazy_static",
+ "proc-macro-error",
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]
