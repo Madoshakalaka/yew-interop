@@ -1,4 +1,4 @@
-//! [check out the guide on github](https://github.com/Madoshakalaka/yew-interop/tree/v0.2.0)
+//! [check out the guide on github](https://github.com/Madoshakalaka/yew-interop/tree/v0.2.1)
 
 #[cfg(feature = "script")]
 pub mod script;
