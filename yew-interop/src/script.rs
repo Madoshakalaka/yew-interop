@@ -1,12 +1,10 @@
 use js_sys::JsString;
 use std::borrow::Cow;
 use std::rc::Rc;
-use wasm_bindgen::{JsCast};
+use wasm_bindgen::JsCast;
 use wasm_bindgen_futures::JsFuture;
 use web_sys::{Request, RequestInit, RequestMode, Response};
-use yew::{
-    create_portal, function_component, html, Properties, Reducible,
-};
+use yew::{create_portal, function_component, html, Properties, Reducible};
 
 #[doc(hidden)]
 pub use wasm_bindgen_futures;
@@ -48,6 +46,7 @@ impl Default for ScriptLoader {
     }
 }
 
+#[doc(hidden)]
 pub enum ScriptLoaderAction {
     Start,
     Finish(Rc<String>),

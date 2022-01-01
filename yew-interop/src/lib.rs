@@ -3,6 +3,9 @@
 #[cfg(feature = "script")]
 pub mod script;
 
+#[cfg(feature = "script")]
+pub use script::ScriptEffect;
+
 use std::rc::Rc;
 use yew::Reducible;
 

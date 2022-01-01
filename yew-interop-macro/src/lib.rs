@@ -6,7 +6,7 @@ mod url;
 #[cfg(feature = "script")]
 use script::EffectScriptEntry;
 
-use crate::url::{LibraryUrl, Url};
+use crate::url::{LibraryUrl, UrlInput};
 use itertools::{izip, Either};
 use proc_macro::TokenStream;
 use proc_macro2::Span;
@@ -51,14 +51,14 @@ fn parse_library_urls(input: ParseStream) -> SynResult<Vec<LibraryUrl>> {
             input.parse::<kw::js>().unwrap();
             let expr = input.parse::<Expr>()?;
             urls.push(LibraryUrl::new(
-                Url::TypeSpecified(Box::new(expr)),
+                UrlInput::TypeSpecified(Box::new(expr)),
                 LinkType::Js,
             ))
         } else if input.peek(kw::css) {
             input.parse::<kw::css>().unwrap();
             let expr = input.parse::<Expr>()?;
             urls.push(LibraryUrl::new(
-                Url::TypeSpecified(Box::new(expr)),
+                UrlInput::TypeSpecified(Box::new(expr)),
                 LinkType::Css,
             ))
         } else if input.peek(LitStr) {

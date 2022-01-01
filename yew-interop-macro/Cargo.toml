@@ -18,6 +18,7 @@ quote = "1.0"
 proc-macro2 = "1.0"
 itertools = "0.10"
 yew-interop-core = {path = "../yew-interop-core" }
+url = "2.2"
 
 
 [features]
