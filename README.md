@@ -1,7 +1,7 @@
 <div align="center">
 <h1>Yew Interop</h1>
 <img alt="Crates.io" src="https://img.shields.io/crates/v/yew-interop">
-<a href="https://madoshakalaka.github.io/yew-interop/yew-next"><img alt="demo badge" src="https://img.shields.io/badge/demo-up-brightgreen"/></a>
+<a href="https://madoshakalaka.github.io/yew-interop/master"><img alt="demo badge" src="https://img.shields.io/badge/demo-up-brightgreen"/></a>
 </div>
 
 ## Load On Demand
@@ -27,27 +27,27 @@ or return ready immediately if the resource is loaded.
 
 ## Demo
 
-[The example folder](https://github.com/Madoshakalaka/yew-interop/tree/yew-next/example) 
+[The example folder](https://github.com/Madoshakalaka/yew-interop/tree/master/example) 
 has a demo website built with`yew-interop`
 
 The gif below shows the first two use cases,
 loading speed is throttled for demo purposes.
 
-![yew interop demo gif](https://madoshakalaka.github.io/yew-interop/yew-next/static/yew-interop-demo.gif)
+![yew interop demo gif](https://madoshakalaka.github.io/yew-interop/master/static/yew-interop-demo.gif)
 
-[Check out the full online demo](https://madoshakalaka.github.io/yew-interop/yew-next)
+[Check out the full online demo](https://madoshakalaka.github.io/yew-interop/master)
 
 # Install
 
-This branch works with yew next (yew's `master` branch)
-
-To install, add this in your `Cargo.toml`
+To use this in development branch:
 
 ```toml
-yew-interop = {git="https://github.com/Madoshakalaka/yew-interop.git", branch="yew-next"}
+yew-interop = {git="https://github.com/Madoshakalaka/yew-interop.git", branch="master", features=["yew-stable"]}
 ```
 
-If you are using yew 0.19, use v0.2 instead.
+If you are using yew-next (yew's master branch), change the `yew-stable` feature to `yew-next`.
+
+Or you can install the latest version published on crates.io, which uses yew 0.19.
 
 ```toml
 yew-interop = "0.2"
@@ -118,7 +118,7 @@ pub fn consumer() -> Html {
 >For javascript libraries,
 you will also need to write some stubs using `wasm-bindgen` and `js-sys` before using the library in Rust.
 The wasm-bindgen book has [a good chapter](https://rustwasm.github.io/wasm-bindgen/examples/import-js.html) on that.
-You can also check out our demo website and have a look [how it's done there](https://github.com/Madoshakalaka/yew-interop/blob/yew-next/example/src/interop.rs)
+You can also check out our demo website and have a look [how it's done there](https://github.com/Madoshakalaka/yew-interop/blob/master/example/src/interop.rs)
 
 ## Explicit Resource Type
 
@@ -162,7 +162,7 @@ you want to enable the `script` feature.
 
 
 ```toml
-yew-interop = {git="https://github.com/Madoshakalaka/yew-interop.git", branch="yew-next", features=["script"]}
+yew-interop = {git="https://github.com/Madoshakalaka/yew-interop.git",  features=["yew-stable", "script"]}
 ```
 
 You will need to prepend the identifier of a script with an exclamation mark (!).
@@ -217,7 +217,7 @@ pub fn app() -> Html {
 ```
 
 If your script depends on other components being rendered,
-such as the fourth example [in the demo](https://madoshakalaka.github.io/yew-interop/yew-next/static/yew-interop-demo.gif),
+such as the fourth example [in the demo](https://madoshakalaka.github.io/yew-interop/master/static/yew-interop-demo.gif),
 where the script adds onclick handlers to the rendered elements,
 you will need to guarantee the script is rendered after all the dependees.
 

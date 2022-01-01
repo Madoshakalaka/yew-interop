@@ -23,3 +23,5 @@ url = "2.2"
 
 [features]
 script = []
+yew-stable = []
+yew-next = []
