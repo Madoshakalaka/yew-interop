@@ -430,14 +430,6 @@ pub fn declare_resources(input: TokenStream) -> TokenStream {
     let reducer_idents_two = reducer_idents.clone();
     let reducer_idents_three = reducer_idents.clone();
 
-    let script_and_link_macro = if cfg!(feature = "yew-stable") {
-        quote! {::yew::html!}
-    } else if cfg!(feature = "yew-next") {
-        quote! {::yew::html_nested!}
-    } else {
-        panic!("one of the features needs to be enabled: yew-stable and yew-next")
-    };
-
     let expanded = {
         #[cfg(feature = "script")]
         let script_context_opening_tags = {
@@ -503,10 +495,10 @@ pub fn declare_resources(input: TokenStream) -> TokenStream {
 
                                     let src: ::yew::virtual_dom::AttrValue = link.src.clone().into();
                                     match link.r#type {
-                                        ::yew_interop::LinkType::Js => #script_and_link_macro {
+                                        ::yew_interop::LinkType::Js => ::yew::html! {
                                             <script {src} type="text/javascript" onload={onload.clone()}/>
                                         },
-                                        ::yew_interop::LinkType::Css => #script_and_link_macro {
+                                        ::yew_interop::LinkType::Css => ::yew::html! {
                                             <link rel="stylesheet" type="text/css" href={src} onload={onload.clone()}/>
                                         }
                                     }

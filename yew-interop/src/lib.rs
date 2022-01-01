@@ -1,4 +1,4 @@
-//! [check out the guide on github](https://github.com/Madoshakalaka/yew-interop/tree/v0.1.2)
+//! [check out the guide on github](https://github.com/Madoshakalaka/yew-interop/tree/v0.2.0)
 
 #[cfg(feature = "script")]
 pub mod script;
@@ -7,11 +7,6 @@ pub mod script;
 pub use script::ScriptEffect;
 
 use std::rc::Rc;
-
-#[cfg(feature = "yew-stable")]
-extern crate yew_19 as yew;
-#[cfg(feature = "yew-next")]
-extern crate yew_master as yew;
 
 use yew::Reducible;
 
