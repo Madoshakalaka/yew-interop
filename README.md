@@ -1,5 +1,10 @@
 <div align="center">
 <h1>Yew Interop</h1>
+
+  <p>
+    <strong>Load JavaScript and CSS asynchronously in Yew</strong>
+  </p>
+
 <img alt="Crates.io" src="https://img.shields.io/crates/v/yew-interop">
 <a href="https://madoshakalaka.github.io/yew-interop/v0.2.1"><img alt="demo badge" src="https://img.shields.io/badge/demo%20v0.2.1-up-brightgreen"/></a>
 <a href="https://madoshakalaka.github.io/yew-interop/master"><img alt="demo badge" src="https://img.shields.io/badge/demo%20master-up-brightgreen"/></a>
@@ -140,16 +145,17 @@ so `&'static str`, `String`, `Cow<'static, str>` are all fine.
 here's a more complex example:
 
 ```rust
+use my_macro::static_url;
 const MY_LIB_JS: &'static str = "https://cdn.com/my_lib.js";
 
 declare_resources!(
         my_lib
         js MY_LIB_JS
-        "https://cdn.com/my_lic_b.css" // <-- when string literal is provided, script type is determined from the suffix
+        "https://cdn.com/my_lic_b.css" // <-- when a string literal is provided, script type is determined from the suffix
         js concat!("https://a.com/", "b.js")
         my_lib_b
         js static_url!("my_lib_b.js")
-        css "https://somehow.ends/with/.js" // explicit type css overrides the suffix
+        css "/somehow/ends/with/.js" // <-- explicit type css overrides the suffix
         my_lib_c
         js String::from("https://a.com/test.js")
     );
@@ -226,7 +232,7 @@ pub fn app() -> Html {
 ```
 
 If your script depends on other components being rendered,
-such as the fourth example [in the demo](https://madoshakalaka.github.io/yew-interop/master/static/yew-interop-demo.gif),
+such as the fourth example [in the demo](https://madoshakalaka.github.io/yew-interop/master/),
 where the script adds onclick handlers to the rendered elements,
 you will need to guarantee the script is rendered after all the dependees.
 
