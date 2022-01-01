@@ -133,8 +133,10 @@ You can also check out our demo website and have a look [how it's done there](ht
 
 The `declare_resources!` macro needs to know whether a url is JavaScript or CSS.
 When you provide a string literal as in the examples above,
-the macro derives the information from the suffix of the last path segment (either .js or .css).
-When the string literal doesn't end with .js or .css,
+the macro derives the information from the suffix of the last path segment. 
+It expects .js or .css and is smart enough to exclude the query params or the fragment.
+
+When the path segment doesn't end with .js or .css,
 or when you provide other expressions like a macro call or an identifier,
 you need to manually specify the URL type by prepending the custom keyword js/css
 before the url.
