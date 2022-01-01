@@ -1,4 +1,4 @@
-use yew_interop_macro::declare_resources;
+use yew_interop::declare_resources;
 
 mod single_lib {
     use super::*;

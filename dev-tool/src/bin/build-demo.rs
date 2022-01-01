@@ -6,7 +6,6 @@ use std::str::FromStr;
 
 #[derive(Debug)]
 enum Version {
-    YewNext,
     Master,
     Semver(String),
 }
@@ -14,7 +13,6 @@ enum Version {
 impl Version {
     fn into_sub_folder(self) -> Cow<'static, str> {
         match self {
-            Version::YewNext => "yew-next".into(),
             Version::Master => "master".into(),
             Version::Semver(v) => v.into(),
         }
@@ -26,8 +24,7 @@ impl FromStr for Version {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
-            "yew-next" => Ok(Self::YewNext),
-            "master" => Ok(Self::Master),
+            "master" | "next" => Ok(Self::Master),
             other => SemverVersion::parse(other).map(|_| Version::Semver(s.to_string())),
         }
     }
@@ -37,7 +34,7 @@ impl FromStr for Version {
 #[clap(name = "build-demo")]
 #[clap(about = "build the demo website so that it can be deployed on github pages")]
 struct Args {
-    /// yew-next, master, or a full semver string like 2.1.0
+    /// master, or a full semver string like 2.1.0
     #[clap(parse(try_from_str))]
     version: Version,
 }

@@ -4,6 +4,7 @@ use std::rc::Rc;
 use wasm_bindgen::JsCast;
 use wasm_bindgen_futures::JsFuture;
 use web_sys::{Request, RequestInit, RequestMode, Response};
+
 use yew::{create_portal, function_component, html, Properties, Reducible};
 
 #[doc(hidden)]

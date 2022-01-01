@@ -16,9 +16,12 @@ use syn::parse::{Parse, ParseStream};
 
 use syn::{
     parse_macro_input, Error as SynError, Expr, ExprLit, Ident, Lit, LitInt, LitStr,
-    Result as SynResult, Token,
+    Result as SynResult,
 };
 use yew_interop_core::LinkType;
+
+#[cfg(feature = "script")]
+use syn::Token;
 
 struct ResourceDeclaration {
     idents: Vec<Ident>,
@@ -427,6 +430,14 @@ pub fn declare_resources(input: TokenStream) -> TokenStream {
     let reducer_idents_two = reducer_idents.clone();
     let reducer_idents_three = reducer_idents.clone();
 
+    let script_and_link_macro = if cfg!(feature = "yew-stable") {
+        quote! {::yew::html!}
+    } else if cfg!(feature = "yew-next") {
+        quote! {::yew::html_nested!}
+    } else {
+        panic!("one of the features needs to be enabled: yew-stable and yew-next")
+    };
+
     let expanded = {
         #[cfg(feature = "script")]
         let script_context_opening_tags = {
@@ -492,10 +503,10 @@ pub fn declare_resources(input: TokenStream) -> TokenStream {
 
                                     let src: ::yew::virtual_dom::AttrValue = link.src.clone().into();
                                     match link.r#type {
-                                        ::yew_interop::LinkType::Js => ::yew::html_nested! {
+                                        ::yew_interop::LinkType::Js => #script_and_link_macro {
                                             <script {src} type="text/javascript" onload={onload.clone()}/>
                                         },
-                                        ::yew_interop::LinkType::Css => ::yew::html_nested! {
+                                        ::yew_interop::LinkType::Css => #script_and_link_macro {
                                             <link rel="stylesheet" type="text/css" href={src} onload={onload.clone()}/>
                                         }
                                     }
