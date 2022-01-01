@@ -7,12 +7,12 @@ publish = false
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-yew-interop = {path = "../yew-interop", features=["script", "yew-next"]}
-yew = {git="https://github.com/yewstack/yew.git", branch="master"}
+yew-interop = {path = "../yew-interop", features=["script", "yew-stable"]}
+yew = "0.19"
 js-sys = "0.3"
 wasm-bindgen = "0.2"
 gloo-console = "0.2"
-stylist = { git="https://github.com/futursolo/stylist-rs.git", features=["yew_integration"]}
+stylist = {version="0.10", features=["yew_integration"]}
 
 [dependencies.web-sys]
 version = "0.3"

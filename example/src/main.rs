@@ -231,7 +231,7 @@ pub fn cropper_example() -> Html {
             }
             {
                 cropped_image_src.as_ref().map(|src|
-                html_nested!(<img class={css!("width: 10rem; height: 5rem;")} src={src.clone()}/>)
+                html!(<img class={css!("width: 10rem; height: 5rem;")} src={src.clone()}/>)
             ).unwrap_or_default()
             }
 

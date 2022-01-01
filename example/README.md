@@ -1,2 +1,1 @@
-Also called the "demo".
-Note it's built with yew-next.
+Also called the "demo", built with yew-stable.
