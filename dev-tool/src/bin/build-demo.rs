@@ -11,10 +11,10 @@ enum Version {
 }
 
 impl Version {
-    fn into_sub_folder(self) -> Cow<'static, str> {
+    fn to_sub_folder(&self) -> Cow<'static, str> {
         match self {
             Version::Master => "master".into(),
-            Version::Semver(v) => v.into(),
+            Version::Semver(v) => format!("v{}", v).into(),
         }
     }
 }
@@ -25,7 +25,8 @@ impl FromStr for Version {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
             "master" | "next" => Ok(Self::Master),
-            other => SemverVersion::parse(other).map(|_| Version::Semver(s.to_string())),
+            other => SemverVersion::parse(other.strip_prefix('v').unwrap_or(other))
+                .map(|v| Version::Semver(v.to_string())),
         }
     }
 }
@@ -41,7 +42,7 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
-    let sub_folder: Cow<'static, str> = args.version.into_sub_folder();
+    let sub_folder: Cow<'static, str> = args.version.to_sub_folder();
     let status = Command::new("trunk")
         .env("YEW_INTEROP_DEMO_VERSION", &*sub_folder)
         .args([

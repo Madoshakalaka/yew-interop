@@ -1,7 +1,8 @@
 <div align="center">
 <h1>Yew Interop</h1>
 <img alt="Crates.io" src="https://img.shields.io/crates/v/yew-interop">
-<a href="https://madoshakalaka.github.io/yew-interop/master"><img alt="demo badge" src="https://img.shields.io/badge/demo-up-brightgreen"/></a>
+<a href="https://madoshakalaka.github.io/yew-interop/v0.2.0"><img alt="demo badge" src="https://img.shields.io/badge/demo%20v0.2.0-up-brightgreen"/></a>
+<a href="https://madoshakalaka.github.io/yew-interop/master"><img alt="demo badge" src="https://img.shields.io/badge/demo%20master-up-brightgreen"/></a>
 </div>
 
 ## Load On Demand
