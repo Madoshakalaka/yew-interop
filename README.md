@@ -255,7 +255,7 @@ html!{
     <ScriptEffect {script}/>
     <ComponentA/>
     <ComponentB/>
-    // <ScriptEffect {script}> !!! do not place here, otherwise it would render first
+    // <ScriptEffect {script}/> !!! do not place here, otherwise it would render first
     </>
 }
 ```
@@ -270,8 +270,9 @@ html!{
         <ScriptEffect {script}>
         <ComponentB/>
     </Container>
+    <ComponentC/>
     </>
 }
 ```
 
-The rendering order is Container -> A -> B -> ScriptEffect.
+The rendering order is C -> Container -> A -> B -> ScriptEffect.
