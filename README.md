@@ -166,6 +166,7 @@ you want to enable the `script` feature.
 
 
 ```toml
+# change yew-stable to yew-next if you use yew's master branch
 yew-interop = {git="https://github.com/Madoshakalaka/yew-interop.git",  features=["yew-stable", "script"]}
 ```
 or
