@@ -6,7 +6,6 @@ extern crate yew_19 as yew;
 #[cfg(feature = "yew-next")]
 extern crate yew_master as yew;
 
-
 /// test if the macro compiles, clippy is enough to run this test (cargo run is not necessary)
 mod compile {
     #[cfg(feature = "script")]
