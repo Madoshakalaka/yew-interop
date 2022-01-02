@@ -140,7 +140,7 @@ jobs:
           components: clippy
 
       - uses: actions/cache@v2
-        if: steps.changes.outputs.example == 'true' || steps.changes.outputs.yew-interop == 'true' || steps.changes.outputs.yew-interop-core == 'true' || steps.changes.outputs.yew-interop-macro == 'true'
+        if: steps.changes.outputs.example == 'true' || steps.changes.outputs.yew-interop == 'true' || steps.changes.outputs.yew-interop-core == 'true' || steps.changes.outputs.yew-interop-macro == 'true' || steps.changes.outputs.integration-test == 'true'
         with:
           path: |
             ~/.cargo/registry
