@@ -41,6 +41,11 @@ struct Args {
 }
 
 fn main() -> ! {
+
+
+
+
+
     let args = Args::parse();
     let sub_folder: Cow<'static, str> = args.version.to_sub_folder();
     Command::new("trunk")
