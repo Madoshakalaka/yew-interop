@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: dorny/paths-filter@v2
-        id: dev-tool-changes
+        id: changes
         with:
           filters: |
             src:
