@@ -41,7 +41,7 @@ jobs:
           restore-keys: |
             cargo-${{ runner.os }}-
 
-      - if: steps.changes.output.src == 'true'
+      - if: steps.changes.outputs.src == 'true'
         name: Run fmt
         uses: actions-rs/cargo@v1
         with:
@@ -49,14 +49,14 @@ jobs:
           args: --all
 
       - name: Run clippy
-        if: steps.changes.output.src == 'true'
+        if: steps.changes.outputs.src == 'true'
         uses: actions-rs/cargo@v1
         with:
           command: clippy
           args: -p dev-tool -- -D warnings
 
       - name: Build Binaries
-        if: steps.changes.output.src == 'true'
+        if: steps.changes.outputs.src == 'true'
         uses: actions-rs/cargo@v1
         with:
           command: build
