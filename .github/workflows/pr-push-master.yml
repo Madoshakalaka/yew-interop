@@ -18,20 +18,30 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
-      - uses: actions-rs/toolchain@v1
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            src:
+              - '**/*.rs'
+
+      - if: steps.changes.outputs.src == 'true'
+        uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           override: true
           profile: minimal
           components: rustfmt
 
-      - name: Run fmt
+      - if: steps.changes.outputs.src == 'true'
+        name: Run fmt
         uses: actions-rs/cargo@v1
         with:
           command: fmt
           args: --all
 
-      - name: Commit Lint Fixes
+      - if: steps.changes.outputs.src == 'true'
+        name: Commit Lint Fixes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "🤖🧹 lint"
@@ -50,7 +60,7 @@ jobs:
         with:
           filters: |
             src:
-              - 'dev-tool/src/bin/**'
+              - 'dev-tool/src/**'
               - 'dev-tool/Cargo.toml'
         # run only if some file in the folder was changed
       - if: steps.changes.outputs.src == 'true'
