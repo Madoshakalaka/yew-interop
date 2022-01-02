@@ -1,5 +1,10 @@
 <div align="center">
 <h1>Yew Interop</h1>
+
+  <p>
+    <strong>Load JavaScript and CSS asynchronously in Yew</strong>
+  </p>
+
 <img alt="Crates.io" src="https://img.shields.io/crates/v/yew-interop">
 <a href="https://madoshakalaka.github.io/yew-interop/v0.2.1"><img alt="demo badge" src="https://img.shields.io/badge/demo%20v0.2.1-up-brightgreen"/></a>
 <a href="https://madoshakalaka.github.io/yew-interop/master"><img alt="demo badge" src="https://img.shields.io/badge/demo%20master-up-brightgreen"/></a>
@@ -40,12 +45,13 @@ loading speed is throttled for demo purposes.
 
 # Install
 
-Master branch is the in-development branch,
+The master branch has the the lastest in-development code.
 
 ```toml
 yew-interop = {git="https://github.com/Madoshakalaka/yew-interop.git", branch="master", features=["yew-stable"]}
 ```
 
+The `yew-stable` feature works with the latest release of yew on crates.io, currently 0.19.  
 If you are using yew-next (yew's master branch), change the `yew-stable` feature to `yew-next`.
 
 Or you can install the latest version published on crates.io, which uses yew 0.19.
@@ -128,8 +134,10 @@ You can also check out our demo website and have a look [how it's done there](ht
 
 The `declare_resources!` macro needs to know whether a url is JavaScript or CSS.
 When you provide a string literal as in the examples above,
-the macro derives the information from the suffix of the last path segment (either .js or .css).
-When the string literal doesn't end with .js or .css,
+the macro derives the information from the suffix of the last path segment. 
+It expects .js or .css and is smart enough to exclude the query params or the fragment.
+
+When the path segment doesn't end with .js or .css,
 or when you provide other expressions like a macro call or an identifier,
 you need to manually specify the URL type by prepending the custom keyword js/css
 before the url.
@@ -140,16 +148,17 @@ so `&'static str`, `String`, `Cow<'static, str>` are all fine.
 here's a more complex example:
 
 ```rust
+use my_macro::static_url;
 const MY_LIB_JS: &'static str = "https://cdn.com/my_lib.js";
 
 declare_resources!(
         my_lib
         js MY_LIB_JS
-        "https://cdn.com/my_lic_b.css" // <-- when string literal is provided, script type is determined from the suffix
+        "https://cdn.com/my_lic_b.css" // <-- when a string literal is provided, script type is determined from the suffix
         js concat!("https://a.com/", "b.js")
         my_lib_b
         js static_url!("my_lib_b.js")
-        css "https://somehow.ends/with/.js" // explicit type css overrides the suffix
+        css "/somehow/ends/with/.js" // <-- explicit type css overrides the suffix
         my_lib_c
         js String::from("https://a.com/test.js")
     );
@@ -166,6 +175,7 @@ you want to enable the `script` feature.
 
 
 ```toml
+# change yew-stable to yew-next if you use yew's master branch
 yew-interop = {git="https://github.com/Madoshakalaka/yew-interop.git",  features=["yew-stable", "script"]}
 ```
 or
@@ -225,7 +235,7 @@ pub fn app() -> Html {
 ```
 
 If your script depends on other components being rendered,
-such as the fourth example [in the demo](https://madoshakalaka.github.io/yew-interop/master/static/yew-interop-demo.gif),
+such as the fourth example [in the demo](https://madoshakalaka.github.io/yew-interop/master/),
 where the script adds onclick handlers to the rendered elements,
 you will need to guarantee the script is rendered after all the dependees.
 
@@ -246,7 +256,7 @@ html!{
     <ScriptEffect {script}/>
     <ComponentA/>
     <ComponentB/>
-    // <ScriptEffect {script}> !!! do not place here, otherwise it would render first
+    // <ScriptEffect {script}/> !!! do not place here, otherwise it would render first
     </>
 }
 ```
@@ -261,8 +271,9 @@ html!{
         <ScriptEffect {script}>
         <ComponentB/>
     </Container>
+    <ComponentC/>
     </>
 }
 ```
 
-The rendering order is Container -> A -> B -> ScriptEffect.
+The rendering order is C -> Container -> A -> B -> ScriptEffect.
