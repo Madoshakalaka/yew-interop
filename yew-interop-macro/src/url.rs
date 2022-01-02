@@ -8,7 +8,6 @@ use yew_interop_core::LinkType;
 pub struct LibraryUrl {
     pub(crate) url: UrlInput,
     pub(crate) link_type: LinkType,
-
 }
 
 impl LibraryUrl {
