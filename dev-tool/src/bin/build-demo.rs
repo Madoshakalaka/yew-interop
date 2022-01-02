@@ -1,7 +1,7 @@
 use clap::Parser;
+use dev_tool::*;
 use semver::{Error as SemverError, Version as SemverVersion};
 use std::borrow::Cow;
-use std::process::{Command, Stdio};
 use std::str::FromStr;
 
 #[derive(Debug)]
@@ -40,10 +40,10 @@ struct Args {
     version: Version,
 }
 
-fn main() {
+fn main() -> ! {
     let args = Args::parse();
     let sub_folder: Cow<'static, str> = args.version.to_sub_folder();
-    let status = Command::new("trunk")
+    Command::new("trunk")
         .env("YEW_INTEROP_DEMO_VERSION", &*sub_folder)
         .args([
             "build",
@@ -54,10 +54,5 @@ fn main() {
             &format!("/yew-interop/{}", sub_folder),
             "example/index.html",
         ])
-        .stdout(Stdio::inherit())
-        .stderr(Stdio::inherit())
-        .output()
-        .unwrap()
-        .status;
-    std::process::exit(status.code().unwrap())
+        .run();
 }

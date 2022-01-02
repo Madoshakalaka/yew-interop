@@ -14,9 +14,13 @@ categories = ["api-bindings", "asynchronous", "wasm", "web-programming"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+# fix me on release
 yew-interop-macro = {path = "../yew-interop-macro" }
+# fix me on release
 yew-interop-core = {path = "../yew-interop-core" }
+# remove me on release
 yew_master = {package="yew", git="https://github.com/yewstack/yew.git", branch="master", optional=true}
+# fix me to the latest yew on release
 yew_19 = {package="yew", version="0.19", optional=true}
 wasm-bindgen = {version="0.2", optional=true}
 js-sys = {version="0.3", optional=true}
@@ -35,6 +39,8 @@ features = [
 optional = true
 
 [features]
+# remove me on release
 yew-stable = ["yew_19", "yew-interop-macro/yew-stable"]
+# remove me on release
 yew-next = ["yew_master", "yew-interop-macro/yew-next"]
 script = ["wasm-bindgen-futures", "web-sys", "js-sys", "wasm-bindgen", "yew-interop-macro/script"]

@@ -8,8 +8,20 @@ pub use script::ScriptEffect;
 
 use std::rc::Rc;
 
+// remove me on release
+#[cfg(all(feature = "yew-stable", feature = "yew-next"))]
+compile_error!(
+    "feature \"yew-stable\" and feature \"yew-next\" cannot be enabled at the same time"
+);
+// remove me on release
+#[cfg(not(any(feature = "yew-stable", feature = "yew-next")))]
+compile_error!("one of feature \"yew-stable\" and feature \"yew-next\" has to be enabled");
+
+// remove me on release
 #[cfg(feature = "yew-stable")]
 extern crate yew_19 as yew;
+
+// remove me on release
 #[cfg(feature = "yew-next")]
 extern crate yew_master as yew;
 

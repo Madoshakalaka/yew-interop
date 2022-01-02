@@ -3,7 +3,7 @@ use js_sys::{Object, Reflect};
 use wasm_bindgen::{prelude::*, JsValue};
 use web_sys::{HtmlCanvasElement, HtmlImageElement};
 
-use yew_interop::{declare_resources};
+use yew_interop::declare_resources;
 
 declare_resources!(
     toast

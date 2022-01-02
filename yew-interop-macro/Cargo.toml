@@ -17,11 +17,14 @@ syn = "1.0"
 quote = "1.0"
 proc-macro2 = "1.0"
 itertools = "0.10"
+# fix me on release
 yew-interop-core = {path = "../yew-interop-core" }
 url = "2.2"
 
 
 [features]
 script = []
+# remove me on release
 yew-stable = []
+# remove me on release
 yew-next = []

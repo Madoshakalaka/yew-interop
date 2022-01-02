@@ -1,7 +1,6 @@
 use syn::parse::{Parse, ParseStream, Result as SynResult};
 use syn::{Expr, Ident, Token};
 
-
 pub(crate) struct EffectScriptEntry {
     pub ident: Ident,
     pub url: Expr,
