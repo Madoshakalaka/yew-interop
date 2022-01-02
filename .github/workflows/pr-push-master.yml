@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
       - uses: dorny/paths-filter@v2
         id: changes
         with:
@@ -72,6 +74,8 @@ jobs:
     needs: build-dev-tool
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
