@@ -1,7 +1,7 @@
 # What Doesn't Work
 
 - `cargo check/build/clippy/fix` at the workspace root doesn't enable features correctly because the use of
-mutually exclusive features in the crates.
+mutually exclusive features in the `yew-interop` crate and its interaction with the `example` crate.
 
 - `cargo-make` is not used here.
 
@@ -9,16 +9,11 @@ mutually exclusive features in the crates.
 
 - `cargo fmt` at the workspace root
 - `cargo check/build/clippy/fix -p <package_name> ...`
-- Instead of writing the commands yourself, the [bin folder of the dev-tool](dev-tool/src/bin) crate has everything you
-need.
-
-
-
+- The [bin folder of the dev-tool](dev-tool/src/bin) crate has everything you
+need. These will also run in GitHub Actions.
 
 # Before a PR
 
-- `cargo run -p dev-tool -bin pr-flow`
+`cargo run -p dev-tool --bin pre-pr`
 
-## If You Touched the dev-tool Crate
-
-
+This will run every test in the [`dev-tool`](dev-tool) crate and also run cargo fmt.
