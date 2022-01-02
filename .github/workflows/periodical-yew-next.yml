@@ -12,16 +12,16 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    steps:
+    steps:    
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           override: true
           profile: minimal
-        - name: Clip integration test with Feature yew-next
-          if: steps.changes.outputs.integration-test == 'true'
-          run: ./dev-tool/ci-bin/clip-integration-test-next
-        - name: Clip integration test with Feature yew-next and script
-          if: steps.changes.outputs.integration-test == 'true'
-          run: ./dev-tool/ci-bin/clip-integration-test-next-script
+      - name: Clip integration test with Feature yew-next
+        if: steps.changes.outputs.integration-test == 'true'
+        run: ./dev-tool/ci-bin/clip-integration-test-next
+      - name: Clip integration test with Feature yew-next and script
+        if: steps.changes.outputs.integration-test == 'true'
+        run: ./dev-tool/ci-bin/clip-integration-test-next-script
