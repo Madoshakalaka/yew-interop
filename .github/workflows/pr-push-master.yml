@@ -1,0 +1,93 @@
+name: pr-push-master
+
+on:
+  pull_request:
+    branches: [ master ]
+  push:
+    branches: [ master ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+
+  build-dev-tool:
+    name: Build dev-tool Binaries
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dorny/paths-filter@v2
+        id: dev-tool-changes
+        with:
+          filters: |
+            src:
+              - 'dev-tool/src/bin/**'
+        # run only if some file in the folder was changed
+      - if: steps.changes.outputs.src == 'true'
+        uses: actions/checkout@v2
+      - if: steps.changes.outputs.src == 'true'
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          override: true
+          profile: minimal
+          components: rustfmt, clippy
+      - if: steps.changes.outputs.src == 'true'
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: cargo-${{ runner.os }}-${{ hashFiles('dev-tool/Cargo.toml') }}
+          restore-keys: |
+            cargo-${{ runner.os }}-
+
+      - if: steps.changes.output.src == 'true'
+        name: Run fmt
+        uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --all
+
+      - name: Run clippy
+        if: steps.changes.output.src == 'true'
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: -p dev-tool -- -D warnings
+
+      - name: Build Binaries
+        if: steps.changes.output.src == 'true'
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: -p dev-tool --bins --release --out-dir dev-tool/ci-bin -Z unstable-options
+      - name: Commit Lint Fixes and Binaries
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "🤖🧹 lint and build ci binaries [skip ci]"
+        
+  lint:
+    name: Clippy
+    runs-on: ubuntu-latest
+    needs: build-dev-tool
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          profile: minimal
+          components: clippy
+
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: cargo-${{ runner.os }}-${{ hashFiles('**/Cargo.toml') }}
+          restore-keys: |
+            cargo-${{ runner.os }}-
+      - name: Clip Example
+        run: ./dev-tool/ci-bin/clip-example
