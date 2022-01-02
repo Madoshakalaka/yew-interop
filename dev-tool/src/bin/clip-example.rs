@@ -4,7 +4,4 @@ fn main() {
     Command::new("cargo")
         .args(["clippy", "-p", "example"])
         .run();
-
-
-
 }
