@@ -107,7 +107,21 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            example:
+              - 'example/**'
+            yew-interop:
+              - 'yew-interop/**'
+            yew-interop-core:
+              - 'yew-interop-core/**'
+            yew-interop-macro:
+              - 'yew-interop-macro/**'
+
       - uses: actions-rs/toolchain@v1
+        if: steps.changes.outputs.example == 'true' || steps.changes.outputs.yew-interop == 'true' || steps.changes.outputs.yew-interop-core == 'true' || steps.changes.outputs.yew-interop-macro == 'true'
         with:
           toolchain: stable
           override: true
@@ -115,6 +129,7 @@ jobs:
           components: clippy
 
       - uses: actions/cache@v2
+        if: steps.changes.outputs.example == 'true' || steps.changes.outputs.yew-interop == 'true' || steps.changes.outputs.yew-interop-core == 'true' || steps.changes.outputs.yew-interop-macro == 'true'
         with:
           path: |
             ~/.cargo/registry
@@ -124,8 +139,11 @@ jobs:
           restore-keys: |
             cargo-${{ runner.os }}-
       - name: Clip Example
+        if: steps.changes.outputs.example == 'true'
         run: ./dev-tool/ci-bin/clip-example
       - name: Clip yew-interop with Feature yew-next
+        if: steps.changes.outputs.yew-interop == 'true'
         run: ./dev-tool/ci-bin/clip-yew-interop-next
       - name: Clip yew-interop with Feature yew-stable
+        if: steps.changes.outputs.yew-interop == 'true'
         run: ./dev-tool/ci-bin/clip-yew-interop-stable
