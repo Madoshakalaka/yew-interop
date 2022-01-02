@@ -119,6 +119,8 @@ jobs:
           filters: |
             example:
               - 'example/**'
+            integration-test:
+              - 'integration-test/**'
             yew-interop:
               - 'yew-interop/**'
             yew-interop-core:
@@ -127,7 +129,7 @@ jobs:
               - 'yew-interop-macro/**'
 
       - uses: actions-rs/toolchain@v1
-        if: steps.changes.outputs.example == 'true' || steps.changes.outputs.yew-interop == 'true' || steps.changes.outputs.yew-interop-core == 'true' || steps.changes.outputs.yew-interop-macro == 'true'
+        if: steps.changes.outputs.example == 'true' || steps.changes.outputs.yew-interop == 'true' || steps.changes.outputs.yew-interop-core == 'true' || steps.changes.outputs.yew-interop-macro == 'true' || steps.changes.outputs.integration-test == 'true'
         with:
           toolchain: stable
           override: true
@@ -153,3 +155,15 @@ jobs:
       - name: Clip yew-interop with Feature yew-stable
         if: steps.changes.outputs.yew-interop == 'true'
         run: ./dev-tool/ci-bin/clip-yew-interop-stable
+      - name: Clip integration test with Feature yew-stable
+        if: steps.changes.outputs.integration-test == 'true'
+        run: ./dev-tool/ci-bin/clip-integration-test-stable
+      - name: Clip integration test with Feature yew-stable and script
+        if: steps.changes.outputs.integration-test == 'true'
+        run: ./dev-tool/ci-bin/clip-integration-test-stable-script
+      - name: Clip integration test with Feature yew-next
+        if: steps.changes.outputs.integration-test == 'true'
+        run: ./dev-tool/ci-bin/clip-integration-test-next
+      - name: Clip integration test with Feature yew-next and script
+        if: steps.changes.outputs.integration-test == 'true'
+        run: ./dev-tool/ci-bin/clip-integration-test-next-script
