@@ -15,6 +15,7 @@ jobs:
     name: Build dev-tool Binaries
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - uses: dorny/paths-filter@v2
         id: dev-tool-changes
         with:
@@ -22,8 +23,6 @@ jobs:
             src:
               - 'dev-tool/src/bin/**'
         # run only if some file in the folder was changed
-      - if: steps.changes.outputs.src == 'true'
-        uses: actions/checkout@v2
       - if: steps.changes.outputs.src == 'true'
         uses: actions-rs/toolchain@v1
         with:
