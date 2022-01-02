@@ -94,6 +94,8 @@ jobs:
           command: clippy
           args: -p dev-tool -- -D warnings
 
+      - if: steps.changes.outputs.src == 'true'
+        run: git pull
       - name: Build Binaries
         if: steps.changes.outputs.src == 'true'
         uses: actions-rs/cargo@v1
@@ -101,6 +103,7 @@ jobs:
           command: build
           args: -p dev-tool --bins --release --out-dir dev-tool/ci-bin -Z unstable-options
       - name: Commit Lint Fixes and Binaries
+        if: steps.changes.outputs.src == 'true'
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "🤖🧹 build ci binaries"

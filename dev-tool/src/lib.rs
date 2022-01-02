@@ -2,7 +2,9 @@ use std::process::Stdio;
 
 pub use std::process::Command;
 
+/// A task is a command which inherits stdout and stderr from the the standard io.
 pub trait Task {
+    /// will exit the process with the exit code from the command
     fn run(&mut self) -> !;
 }
 
