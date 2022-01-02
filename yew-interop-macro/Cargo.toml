@@ -17,9 +17,11 @@ syn = "1.0"
 quote = "1.0"
 proc-macro2 = "1.0"
 itertools = "0.10"
-yew-interop-core = "0.1.0"
+yew-interop-core = {path = "../yew-interop-core" }
 url = "2.2"
 
 
 [features]
 script = []
+yew-stable = []
+yew-next = []
