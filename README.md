@@ -150,7 +150,7 @@ here's a more complex example:
 
 ```rust
 use my_macro::static_url;
-const MY_LIB_JS: &'static str = "https://cdn.com/my_lib.js";
+const MY_LIB_JS: & str = "https://cdn.com/my_lib.js";
 
 declare_resources!(
         my_lib
