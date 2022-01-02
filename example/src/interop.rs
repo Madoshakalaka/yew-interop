@@ -18,8 +18,6 @@ declare_resources!(
     "https://cdn.jsdelivr.net/npm/share-buttons@1.9.0/dist/share-buttons.min.js"
 );
 
-
-
 // The javascript API: https://github.com/apvarun/toastify-js/blob/572517040fae6a7f8be4a99778dacda9c933db45/README.md
 #[wasm_bindgen]
 extern "C" {
