@@ -115,3 +115,7 @@ jobs:
             cargo-${{ runner.os }}-
       - name: Clip Example
         run: ./dev-tool/ci-bin/clip-example
+      - name: Clip yew-interop with Feature yew-next
+        run: ./dev-tool/ci-bin/clip-yew-interop-next
+      - name: Clip yew-interop with Feature yew-stable
+        run: ./dev-tool/ci-bin/clip-yew-interop-stable
