@@ -11,6 +11,9 @@ use yew::prelude::*;
 pub struct FontawesomeSvgProps {
     pub view_box: &'static str,
     pub d: &'static str,
+
+
+
 }
 
 #[function_component(FontawesomeSvg)]
