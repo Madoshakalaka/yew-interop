@@ -18,8 +18,6 @@ pub async fn fetch_script(url: Cow<'static, str>) -> String {
 
     let request = Request::new_with_str_and_init(&url, &opts).unwrap();
 
-
-
     let window = web_sys::window().unwrap();
     let resp_value = JsFuture::from(window.fetch_with_request(&request))
         .await
