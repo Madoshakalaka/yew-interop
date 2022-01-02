@@ -24,6 +24,7 @@ jobs:
           filters: |
             src:
               - 'dev-tool/src/bin/**'
+              - 'dev-tool/Cargo.toml'
         # run only if some file in the folder was changed
       - if: steps.changes.outputs.src == 'true'
         uses: actions-rs/toolchain@v1
@@ -66,7 +67,7 @@ jobs:
       - name: Commit Lint Fixes and Binaries
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: "🤖🧹 lint and build ci binaries [skip ci]"
+          commit_message: "🤖🧹 lint and build ci binaries"
         
   lint:
     name: Clippy
