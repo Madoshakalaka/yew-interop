@@ -24,7 +24,7 @@ This will run every test in the [`dev-tool`](dev-tool) crate and also run cargo 
 # If Your PR Touched `dev-tool`
 
 A GitHub workflow will rebuild the executables, 
-if they are different, a bot will and push them to your PR shortly under [`dev-tool/ci-bin`](dev-tool/ci-bin).
+if they are different, a bot will push them to your PR shortly under [`dev-tool/ci-bin`](dev-tool/ci-bin).
 Don't panic and merge the change if you have followup commits.
 
 # If Your PR Forgot to Lint the Code
