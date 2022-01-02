@@ -80,6 +80,7 @@ impl Reducible for ScriptLoader {
     }
 }
 
+/// A JavaScript cached globally
 #[derive(Clone, PartialEq)]
 pub struct Script {
     content: Rc<String>,

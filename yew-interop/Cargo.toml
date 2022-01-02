@@ -44,3 +44,7 @@ yew-stable = ["yew_19", "yew-interop-macro/yew-stable"]
 # remove me on release
 yew-next = ["yew_master", "yew-interop-macro/yew-next"]
 script = ["wasm-bindgen-futures", "web-sys", "js-sys", "wasm-bindgen", "yew-interop-macro/script"]
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "documenting"]

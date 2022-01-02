@@ -27,6 +27,9 @@ So that other documentation can refer to them.
 5. Remove the yew-next and yew-stable features and dependencies.
 Use stable yew instead.
 
+6. do `RUSTDOCFLAGS="--cfg documenting" cargo +nightly doc -p yew-interop --all-features --no-deps --open`
+to preview the docs
+
 # After a Release
 
 Tag the branch, do not delete the branch, 

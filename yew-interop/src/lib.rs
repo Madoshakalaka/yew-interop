@@ -1,8 +1,10 @@
-//! [check out the guide on github](https://github.com/Madoshakalaka/yew-interop/tree/v0.2.1)
+#![cfg_attr(documenting, feature(doc_cfg), doc= include_str!("../../README.md"))]
 
+#[cfg_attr(documenting, doc(cfg(feature = "script")))]
 #[cfg(feature = "script")]
 pub mod script;
 
+#[cfg_attr(documenting, doc(cfg(feature = "script")))]
 #[cfg(feature = "script")]
 pub use script::ScriptEffect;
 
@@ -34,7 +36,6 @@ pub use yew_interop_macro::declare_resources;
 #[doc(hidden)]
 pub enum LinkGroupStatusAction {
     PleaseStart(Vec<Link>),
-
     Completed,
 }
 
