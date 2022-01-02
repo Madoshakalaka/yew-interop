@@ -3,8 +3,14 @@ name: pr-push-master
 on:
   pull_request:
     branches: [ master ]
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
   push:
     branches: [ master ]
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
 
 env:
   CARGO_TERM_COLOR: always

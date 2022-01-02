@@ -16,6 +16,7 @@ need. These will also run in GitHub Actions.
 
 > pre-pr is not yet implemented
 
+
 `cargo run -p dev-tool --bin pre-pr`
 
 This will run every test in the [`dev-tool`](dev-tool) crate and also run cargo fmt.
