@@ -1,0 +1,25 @@
+name: Build Cargo Sweep
+
+on:
+  schedule:
+    - cron: '0 12 * * *'
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Build
+      run: cargo install --release cargo-sweep
+    - name: Transfer Binary
+      run: 'mv ~/.cargo/bin/cargo-sweep dev-tool/ci-bin'
+    - uses: actions/checkout@v2
+    - name: Commit Binary
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: "🤖 build cargo-sweep binary for ci use"
