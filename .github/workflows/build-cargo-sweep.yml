@@ -5,6 +5,7 @@ on:
     # friday noon
     - cron: '0 12 * * 5'
   workflow_dispatch:
+    
 
 env:
   CARGO_TERM_COLOR: always
@@ -17,9 +18,9 @@ jobs:
     steps:
     - name: Build
       run: cargo install cargo-sweep
+    - uses: actions/checkout@v2
     - name: Transfer Binary
       run: 'mv ~/.cargo/bin/cargo-sweep dev-tool/ci-bin'
-    - uses: actions/checkout@v2
     - name: Commit Binary
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
