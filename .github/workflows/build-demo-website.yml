@@ -1,0 +1,143 @@
+name: Clippy, Build, and Publish the Example Crate
+
+on:
+  pull_request:
+    branches: [ master ]
+    paths:
+      - 'example/**'
+      - 'yew-interop/**'
+      - '!yew-interop/**/*.md'
+      - 'yew-interop-core/**'
+      - '!yew-interop-core/**/*.md'
+      - 'yew-interop-macro/**'
+      - '!yew-interop-macro/**/*.md'
+  push:
+    branches: [ master ]
+    paths:
+      - 'example/**'
+      - 'yew-interop/**'
+      - '!yew-interop/**/*.md'
+      - 'yew-interop-core/**'
+      - '!yew-interop-core/**/*.md'
+      - 'yew-interop-macro/**'
+      - '!yew-interop-macro/**/*.md'
+  workflow_dispatch:
+
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+
+
+  clippy-example:
+    name: Clippy on the Example Crate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          profile: minimal
+          components: clippy
+
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: cargo-${{ runner.os }}-clippy-example-${{hashFiles('Cargo.lock')}}
+          restore-keys: |
+            cargo-${{ runner.os }}-clippy-example
+            cargo-${{ runner.os }}
+
+      - name: Timestamp Cached Target
+        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+
+      - name: Run clippy
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: -p example -- -D warnings
+
+      - name: Remove Untouched Cache
+        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
+
+  test-example:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          profile: minimal
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: cargo-${{ runner.os }}-test-example-${{hashFiles('Cargo.lock')}}
+          restore-keys: |
+            cargo-${{ runner.os }}-test-example
+            cargo-${{ runner.os }}
+
+      - name: Timestamp Cached Target
+        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+      - name: Run tests
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: -p example
+      - name: Remove Untouched Cache
+        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
+
+  build-example:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          profile: minimal
+      - uses: actions/cache@v2
+        id: cache
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: cargo-${{ runner.os }}-build-example-${{hashFiles('Cargo.lock')}}
+          restore-keys: |
+            cargo-${{ runner.os }}-build-example
+            cargo-${{ runner.os }}
+
+
+      - uses: jetli/trunk-action@v0.1.0
+        with:
+          version: 'latest'
+      - name: Timestamp Cached Target
+        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+      - name: Build the Website
+        run: trunk build --release --dist docs/master --public-url /yew-interop/master example/index.html
+      - name: Remove Untouched Cache
+        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
+      - run: git pull
+      - name: Commit Website
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "🤖 build demo website"
+

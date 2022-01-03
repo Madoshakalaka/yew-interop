@@ -1,4 +1,5 @@
-#![cfg_attr(documenting, feature(doc_cfg), doc= include_str!("../../README.md"))]
+#![cfg_attr(documenting, feature(doc_cfg))]
+#![doc= include_str!("../../README.md")]
 
 #[cfg_attr(documenting, doc(cfg(feature = "script")))]
 #[cfg(feature = "script")]
@@ -7,6 +8,7 @@ pub mod script;
 #[cfg_attr(documenting, doc(cfg(feature = "script")))]
 #[cfg(feature = "script")]
 pub use script::ScriptEffect;
+use std::borrow::Cow;
 
 use std::rc::Rc;
 
@@ -30,8 +32,15 @@ extern crate yew_master as yew;
 use yew::Reducible;
 
 #[doc(hidden)]
-pub use yew_interop_core::{Link, LinkType};
+pub use yew_interop_core::LinkType;
 pub use yew_interop_macro::declare_resources;
+
+#[doc(hidden)]
+#[derive(PartialEq, Debug, Clone)]
+pub struct Link {
+    pub r#type: LinkType,
+    pub src: Cow<'static, str>,
+}
 
 #[doc(hidden)]
 pub enum LinkGroupStatusAction {

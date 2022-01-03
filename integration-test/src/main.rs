@@ -1,3 +1,4 @@
+mod readme;
 // remove me on release
 #[cfg(feature = "yew-stable")]
 extern crate yew_19 as yew;

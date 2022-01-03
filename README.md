@@ -89,7 +89,7 @@ declare_resources!(
 This macro expands into a `<ResourceProvider/>` component.
 you want to wrap your application in the provider:
 
-```rust
+```rust ignore
 // main.rs
 mod interop;
 use interop::ResourceProvider;
@@ -109,7 +109,7 @@ the macro will expand into `pub fn use_library_a() -> bool` and `pub fn use_libr
 
 At your consuming component, you can use these hooks to asynchronously wait for libraries to be loaded:
 
-```rust
+```rust ignore
 use crate::interop::use_library_a;
 
 #[function_component(Consumer)]
@@ -149,8 +149,9 @@ so `&'static str`, `String`, `Cow<'static, str>` are all fine.
 here's a more complex example:
 
 ```rust
-use my_macro::static_url;
-const MY_LIB_JS: & str = "https://cdn.com/my_lib.js";
+use yew_interop::declare_resources;
+
+const MY_LIB_JS: &str = "https://cdn.com/my_lib.js";
 
 declare_resources!(
         my_lib
@@ -158,7 +159,6 @@ declare_resources!(
         "https://cdn.com/my_lic_b.css" // <-- when a string literal is provided, script type is determined from the suffix
         js concat!("https://a.com/", "b.js")
         my_lib_b
-        js static_url!("my_lib_b.js")
         css "/somehow/ends/with/.js" // <-- explicit type css overrides the suffix
         my_lib_c
         js String::from("https://a.com/test.js")
@@ -188,14 +188,16 @@ You will need to prepend the identifier of a script with an exclamation mark (!)
 And only one script url for each identifier, here's an example:
 
 ```rust
-// interop.rs
+// This example requires the script feature
+// file: interop.rs
+use yew_interop::declare_resources;
 
 declare_resources!(
-    ! my_script // <- exclamation mark for side effect scripts
-    "https://cdn.com/script.js"
     lib // <- normal library
     "https://cdn.com/lib.js"
     "https://cdn.com/lib.css"
+    ! my_script // <- exclamation mark for side effect scripts
+    "https://cdn.com/script.js"
 );
 ```
 
@@ -215,21 +217,34 @@ so it won't render anything in its place,
 it will only run the script on render.
 
 ```rust
+// This example requires the script feature
+
+// file: interop.rs
+use yew_interop::declare_resources;
+
+declare_resources!(
+    ! my_script
+    "https://cdn.com/script.js"
+);
+
+
+// consuming file:
+use yew::prelude::*;
 use yew_interop::ScriptEffect;
 
 /// this example simply runs the script on every re-render, if the script is ready.
-#[function_component(App)]
-pub fn app() -> Html {
+#[function_component(MyComp)]
+pub fn my_comp() -> Html {
     let script = use_my_script();
     
     // ...snip
     
     html! {
-        if my_script.is_none(){
+        if script.is_none(){
             <p>{"Please wait..."}</p>
         }else{
             <p>{"Script Completed!"}</p>
-            <ScriptEffect {script}>
+            <ScriptEffect {script}/>
         }
     }
 }
@@ -251,7 +266,7 @@ For example, let's say your script depends on two components `<ComponentA/>` and
 The case below shows a correct placement where A and B has the same depth,
 the rendering order here is B -> A -> ScriptEffect
 
-```rust
+```rust ignore
 html!{
     <>
     <ScriptEffect {script}/>
@@ -264,7 +279,7 @@ html!{
 
 Here's trickier one, where B is deeper, so we place our component on top of B:
 
-```rust
+```rust ignore
 html!{
     <>
     <ComponentA/>
