@@ -1,4 +1,4 @@
-name: Periodical yew-next Builds
+name: Checks with Yew's master Branch
 
 on:
   schedule:

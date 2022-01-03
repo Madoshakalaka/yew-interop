@@ -111,6 +111,7 @@ jobs:
           toolchain: stable
           override: true
           profile: minimal
+          target: wasm32-unknown-unknown
       - uses: actions/cache@v2
         id: cache
         with:
@@ -124,7 +125,6 @@ jobs:
           restore-keys: |
             cargo-${{ runner.os }}-build-example
             cargo-${{ runner.os }}
-
 
       - uses: jetli/trunk-action@v0.1.0
         with:
