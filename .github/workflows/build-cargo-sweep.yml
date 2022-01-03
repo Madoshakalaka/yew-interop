@@ -1,4 +1,4 @@
-name: Build Cargo Sweep
+name: Build Cargo Sweep Binary
 
 on:
   schedule:
