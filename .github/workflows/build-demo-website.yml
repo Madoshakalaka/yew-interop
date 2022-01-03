@@ -132,6 +132,8 @@ jobs:
       - name: Timestamp Cached Target
         run: ./dev-tool/ci-bin/cargo-sweep sweep -s
       - name: Build the Website
+        env:
+          YEW_INTEROP_DEMO_VERSION: master
         run: trunk build --release --dist docs/master --public-url /yew-interop/master example/index.html
       - name: Remove Untouched Cache
         run: ./dev-tool/ci-bin/cargo-sweep sweep -f
