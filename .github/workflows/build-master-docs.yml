@@ -1,0 +1,80 @@
+name: Build and Publish Master Docs
+
+on:
+  pull_request:
+    branches: [ master ]
+    paths:
+      - 'README.md'
+      - 'yew-interop/**'
+      - '!yew-interop/**/*.md'
+      - 'yew-interop-core/**'
+      - '!yew-interop-core/**/*.md'
+      - 'yew-interop-macro/**'
+      - '!yew-interop-macro/**/*.md'
+  push:
+    branches: [ master ]
+    paths:
+      - 'README.md'
+      - 'example/**'
+      - 'yew-interop/**'
+      - '!yew-interop/**/*.md'
+      - 'yew-interop-core/**'
+      - '!yew-interop-core/**/*.md'
+      - 'yew-interop-macro/**'
+      - '!yew-interop-macro/**/*.md'
+  workflow_dispatch:
+
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+
+  build-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          profile: minimal
+          target: wasm32-unknown-unknown
+      - uses: actions/cache@v2
+        id: cache
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: cargo-${{ runner.os }}-build-docs-${{hashFiles('Cargo.lock')}}
+          restore-keys: |
+            cargo-${{ runner.os }}-build-docs
+            cargo-${{ runner.os }}
+
+      - name: Timestamp Cached Target
+        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+      - name: Build the Docs
+        env:
+          RUSTDOCFLAG: --cfg documenting
+        uses: actions-rs/cargo@v1
+        with:
+          command: doc
+          args: -p yew-interop --features yew-stable --features script --no-deps
+      - name: Remove Untouched Cache
+        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
+      - name: Clean Old Docs
+        run: rm -rf docs/docrs
+      - name: Transfer Docs Built
+        run: mv target/doc docs/docsrs
+      - run: git pull
+      - name: Commit Website
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "🤖 build master docs"
+
+

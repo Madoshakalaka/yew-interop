@@ -1,13 +1,8 @@
-<div align="center">
-<h1>Yew Interop</h1>
-
-  <p>
-    <strong>Load JavaScript and CSS asynchronously in Yew</strong>
-  </p>
-
-<img alt="Crates.io" src="https://img.shields.io/crates/v/yew-interop">
-<a href="https://madoshakalaka.github.io/yew-interop/v0.2.1"><img alt="demo badge" src="https://img.shields.io/badge/demo%20v0.2.1-up-brightgreen"/></a>
-<a href="https://madoshakalaka.github.io/yew-interop/master"><img alt="demo badge" src="https://img.shields.io/badge/demo%20master-up-brightgreen"/></a>
+<div align="center"> <h1>Yew Interop</h1> <p> <strong>Load JavaScript and CSS asynchronously in Yew</strong> </p> <img alt="Crates.io" src="https://img.shields.io/crates/v/yew-interop">
+<a href="https://madoshakalaka.github.io/yew-interop/v0.2.1"><img alt="demo badge released" src="https://img.shields.io/badge/demo%20v0.2.1-up-brightgreen"/></a>
+<a href="https://madoshakalaka.github.io/yew-interop/master"><img alt="demo badge master" src="https://img.shields.io/badge/demo%20master-up-brightgreen"/></a>
+<a href="https://madoshakalaka.github.io/yew-interop/master"><img alt="docs crates.io" src="https://img.shields.io/badge/docs-crates.io-brightgreen"/></a>
+<a href="https://madoshakalaka.github.io/yew-interop/docsrs/yew-interop/"><img alt="docs master" src="https://img.shields.io/badge/docs-master-brightgreen"/></a>
 </div>
 
 ## Load On Demand

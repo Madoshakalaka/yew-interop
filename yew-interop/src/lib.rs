@@ -7,6 +7,7 @@ pub mod script;
 
 #[cfg_attr(documenting, doc(cfg(feature = "script")))]
 #[cfg(feature = "script")]
+#[doc(inline)]
 pub use script::ScriptEffect;
 use std::borrow::Cow;
 
