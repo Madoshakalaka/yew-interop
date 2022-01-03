@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["yew_interop"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.57.0/core/clone/trait.Clone.html\" title=\"trait core::clone::Clone\">Clone</a> for <a class=\"struct\" href=\"yew_interop/script/struct.Script.html\" title=\"struct yew_interop::script::Script\">Script</a>","synthetic":false,"types":["yew_interop::script::Script"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
