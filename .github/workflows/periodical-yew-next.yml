@@ -2,7 +2,9 @@ name: Periodical yew-next Builds
 
 on:
   schedule:
+    # everyday at 9
     - cron: '0 9 * * *'
+  workflow_dispatch:
 
 env:
   CARGO_TERM_COLOR: always
