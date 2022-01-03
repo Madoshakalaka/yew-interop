@@ -2,7 +2,8 @@ name: Build Cargo Sweep
 
 on:
   schedule:
-    - cron: '0 12 * * *'
+    # friday noon
+    - cron: '0 12 * * 5'
   workflow_dispatch:
 
 env:
@@ -15,7 +16,7 @@ jobs:
 
     steps:
     - name: Build
-      run: cargo install --release cargo-sweep
+      run: cargo install cargo-sweep
     - name: Transfer Binary
       run: 'mv ~/.cargo/bin/cargo-sweep dev-tool/ci-bin'
     - uses: actions/checkout@v2
