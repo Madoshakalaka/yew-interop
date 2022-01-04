@@ -28,3 +28,8 @@ script = []
 yew-stable = []
 # remove me on release
 yew-next = []
+
+[dev-dependencies]
+yew = "0.19"
+yew-interop = {path = "../yew-interop", features = ["yew-stable"]}
+

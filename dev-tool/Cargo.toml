@@ -3,9 +3,15 @@ name = "dev-tool"
 version = "0.1.0"
 edition = "2021"
 publish = false
+default-run = 'dev-tool'
+
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-clap = {version = "3.0.0-rc.11", features=["derive"]}
+derive_more = "0.99"
+strum = "0.23"
+strum_macros = "0.23"
+dialoguer = {version = "0.9", features = ["fuzzy-select"]}
+clap = {version = "3.0.1", features=["derive"]}
 semver = "1.0"

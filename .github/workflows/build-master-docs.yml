@@ -4,26 +4,16 @@ on:
   pull_request:
     branches: [ master ]
     paths:
-      - 'README.md'
       - 'yew-interop/**'
-      - '!yew-interop/**/*.md'
       - 'yew-interop-core/**'
-      - '!yew-interop-core/**/*.md'
       - 'yew-interop-macro/**'
-      - '!yew-interop-macro/**/*.md'
   push:
     branches: [ master ]
     paths:
-      - 'README.md'
-      - 'example/**'
       - 'yew-interop/**'
-      - '!yew-interop/**/*.md'
       - 'yew-interop-core/**'
-      - '!yew-interop-core/**/*.md'
       - 'yew-interop-macro/**'
-      - '!yew-interop-macro/**/*.md'
   workflow_dispatch:
-
 
 env:
   CARGO_TERM_COLOR: always
@@ -67,11 +57,11 @@ jobs:
           args: -p yew-interop --features yew-stable --features script --no-deps
       - name: Remove Untouched Cache
         run: ./dev-tool/ci-bin/cargo-sweep sweep -f
+      - run: git pull
       - name: Clean Old Docs
         run: rm -rf docs/docrs
       - name: Transfer Docs Built
         run: mv target/doc docs/docsrs
-      - run: git pull
       - name: Commit Website
         uses: stefanzweifel/git-auto-commit-action@v4
         with:

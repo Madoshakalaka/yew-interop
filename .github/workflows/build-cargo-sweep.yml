@@ -20,7 +20,7 @@ jobs:
       run: cargo install cargo-sweep
     - uses: actions/checkout@v2
       with:
-      ref: ${{ github.head_ref }}
+        ref: ${{ github.head_ref }}
     - name: Transfer Binary
       run: 'mv ~/.cargo/bin/cargo-sweep dev-tool/ci-bin'
     - name: Commit Binary

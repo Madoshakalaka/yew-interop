@@ -124,13 +124,18 @@ impl ResourceDeclaration {
 ///
 /// # Example 1
 ///
-/// ```no_run
-/// declare_resources!(my_library "https://cdn.com/my_library.js")
+/// ```
+/// # mod a{
+/// # use yew_interop::declare_resources;
+/// declare_resources!(my_library "https://cdn.com/my_library.js");
+/// # }
 /// ```
 ///
 /// # Example 2
 ///
-/// ```no_run
+/// ```
+/// # mod a {
+/// # use yew_interop::declare_resources;
 /// declare_resources!(
 /// library_one
 /// "https://cdn.com/a.js"
@@ -138,7 +143,8 @@ impl ResourceDeclaration {
 /// "https://cdn.com/c.css"
 /// library_two
 /// "https://cdn.com/b.css"
-/// )
+/// );
+/// # }
 /// ```
 ///
 /// # Explicitly Specify the Url Type
@@ -151,13 +157,27 @@ impl ResourceDeclaration {
 /// you need to manually specify the URL type by prepending the custom keyword js/css
 /// before the url.
 ///
-/// ```no_run
+/// ```
+///
+/// # mod a {
+/// # use yew_interop::declare_resources;
+/// const MY_CSS_URL: &str = "https://my_static.com/some.css";
+///
+/// /// production/dev aware static url
+/// fn static_url(rel: &'static str) -> String{
+///     if cfg!(debug_assertions){
+///         rel.to_string()
+///     }else{
+///         format!("https://static.my-cdn.com/{}", rel)
+///     }
+/// }
 /// declare_resources!(
 /// my_library
 /// css MY_CSS_URL
-/// js static_url!("my_library")
-/// js get_url("my_other_library")
-/// )
+/// js static_url("my_other_library")
+/// );
+/// # }
+///
 /// ```
 ///
 /// The macro expect the return type of the expression to implement `Into<Cow<'static, str>>`,
@@ -169,13 +189,18 @@ impl ResourceDeclaration {
 /// note the script has to be in JavaScript, so no type should be explicitly specified.
 ///
 ///
-/// ```no_run
+/// ```
+/// # #[cfg(feature = "script")]
+/// # mod a {
+/// # use yew_interop::declare_resources;
 /// declare_resources!(
 /// my_library
 /// "https://cdn.com/lib.js"
 /// ! my_effect
 /// "https://cdn.com/effect.js"
-/// )
+/// );
+/// # }
+///
 /// ```
 ///
 /// # Consumption
@@ -187,12 +212,22 @@ impl ResourceDeclaration {
 /// and `pub fn use_library_two()`
 ///
 /// You should wrap the root component of your app in the `<ResourceProvider/>` like this:
-/// ```no_run
+/// ```
+/// # use yew::prelude::*;
+/// # use yew_interop::declare_resources;
+/// # #[function_component(App)]
+/// # fn app() -> Html{
+/// # html!{}
+/// # }
+/// # declare_resources!(
+/// # my_library
+/// # "https://cdn.com/lib.js"
+/// # );
 /// html!{
 ///     <ResourceProvider>
 ///         <App/>
 ///     </ResourceProvider>
-/// }
+/// };
 /// ```
 ///
 /// The hooks are to be used in the consuming components.

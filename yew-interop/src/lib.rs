@@ -1,5 +1,9 @@
-#![cfg_attr(documenting, feature(doc_cfg))]
-#![doc= include_str!("../../README.md")]
+// for publishing docs
+#![cfg_attr(documenting, feature(doc_cfg), doc= include_str!("docs.md"))]
+// for testing
+#![cfg_attr(not(documenting), doc= include_str!("feature-adaptive-docs.md"))]
+
+//! aa
 
 #[cfg_attr(documenting, doc(cfg(feature = "script")))]
 #[cfg(feature = "script")]

@@ -1,8 +1,8 @@
 <div align="center"> <h1>Yew Interop</h1> <p> <strong>Load JavaScript and CSS asynchronously in Yew</strong> </p> <img alt="Crates.io" src="https://img.shields.io/crates/v/yew-interop">
-<a href="https://madoshakalaka.github.io/yew-interop/v0.2.1"><img alt="demo badge released" src="https://img.shields.io/badge/demo%20v0.2.1-up-brightgreen"/></a>
-<a href="https://madoshakalaka.github.io/yew-interop/master"><img alt="demo badge master" src="https://img.shields.io/badge/demo%20master-up-brightgreen"/></a>
-<a href="https://madoshakalaka.github.io/yew-interop/master"><img alt="docs crates.io" src="https://img.shields.io/badge/docs-crates.io-brightgreen"/></a>
-<a href="https://madoshakalaka.github.io/yew-interop/docsrs/yew-interop/"><img alt="docs master" src="https://img.shields.io/badge/docs-master-brightgreen"/></a>
+<a href="https://madoshakalaka.github.io/yew-interop/v0.2.1"><img alt="demo badge released" src="https://img.shields.io/badge/demo-v0.2.1-brightgreen"/></a>
+<a href="https://madoshakalaka.github.io/yew-interop/master"><img alt="demo badge master" src="https://img.shields.io/badge/demo-master-brightgreen"/></a>
+<a href="https://docs.rs/yew-interop"><img alt="docs.rs" src="https://img.shields.io/badge/docs.rs-released-brightgreen"/></a>
+<a href="https://madoshakalaka.github.io/yew-interop/docsrs/yew_interop/"><img alt="docs master" src="https://img.shields.io/badge/docs-master-brightgreen"/></a>
 </div>
 
 ## Load On Demand
@@ -66,27 +66,28 @@ since published crates can't have git dependencies.
 If your javascript library exposes functions or objects you want to use in Rust,
 then `yew_interop::declare_resources!` is the right choice.
 
-First you want to create a separate module `interop.rs` and declare your dependencies there.
+First you want to create a separate module `interop` and declare your dependencies there.
 
 ```rust
-// interop.rs
-use yew_interop::declare_resources;
+// alternatively, create a separate file `interop.rs`,
+// and add `mod interop;` to `main.rs` to have tidier code.
+mod interop{
+    use yew_interop::declare_resources;
 
-declare_resources!(
-    library_a
-    "https://my-cdn.com/library-a.min.js"
-    library_b
-    "https://my-cdn.com/library-b.min.js"
-    "https://my-cdn.com/library-b.min.css"
-);
-```
-
+    declare_resources!(
+        library_a
+        "https://my-cdn.com/library-a.min.js"
+        library_b
+        "https://my-cdn.com/library-b.min.js"
+        "https://my-cdn.com/library-b.min.css"
+    );
+}
+```
 This macro expands into a `<ResourceProvider/>` component.
-you want to wrap your application in the provider:
+you want to wrap the root of your application in the provider:
 
-```rust ignore
-// main.rs
-mod interop;
+```rust
+use yew::prelude::*;
 use interop::ResourceProvider;
 
 #[function_component(App)]
@@ -97,15 +98,16 @@ pub fn app() -> Html {
         </ResourceProvider>
     }
 }
-```
-
+```
 The macro will also expand into hooks by prepending your resource names with "_use__", in this case,
 the macro will expand into `pub fn use_library_a() -> bool` and `pub fn use_library_b() -> bool`
 
 At your consuming component, you can use these hooks to asynchronously wait for libraries to be loaded:
 
-```rust ignore
-use crate::interop::use_library_a;
+```rust
+
+use yew::prelude::*;
+use interop::use_library_a;
 
 #[function_component(Consumer)]
 pub fn consumer() -> Html {
@@ -115,12 +117,11 @@ pub fn consumer() -> Html {
         if library_a_ready{
             // use library a here
         }else{
-            <p>"please wait..."</p>
+            <p>{"please wait..."}</p>
         }
     }
 }
-```
-
+```
 >For javascript libraries,
 you will also need to write some stubs using `wasm-bindgen` and `js-sys` before using the library in Rust.
 The wasm-bindgen book has [a good chapter](https://rustwasm.github.io/wasm-bindgen/examples/import-js.html) on that.
@@ -159,8 +160,7 @@ declare_resources!(
         js String::from("https://a.com/test.js")
     );
 
-```
-
+```
 ## Side Effect Javascript
 
 Here, side effect scripts refers to the JavaScript that run something onload,
@@ -183,7 +183,6 @@ You will need to prepend the identifier of a script with an exclamation mark (!)
 And only one script url for each identifier, here's an example:
 
 ```rust
-// This example requires the script feature
 // file: interop.rs
 use yew_interop::declare_resources;
 
@@ -194,8 +193,7 @@ declare_resources!(
     ! my_script // <- exclamation mark for side effect scripts
     "https://cdn.com/script.js"
 );
-```
-
+```
 You never need to specify the resource type explicitly, 
 since only JavaScript is allowed.
 
@@ -212,7 +210,6 @@ so it won't render anything in its place,
 it will only run the script on render.
 
 ```rust
-// This example requires the script feature
 
 // file: interop.rs
 use yew_interop::declare_resources;
@@ -243,8 +240,7 @@ pub fn my_comp() -> Html {
         }
     }
 }
-```
-
+```
 If your script depends on other components being rendered,
 such as the fourth example [in the demo](https://madoshakalaka.github.io/yew-interop/master/),
 where the script adds onclick handlers to the rendered elements,
@@ -261,30 +257,45 @@ For example, let's say your script depends on two components `<ComponentA/>` and
 The case below shows a correct placement where A and B has the same depth,
 the rendering order here is B -> A -> ScriptEffect
 
-```rust ignore
-html!{
-    <>
-    <ScriptEffect {script}/>
-    <ComponentA/>
-    <ComponentB/>
-    // <ScriptEffect {script}/> !!! do not place here, otherwise it would render first
-    </>
-}
-```
-
+```rust
+#
+    html!{
+        <>
+        <ScriptEffect {script}/>
+        <ComponentA/>
+        <ComponentB/>
+        // <ScriptEffect {script}/> !!! do not place here, otherwise it would render first
+        </>
+    }
+```
 Here's trickier one, where B is deeper, so we place our component on top of B:
 
-```rust ignore
-html!{
-    <>
-    <ComponentA/>
-    <Container>
-        <ScriptEffect {script}>
-        <ComponentB/>
-    </Container>
-    <ComponentC/>
-    </>
+```rust
+#
+#[derive(Properties, PartialEq)]
+pub struct ContainerProps {
+    children: Children
 }
-```
 
+#[function_component(Container)]
+pub fn container(props: &ContainerProps) -> Html {
+    // --snip--
+    html! {
+        {for props.children.iter()}
+    }
+}
+
+#
+    html!{
+        <>
+        <ComponentA/>
+        <Container>
+            <ScriptEffect {script}/>
+            <ComponentB/>
+        </Container>
+        <ComponentC/>
+        </>
+    }
+```
 The rendering order is C -> Container -> A -> B -> ScriptEffect.
+

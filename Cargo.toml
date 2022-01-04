@@ -1,5 +1,5 @@
 [workspace]
-members = ["integration-test", "yew-interop", "yew-interop-macro", "example", "yew-interop-core", "dev-tool"]
+members = ["yew-interop", "yew-interop-macro", "example", "yew-interop-core", "dev-tool"]
 
 # optimization for the website
 [profile.release]

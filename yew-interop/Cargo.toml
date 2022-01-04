@@ -20,11 +20,17 @@ yew-interop-macro = {path = "../yew-interop-macro" }
 yew-interop-core = {path = "../yew-interop-core" }
 # remove me on release
 yew_master = {package="yew", git="https://github.com/yewstack/yew.git", branch="master", optional=true}
-# fix me to the latest yew on release
+# change yew_19 to just yew, remove optional, fix version to latestest yew on release
 yew_19 = {package="yew", version="0.19", optional=true}
 wasm-bindgen = {version="0.2", optional=true}
 js-sys = {version="0.3", optional=true}
 wasm-bindgen-futures = {version="0.4", optional=true}
+
+[dev-dependencies]
+# remove on release
+yew_master = {package="yew", git="https://github.com/yewstack/yew.git", branch="master"}
+# change yew_19 to just yew, fix version to latestest yew on release
+yew_19 = {package="yew", version="0.19"}
 
 [dependencies.web-sys]
 version = "0.3"

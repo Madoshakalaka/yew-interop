@@ -2,7 +2,7 @@ use proc_macro2::TokenStream;
 use quote::ToTokens;
 
 use syn::{Error as SynError, Expr, LitStr};
-use url::Url;
+use url::{ParseError, Url};
 use yew_interop_core::LinkType;
 
 pub struct LibraryUrl {
@@ -22,7 +22,17 @@ impl TryFrom<LitStr> for LibraryUrl {
     /// returns [`syn::Error`] when the url doesn't end with .js or .css
     fn try_from(lit_str: LitStr) -> Result<Self, Self::Error> {
         let src: String = lit_str.value();
-        let url = Url::parse(&src).unwrap();
+        let url = Url::parse(&src).unwrap_or_else(|e| {
+            match e {
+                ParseError::RelativeUrlWithoutBase => {
+                    let pseudo_url =
+                        Url::parse("https://madoshakalaka.github.io/yew-interop/master").unwrap();
+                    Ok(pseudo_url.join(&src).unwrap())
+                }
+                e => Err(e),
+            }
+            .unwrap()
+        });
         let last_path_segment = url.path_segments().unwrap().last().unwrap();
 
         if let Some(link_type) = last_path_segment
