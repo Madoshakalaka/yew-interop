@@ -4,6 +4,7 @@
 #![cfg_attr(not(documenting), doc= include_str!("feature-adaptive-docs.md"))]
 
 #[doc(hidden)]
+#[cfg(feature = "script")]
 pub mod script;
 
 #[cfg_attr(documenting, doc(cfg(feature = "script")))]
