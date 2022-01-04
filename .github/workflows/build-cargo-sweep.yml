@@ -23,6 +23,7 @@ jobs:
         ref: ${{ github.head_ref }}
     - name: Transfer Binary
       run: 'mv ~/.cargo/bin/cargo-sweep dev-tool/ci-bin'
+    - run: chmod +x dev-tool/ci-bin/cargo-sweep
     - name: Commit Binary
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
