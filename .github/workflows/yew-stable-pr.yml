@@ -475,7 +475,7 @@ jobs:
         run: ./dev-tool/ci-bin/cargo-sweep sweep -f
       - run: git pull
       - name: Clean Old Docs
-        run: rm -rf docs/docrs
+        run: rm -rf docs/docsrs/
       - name: Transfer Docs Built
         run: mv target/doc docs/docsrs
       - name: Commit Website
