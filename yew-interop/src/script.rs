@@ -86,11 +86,14 @@ pub struct Script {
     content: Rc<String>,
 }
 
+/// If the script attribute is None, the component does nothing.
 #[derive(Properties, PartialEq)]
 pub struct ScriptEffectProps {
     pub script: Option<Script>,
 }
 
+/// This component runs javascript __on render__.
+/// Note this is different from the [`yew::use_effect`] hook, which runs __after rendering__.
 #[function_component(ScriptEffect)]
 pub fn script_effect(props: &ScriptEffectProps) -> Html {
     props

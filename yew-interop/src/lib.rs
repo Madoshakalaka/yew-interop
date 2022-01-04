@@ -3,16 +3,18 @@
 // for testing
 #![cfg_attr(not(documenting), doc= include_str!("feature-adaptive-docs.md"))]
 
-//! aa
-
-#[cfg_attr(documenting, doc(cfg(feature = "script")))]
-#[cfg(feature = "script")]
+#[doc(hidden)]
 pub mod script;
 
 #[cfg_attr(documenting, doc(cfg(feature = "script")))]
 #[cfg(feature = "script")]
 #[doc(inline)]
 pub use script::ScriptEffect;
+
+#[cfg_attr(documenting, doc(cfg(feature = "script")))]
+#[cfg(feature = "script")]
+#[doc(inline)]
+pub use script::ScriptEffectProps;
 use std::borrow::Cow;
 
 use std::rc::Rc;
