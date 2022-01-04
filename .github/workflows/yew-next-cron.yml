@@ -1,4 +1,4 @@
-name: Checks with Yew's master Branch
+name: "Cron: Checks with Yew's master Branch"
 
 on:
   schedule:
@@ -101,67 +101,6 @@ jobs:
         with:
           command: clippy
           args: -p yew-interop-macro --features yew-next -- -D warnings
-      - name: Remove Untouched Cache
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
-  test-yew-interop-macro:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-          profile: minimal
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-test-yew-interop-macro-next-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-test-yew-interop-macro-next
-            cargo-${{ runner.os }}
-      - name: Timestamp Cached Target
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
-      - name: Run tests
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: -p yew-interop-macro --features yew-next
-      - name: Remove Untouched Cache
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
-  test-yew-interop-macro-script:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
-        if: steps.changes.outputs.dependencies == 'true'
-        with:
-          toolchain: stable
-          override: true
-          profile: minimal
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-test-yew-interop-macro-next-script-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-test-yew-interop-macro-next-script
-            cargo-${{ runner.os }}
-      - name: Timestamp Cached Target
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
-      - name: Run tests
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: -p yew-interop-macro --features yew-next --features script
       - name: Remove Untouched Cache
         run: ./dev-tool/ci-bin/cargo-sweep sweep -f
   clippy-yew-interop-macro-script:
