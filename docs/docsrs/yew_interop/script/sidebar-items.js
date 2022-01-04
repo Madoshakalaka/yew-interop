@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Script","A JavaScript cached globally"],["ScriptEffectProps",""]],"type":[["ScriptEffect",""]]});

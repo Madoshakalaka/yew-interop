@@ -1,0 +1,1 @@
+initSidebarItems({"macro":[["declare_resources","Declare your libraries as whitespace separated groups of identifier and one or more urls"]],"mod":[["script",""]],"type":[["ScriptEffect",""]]});

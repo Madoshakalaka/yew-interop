@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["yew_interop"] = [{"text":"impl Freeze for <a class=\"struct\" href=\"yew_interop/script/struct.Script.html\" title=\"struct yew_interop::script::Script\">Script</a>","synthetic":true,"types":["yew_interop::script::Script"]},{"text":"impl Freeze for <a class=\"struct\" href=\"yew_interop/script/struct.ScriptEffectProps.html\" title=\"struct yew_interop::script::ScriptEffectProps\">ScriptEffectProps</a>","synthetic":true,"types":["yew_interop::script::ScriptEffectProps"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
