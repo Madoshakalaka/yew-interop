@@ -260,7 +260,6 @@ The case below shows a correct placement where A and B has the same depth,
 the rendering order here is B -> A -> ScriptEffect
 
 ```rust
-#
     html!{
         <>
         <ScriptEffect {script}/>
@@ -273,7 +272,6 @@ the rendering order here is B -> A -> ScriptEffect
 Here's trickier one, where B is deeper, so we place our component on top of B:
 
 ```rust
-#
 #[derive(Properties, PartialEq)]
 pub struct ContainerProps {
     children: Children
@@ -287,7 +285,6 @@ pub fn container(props: &ContainerProps) -> Html {
     }
 }
 
-#
     html!{
         <>
         <ComponentA/>
