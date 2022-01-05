@@ -303,7 +303,7 @@ the rendering order here is B -> A -> ScriptEffect
 # 
 # use yew::prelude::*;
 # use yew_interop::ScriptEffect;
-#
+# 
 # #[function_component(ComponentA)]
 # pub fn component_a() -> Html {
 #    html! {}
@@ -341,7 +341,7 @@ Here's trickier one, where B is deeper, so we place our component on top of B:
 # 
 # use yew::prelude::*;
 # use yew_interop::ScriptEffect;
-#
+# 
 # #[function_component(ComponentA)]
 # pub fn component_a() -> Html {
 #    html! {}
@@ -372,7 +372,7 @@ pub fn container(props: &ContainerProps) -> Html {
 # #[function_component(MyComp)]
 # pub fn my_comp() -> Html {
 #    let script = use_my_script();
-#
+# 
     html!{
         <>
         <ComponentA/>

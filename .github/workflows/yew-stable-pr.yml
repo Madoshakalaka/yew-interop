@@ -462,7 +462,7 @@ jobs:
         run: ./dev-tool/ci-bin/cargo-sweep sweep -f
 
   build-example:
-    needs: [test-yew-interop,test-yew-interop-script , clippy-yew-interop, clippy-yew-interop-script, test-yew-interop-macro-script, clippy-yew-interop-macro, test-example, clippy-example]
+    needs: [test-all, clippy-all, test-yew-interop,test-yew-interop-script , clippy-yew-interop, clippy-yew-interop-script, test-yew-interop-macro-script, clippy-yew-interop-macro, test-example, clippy-example]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
