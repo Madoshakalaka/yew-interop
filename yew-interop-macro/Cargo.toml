@@ -31,5 +31,4 @@ yew-next = []
 
 [dev-dependencies]
 yew = "0.19"
-yew-interop = {path = "../yew-interop", features = ["yew-stable"]}
-
+yew-interop = {path = "../yew-interop", features = ["yew-stable", "script"]}

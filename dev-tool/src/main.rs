@@ -1,12 +1,13 @@
 use clap::{Parser, Subcommand};
 use derive_more::Display;
+use dev_tool::Task;
 use dialoguer::{theme::ColorfulTheme, FuzzySelect};
-use std::fs;
+use std::process::{Command, ExitStatus};
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
 
 #[derive(Parser)]
-#[clap(about = "meant to be used locally by developers")]
+#[clap(about = "meant to be used locally by developers, please use at the workspace root")]
 struct Args {
     /// omit this command for an interactive menu
     #[clap(subcommand)]
@@ -15,59 +16,167 @@ struct Args {
 
 #[derive(Subcommand, EnumIter, Display, Copy, Clone)]
 enum Commands {
-    /// run all checks
+    /// run all checks, short circuiting on any failure
     PrePr,
     /// generate README.md from yew-interop/src/docs.md
     GenReadme,
-    /// serve the demo website under ./example
+    /// serve the demo website under ./example using trunk
     ServeDemo,
+    /// build and open the docs, need nightly rust.
+    BuildDocs,
+}
+
+/// early return on a failure
+fn any_fail(statuses: &[ExitStatus]) -> bool {
+    statuses.iter().any(|x| !x.success())
 }
 
 impl Commands {
-    fn run(&self) {
+    fn run(&self) -> Result<(), ()> {
+        let map_exit_status = |s: ExitStatus| s.success().then(|| ()).ok_or(());
+
         match self {
             Commands::PrePr => {
-                println!("pre pr")
+                let commands = &[
+                    Command::new("cargo")
+                        .args(["fmt", "--all", "--", "--check"])
+                        .run(),
+                    Command::new("cargo")
+                        .args(["clippy", "--all-targets", "--", "-D", "warnings"])
+                        .run(),
+                    Command::new("cargo")
+                        .args([
+                            "clippy",
+                            "-p",
+                            "yew-interop",
+                            "--features",
+                            "yew-stable",
+                            "--all-targets",
+                            "--",
+                            "-D",
+                            "warnings",
+                        ])
+                        .run(),
+                    Command::new("cargo")
+                        .args([
+                            "clippy",
+                            "-p",
+                            "yew-interop",
+                            "--features",
+                            "yew-next",
+                            "--all-targets",
+                            "--",
+                            "-D",
+                            "warnings",
+                        ])
+                        .run(),
+                    Command::new("cargo")
+                        .args([
+                            "clippy",
+                            "-p",
+                            "yew-interop",
+                            "--all-targets",
+                            "--features",
+                            "yew-next",
+                            "--features",
+                            "script",
+                            "--",
+                            "-D",
+                            "warnings",
+                        ])
+                        .run(),
+                    Command::new("cargo")
+                        .args([
+                            "clippy",
+                            "-p",
+                            "yew-interop-macro",
+                            "--features",
+                            "yew-stable",
+                            "--",
+                            "-D",
+                            "warnings",
+                        ])
+                        .run(),
+                    Command::new("cargo")
+                        .args([
+                            "clippy",
+                            "-p",
+                            "yew-interop-macro",
+                            "--features",
+                            "yew-next",
+                            "--",
+                            "-D",
+                            "warnings",
+                        ])
+                        .run(),
+                    Command::new("cargo")
+                        .args([
+                            "clippy",
+                            "-p",
+                            "yew-interop-macro",
+                            "--features",
+                            "yew-next",
+                            "--features",
+                            "script",
+                            "--",
+                            "-D",
+                            "warnings",
+                        ])
+                        .run(),
+                    Command::new("cargo").args(["test"]).run(),
+                    Command::new("cargo")
+                        .args(["test", "-p", "yew-interop", "--features", "yew-stable"])
+                        .run(),
+                    Command::new("cargo")
+                        .args(["test", "-p", "yew-interop", "--features", "yew-next"])
+                        .run(),
+                    Command::new("cargo")
+                        .args([
+                            "test",
+                            "-p",
+                            "yew-interop",
+                            "--features",
+                            "yew-next",
+                            "--features",
+                            "script",
+                        ])
+                        .run(),
+                ];
+                (!any_fail(commands)).then(|| ()).ok_or(())
             }
             Commands::GenReadme => {
-                let mut output = String::new();
-
-                let content = include_str!("../../yew-interop/src/docs.md");
-
-                let lines = content.split('\n');
-
-                let mut is_fence = false;
-                let mut fence: String = String::new();
-                lines.for_each(|line| {
-                    if line.starts_with("```rust") {
-                        is_fence = true;
-                        fence.push_str("```rust\n");
-                    } else if line.starts_with("```") && is_fence {
-                        output.push_str(&fence);
-                        output.push_str(line);
-                        is_fence = false;
-                        fence.clear();
-                    } else if is_fence {
-                        if !line.starts_with("# ") || line == "#" {
-                            fence.push_str(line);
-                            fence.push('\n');
-                        }
-                    } else {
-                        output.push_str(line);
-                        output.push('\n')
-                    }
-                });
-
-                fs::write("README.md", output).unwrap();
+                dev_tool::generate_readme();
+                Ok(())
             }
-            Commands::ServeDemo => {
-                println!("serve!")
-            }
+            Commands::ServeDemo => map_exit_status(
+                Command::new("trunk")
+                    .args(["serve", "example/index.html"])
+                    .run(),
+            ),
+            Commands::BuildDocs => map_exit_status(
+                Command::new("cargo")
+                    .args([
+                        "+nightly",
+                        "doc",
+                        "-p",
+                        "yew-interop",
+                        "--features",
+                        "yew-stable",
+                        "--features",
+                        "script",
+                        "--open",
+                    ])
+                    .run_with_note(
+                        "Note: CI builds the docs without the dependencies to save space,\
+                \nso the links to other crates will appear unresolved.\n\
+                 This won't be a problem when the docs are published.",
+                    ),
+            ),
         }
     }
 }
 
-fn main() {
+fn main() -> Result<(), ()> {
     let args = Args::parse();
 
     if let Some(subcommand) = args.command.or_else(|| {
@@ -80,5 +189,7 @@ fn main() {
         selection.map(|s| commands[s])
     }) {
         subcommand.run()
+    } else {
+        Ok(())
     }
 }

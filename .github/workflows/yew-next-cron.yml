@@ -100,7 +100,7 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: -p yew-interop-macro --features yew-next -- -D warnings
+          args: -p yew-interop-macro --features yew-next --all-targets -- -D warnings
       - name: Remove Untouched Cache
         run: ./dev-tool/ci-bin/cargo-sweep sweep -f
   clippy-yew-interop-macro-script:
@@ -133,7 +133,7 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: -p yew-interop-macro --features yew-next --features script -- -D warnings
+          args: -p yew-interop-macro --features yew-next --features script --all-targets -- -D warnings
 
       - name: Remove Untouched Cache
         run: ./dev-tool/ci-bin/cargo-sweep sweep -f
@@ -167,7 +167,7 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: -p yew-interop --features yew-next -- -D warnings
+          args: -p yew-interop --features yew-next --all-targets -- -D warnings
 
       - name: Remove Untouched Cache
         run: ./dev-tool/ci-bin/cargo-sweep sweep -f
@@ -203,7 +203,7 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: -p yew-interop --features yew-next --features script -- -D warnings
+          args: -p yew-interop --features yew-next --features script --all-targets -- -D warnings
 
       - name: Remove Untouched Cache
         run: ./dev-tool/ci-bin/cargo-sweep sweep -f

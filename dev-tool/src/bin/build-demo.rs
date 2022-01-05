@@ -40,7 +40,7 @@ struct Args {
     version: Version,
 }
 
-fn main() -> ! {
+fn main() -> Result<(), ()> {
     let args = Args::parse();
     let sub_folder: Cow<'static, str> = args.version.to_sub_folder();
     Command::new("trunk")
@@ -54,5 +54,8 @@ fn main() -> ! {
             &format!("/yew-interop/{}", sub_folder),
             "example/index.html",
         ])
-        .run();
+        .run()
+        .success()
+        .then(|| ())
+        .ok_or(())
 }

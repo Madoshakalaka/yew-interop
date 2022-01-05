@@ -139,7 +139,7 @@ use interop::use_library_a;
 
 #[function_component(Consumer)]
 pub fn consumer() -> Html {
-    let library_a_ready = use_library_a();
+    let library_a_ready = use_library_a(); // <-- generated hook
 
     html! {
         if library_a_ready{
@@ -216,7 +216,6 @@ And only one script url for each identifier, here's an example:
 
 ```rust
 # //script
-// file: interop.rs
 use yew_interop::declare_resources;
 
 declare_resources!(
@@ -246,18 +245,17 @@ it will only run the script on render.
 ```rust
 # //script
 
-// file: interop.rs
-use yew_interop::declare_resources;
+mod interop{
+    use yew_interop::declare_resources;
+    declare_resources!(
+        ! my_script
+        "https://cdn.com/script.js"
+    );
+}
 
-declare_resources!(
-    ! my_script
-    "https://cdn.com/script.js"
-);
-
-
-// consuming file:
 use yew::prelude::*;
 use yew_interop::ScriptEffect;
+use interop::use_my_script; // <-- generated hook
 
 /// this example simply runs the script on every re-render, if the script is ready.
 #[function_component(MyComp)]
@@ -389,3 +387,9 @@ pub fn container(props: &ContainerProps) -> Html {
 ```
 
 The rendering order is C -> Container -> A -> B -> ScriptEffect.
+
+# Contributing
+
+Your PR on [GitHub](https://github.com/Madoshakalaka/yew-interop) is welcome!
+There is very extensive testing in CI.
+Be sure to check out our [development guide](https://github.com/Madoshakalaka/yew-interop/blob/master/CONTRIBUTING.md).

@@ -80,6 +80,9 @@ mod interop{
         library_b
         "https://my-cdn.com/library-b.min.js"
         "https://my-cdn.com/library-b.min.css"
+        library_c
+        "/static/library-c.min.js"
+        "/static/library-c.min.css"
     );
 }
 ```
@@ -111,7 +114,7 @@ use interop::use_library_a;
 
 #[function_component(Consumer)]
 pub fn consumer() -> Html {
-    let library_a_ready = use_library_a();
+    let library_a_ready = use_library_a(); // <-- generated hook
 
     html! {
         if library_a_ready{
@@ -153,6 +156,7 @@ declare_resources!(
         my_lib
         js MY_LIB_JS
         "https://cdn.com/my_lic_b.css" // <-- when a string literal is provided, script type is determined from the suffix
+        "/static/snippet.js"
         js concat!("https://a.com/", "b.js")
         my_lib_b
         css "/somehow/ends/with/.js" // <-- explicit type css overrides the suffix
@@ -183,13 +187,12 @@ You will need to prepend the identifier of a script with an exclamation mark (!)
 And only one script url for each identifier, here's an example:
 
 ```rust
-// file: interop.rs
 use yew_interop::declare_resources;
 
 declare_resources!(
     lib // <- normal library
     "https://cdn.com/lib.js"
-    "https://cdn.com/lib.css"
+    "/static/lib.css"
     ! my_script // <- exclamation mark for side effect scripts
     "https://cdn.com/script.js"
 );
@@ -211,18 +214,17 @@ it will only run the script on render.
 
 ```rust
 
-// file: interop.rs
-use yew_interop::declare_resources;
+mod interop{
+    use yew_interop::declare_resources;
+    declare_resources!(
+        ! my_script
+        "https://cdn.com/script.js"
+    );
+}
 
-declare_resources!(
-    ! my_script
-    "https://cdn.com/script.js"
-);
-
-
-// consuming file:
 use yew::prelude::*;
 use yew_interop::ScriptEffect;
+use interop::use_my_script; // <-- generated hook
 
 /// this example simply runs the script on every re-render, if the script is ready.
 #[function_component(MyComp)]
@@ -298,4 +300,10 @@ pub fn container(props: &ContainerProps) -> Html {
     }
 ```
 The rendering order is C -> Container -> A -> B -> ScriptEffect.
+
+# Contributing
+
+Your PR on [GitHub](https://github.com/Madoshakalaka/yew-interop) is welcome!
+There is very extensive testing in CI.
+Be sure to check out our [development guide](https://github.com/Madoshakalaka/yew-interop/blob/master/CONTRIBUTING.md).
 

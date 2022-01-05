@@ -4,6 +4,7 @@ on:
   pull_request:
     branches: [ master ]
     paths:
+      - 'dev-tool/**'
       - 'example/**'
       - 'yew-interop/**'
       - 'yew-interop-core/**'
@@ -11,6 +12,7 @@ on:
   push:
     branches: [ master ]
     paths:
+      - 'dev-tool/**'
       - 'example/**'
       - 'yew-interop/**'
       - 'yew-interop-core/**'
@@ -24,12 +26,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            dependencies:
+              - 'yew-interop/**'
+              - 'yew-interop-macro/**'
+              - 'yew-interop-core/**'
       - uses: actions-rs/toolchain@v1
+        if: steps.changes.outputs.dependencies == 'true'
         with:
           toolchain: stable
           override: true
           profile: minimal
       - uses: actions/cache@v2
+        if: steps.changes.outputs.dependencies == 'true'
         with:
           path: |
             ~/.cargo/bin/
@@ -42,25 +54,38 @@ jobs:
             cargo-${{ runner.os }}-test-yew-interop
             cargo-${{ runner.os }}
       - name: Timestamp Cached Target
+        if: steps.changes.outputs.dependencies == 'true'
         run: ./dev-tool/ci-bin/cargo-sweep sweep -s
       - name: Run tests
+        if: steps.changes.outputs.dependencies == 'true'
         uses: actions-rs/cargo@v1
         with:
           command: test
           args: -p yew-interop --features yew-stable
       - name: Remove Untouched Cache
+        if: steps.changes.outputs.dependencies == 'true'
         run: ./dev-tool/ci-bin/cargo-sweep sweep -f
 
   test-yew-interop-script:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            dependencies:
+              - 'yew-interop/**'
+              - 'yew-interop-macro/**'
+              - 'yew-interop-core/**'
       - uses: actions-rs/toolchain@v1
+        if: steps.changes.outputs.dependencies == 'true'
         with:
           toolchain: stable
           override: true
           profile: minimal
       - uses: actions/cache@v2
+        if: steps.changes.outputs.dependencies == 'true'
         with:
           path: |
             ~/.cargo/bin/
@@ -73,13 +98,16 @@ jobs:
             cargo-${{ runner.os }}-test-yew-interop-script
             cargo-${{ runner.os }}
       - name: Timestamp Cached Target
+        if: steps.changes.outputs.dependencies == 'true'
         run: ./dev-tool/ci-bin/cargo-sweep sweep -s
       - name: Run tests
+        if: steps.changes.outputs.dependencies == 'true'
         uses: actions-rs/cargo@v1
         with:
           command: test
           args: -p yew-interop --features yew-stable --features script
       - name: Remove Untouched Cache
+        if: steps.changes.outputs.dependencies == 'true'
         run: ./dev-tool/ci-bin/cargo-sweep sweep -f
 
   clippy-yew-interop-macro:
@@ -125,47 +153,6 @@ jobs:
       - name: Remove Untouched Cache
         if: steps.changes.outputs.dependencies == 'true'
         run: ./dev-tool/ci-bin/cargo-sweep sweep -f
-  test-yew-interop-macro:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: dorny/paths-filter@v2
-        id: changes
-        with:
-          filters: |
-            dependencies:
-              - 'yew-interop-macro/**'
-              - 'yew-interop-core/**'
-      - uses: actions-rs/toolchain@v1
-        if: steps.changes.outputs.dependencies == 'true'
-        with:
-          toolchain: stable
-          override: true
-          profile: minimal
-      - uses: actions/cache@v2
-        if: steps.changes.outputs.dependencies == 'true'
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-test-yew-interop-macro-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-test-yew-interop-macro
-            cargo-${{ runner.os }}
-      - name: Timestamp Cached Target
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
-      - name: Run tests
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: -p yew-interop-macro --features yew-stable
-      - name: Remove Untouched Cache
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
   test-yew-interop-macro-script:
     runs-on: ubuntu-latest
     steps:
@@ -208,7 +195,7 @@ jobs:
       - name: Remove Untouched Cache
         if: steps.changes.outputs.dependencies == 'true'
         run: ./dev-tool/ci-bin/cargo-sweep sweep -f
-  clippy-yew-interop-macro-script:
+  clippy-yew-interop:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -217,6 +204,7 @@ jobs:
         with:
           filters: |
             dependencies:
+              - 'yew-interop/**'
               - 'yew-interop-macro/**'
               - 'yew-interop-core/**'
       - uses: actions-rs/toolchain@v1
@@ -235,57 +223,24 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
             target/
-          key: cargo-${{ runner.os }}-clippy-yew-interop-macro-script-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-clippy-yew-interop-macro-script
-            cargo-${{ runner.os }}
-      - name: Timestamp Cached Target
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
-
-      - name: Run clippy
-        if: steps.changes.outputs.dependencies == 'true'
-        uses: actions-rs/cargo@v1
-        with:
-          command: clippy
-          args: -p yew-interop-macro --features yew-stable --features script -- -D warnings
-
-      - name: Remove Untouched Cache
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
-  clippy-yew-interop:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-          profile: minimal
-          components: clippy
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
           key: cargo-${{ runner.os }}-clippy-yew-interop-${{hashFiles('Cargo.lock')}}
           restore-keys: |
             cargo-${{ runner.os }}-clippy-yew-interop
             cargo-${{ runner.os }}
 
       - name: Timestamp Cached Target
+        if: steps.changes.outputs.dependencies == 'true'
         run: ./dev-tool/ci-bin/cargo-sweep sweep -s
 
       - name: Run clippy
+        if: steps.changes.outputs.dependencies == 'true'
         uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: -p yew-interop --features yew-stable -- -D warnings
+          args: -p yew-interop --features yew-stable --all-targets -- -D warnings
 
       - name: Remove Untouched Cache
+        if: steps.changes.outputs.dependencies == 'true'
         run: ./dev-tool/ci-bin/cargo-sweep sweep -f
 
   clippy-yew-interop-script:
@@ -293,13 +248,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            dependencies:
+              - 'yew-interop/**'
+              - 'yew-interop-macro/**'
+              - 'yew-interop-core/**'
       - uses: actions-rs/toolchain@v1
+        if: steps.changes.outputs.dependencies == 'true'
         with:
           toolchain: stable
           override: true
           profile: minimal
           components: clippy
       - uses: actions/cache@v2
+        if: steps.changes.outputs.dependencies == 'true'
         with:
           path: |
             ~/.cargo/bin/
@@ -313,22 +278,58 @@ jobs:
             cargo-${{ runner.os }}
 
       - name: Timestamp Cached Target
+        if: steps.changes.outputs.dependencies == 'true'
         run: ./dev-tool/ci-bin/cargo-sweep sweep -s
 
       - name: Run clippy
+        if: steps.changes.outputs.dependencies == 'true'
         uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: -p yew-interop --features yew-stable --features script -- -D warnings
-
+          args: -p yew-interop --features yew-stable --features script --all-targets -- -D warnings
       - name: Remove Untouched Cache
+        if: steps.changes.outputs.dependencies == 'true'
         run: ./dev-tool/ci-bin/cargo-sweep sweep -f
-  clippy-example:
-    name: Clippy on the Example Crate
+
+  test-all:
+    name: Test at Workspace Root
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          profile: minimal
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: cargo-${{ runner.os }}-test-all-${{hashFiles('Cargo.lock')}}
+          restore-keys: |
+            cargo-${{ runner.os }}-test-all
+            cargo-${{ runner.os }}
 
+      - name: Timestamp Cached Target
+        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+
+      - name: Run tests
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+
+      - name: Remove Untouched Cache
+        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
+
+  clippy-all:
+    name: Clippy at Workspace Root
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
@@ -344,9 +345,9 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
             target/
-          key: cargo-${{ runner.os }}-clippy-example-${{hashFiles('Cargo.lock')}}
+          key: cargo-${{ runner.os }}-clippy-all-${{hashFiles('Cargo.lock')}}
           restore-keys: |
-            cargo-${{ runner.os }}-clippy-example
+            cargo-${{ runner.os }}-clippy-all
             cargo-${{ runner.os }}
 
       - name: Timestamp Cached Target
@@ -356,21 +357,85 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: -p example -- -D warnings
+          args: --all-targets -- -D warnings
 
       - name: Remove Untouched Cache
         run: ./dev-tool/ci-bin/cargo-sweep sweep -f
+  clippy-example:
+    name: Clippy on the Example Crate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            dependencies:
+              - 'example/**'
+              - 'yew-interop/**'
+              - 'yew-interop-macro/**'
+              - 'yew-interop-core/**'
+
+      - uses: actions-rs/toolchain@v1
+        if: steps.changes.outputs.dependencies == 'true'
+        with:
+          toolchain: stable
+          override: true
+          profile: minimal
+          components: clippy
+
+      - uses: actions/cache@v2
+        if: steps.changes.outputs.dependencies == 'true'
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: cargo-${{ runner.os }}-clippy-example-${{hashFiles('Cargo.lock')}}
+          restore-keys: |
+            cargo-${{ runner.os }}-clippy-example
+            cargo-${{ runner.os }}
+
+      - name: Timestamp Cached Target
+        if: steps.changes.outputs.dependencies == 'true'
+        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+
+      - name: Run clippy
+        if: steps.changes.outputs.dependencies == 'true'
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: -p example --all-targets -- -D warnings
+
+      - name: Remove Untouched Cache
+        if: steps.changes.outputs.dependencies == 'true'
+        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
+
+
 
   test-example:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            dependencies:
+              - 'example/**'
+              - 'yew-interop/**'
+              - 'yew-interop-macro/**'
+              - 'yew-interop-core/**'
       - uses: actions-rs/toolchain@v1
+        if: steps.changes.outputs.dependencies == 'true'
         with:
           toolchain: stable
           override: true
           profile: minimal
       - uses: actions/cache@v2
+        if: steps.changes.outputs.dependencies == 'true'
         with:
           path: |
             ~/.cargo/bin/
@@ -384,29 +449,43 @@ jobs:
             cargo-${{ runner.os }}
 
       - name: Timestamp Cached Target
+        if: steps.changes.outputs.dependencies == 'true'
         run: ./dev-tool/ci-bin/cargo-sweep sweep -s
       - name: Run tests
+        if: steps.changes.outputs.dependencies == 'true'
         uses: actions-rs/cargo@v1
         with:
           command: test
           args: -p example
       - name: Remove Untouched Cache
+        if: steps.changes.outputs.dependencies == 'true'
         run: ./dev-tool/ci-bin/cargo-sweep sweep -f
 
   build-example:
-    needs: [test-yew-interop,test-yew-interop-script , clippy-yew-interop, clippy-yew-interop-script, test-yew-interop-macro, test-yew-interop-macro-script, clippy-yew-interop-macro, clippy-yew-interop-macro-script, test-example, clippy-example]
+    needs: [test-yew-interop,test-yew-interop-script , clippy-yew-interop, clippy-yew-interop-script, test-yew-interop-macro-script, clippy-yew-interop-macro, test-example, clippy-example]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            dependencies:
+              - 'example/**'
+              - 'yew-interop/**'
+              - 'yew-interop-macro/**'
+              - 'yew-interop-core/**'
       - uses: actions-rs/toolchain@v1
+        if: steps.changes.outputs.dependencies == 'true'
         with:
           toolchain: stable
           override: true
           profile: minimal
           target: wasm32-unknown-unknown
       - uses: actions/cache@v2
+        if: steps.changes.outputs.dependencies == 'true'
         id: cache
         with:
           path: |
@@ -421,18 +500,24 @@ jobs:
             cargo-${{ runner.os }}
 
       - uses: jetli/trunk-action@v0.1.0
+        if: steps.changes.outputs.dependencies == 'true'
         with:
           version: 'latest'
       - name: Timestamp Cached Target
+        if: steps.changes.outputs.dependencies == 'true'
         run: ./dev-tool/ci-bin/cargo-sweep sweep -s
       - name: Build the Website
+        if: steps.changes.outputs.dependencies == 'true'
         env:
           YEW_INTEROP_DEMO_VERSION: master
         run: trunk build --release --dist docs/master --public-url /yew-interop/master example/index.html
       - name: Remove Untouched Cache
+        if: steps.changes.outputs.dependencies == 'true'
         run: ./dev-tool/ci-bin/cargo-sweep sweep -f
       - run: git pull
+        if: steps.changes.outputs.dependencies == 'true'
       - name: Commit Website
+        if: steps.changes.outputs.dependencies == 'true'
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "🤖 build demo website"
@@ -443,12 +528,22 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            dependencies:
+              - 'yew-interop/**'
+              - 'yew-interop-macro/**'
+              - 'yew-interop-core/**'
       - uses: actions-rs/toolchain@v1
+        if: steps.changes.outputs.dependencies == 'true'
         with:
           toolchain: stable
           override: true
           profile: minimal
       - uses: actions/cache@v2
+        if: steps.changes.outputs.dependencies == 'true'
         id: cache
         with:
           path: |
@@ -463,8 +558,10 @@ jobs:
             cargo-${{ runner.os }}
 
       - name: Timestamp Cached Target
+        if: steps.changes.outputs.dependencies == 'true'
         run: ./dev-tool/ci-bin/cargo-sweep sweep -s
       - name: Build the Docs
+        if: steps.changes.outputs.dependencies == 'true'
         env:
           RUSTDOCFLAG: --cfg documenting
         uses: actions-rs/cargo@v1
@@ -472,13 +569,163 @@ jobs:
           command: doc
           args: -p yew-interop --features yew-stable --features script --no-deps
       - name: Remove Untouched Cache
+        if: steps.changes.outputs.dependencies == 'true'
         run: ./dev-tool/ci-bin/cargo-sweep sweep -f
       - run: git pull
+        if: steps.changes.outputs.dependencies == 'true'
       - name: Clean Old Docs
+        if: steps.changes.outputs.dependencies == 'true'
         run: rm -rf docs/docsrs/
       - name: Transfer Docs Built
+        if: steps.changes.outputs.dependencies == 'true'
         run: mv target/doc docs/docsrs
       - name: Commit Website
+        if: steps.changes.outputs.dependencies == 'true'
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "🤖 build master docs"
+  clippy-dev-tool:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            dependencies:
+              - 'dev-tool/**'
+      - uses: actions-rs/toolchain@v1
+        if: steps.changes.outputs.dependencies == 'true'
+        with:
+          toolchain: stable
+          override: true
+          profile: minimal
+          components: clippy
+      - uses: actions/cache@v2
+        if: steps.changes.outputs.dependencies == 'true'
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: cargo-${{ runner.os }}-clippy-dev-tool-${{hashFiles('Cargo.lock')}}
+          restore-keys: |
+            cargo-${{ runner.os }}-clippy-dev-tool
+            cargo-${{ runner.os }}
+      - name: Timestamp Cached Target
+        if: steps.changes.outputs.dependencies == 'true'
+        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+      - name: Run Clippy
+        if: steps.changes.outputs.dependencies == 'true'
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: -p dev-tool --all-targets -- -D warnings
+      - name: Remove Untouched Cache
+        if: steps.changes.outputs.dependencies == 'true'
+        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
+
+  test-dev-tool:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            dependencies:
+              - 'dev-tool/**'
+      - uses: actions-rs/toolchain@v1
+        if: steps.changes.outputs.dependencies == 'true'
+        with:
+          toolchain: stable
+          override: true
+          profile: minimal
+      - uses: actions/cache@v2
+        if: steps.changes.outputs.dependencies == 'true'
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: cargo-${{ runner.os }}-test-dev-tool-${{hashFiles('Cargo.lock')}}
+          restore-keys: |
+            cargo-${{ runner.os }}-test-dev-tool
+            cargo-${{ runner.os }}
+      - name: Timestamp Cached Target
+        if: steps.changes.outputs.dependencies == 'true'
+        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+      - name: Run tests
+        if: steps.changes.outputs.dependencies == 'true'
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: -p dev-tool
+      - name: Remove Untouched Cache
+        if: steps.changes.outputs.dependencies == 'true'
+        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
+  generate-readme:
+    needs: [clippy-dev-tool, test-dev-tool, build-docs]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            dependencies:
+              - 'dev-tool/**'
+              - 'yew-interop/src/docs.md'
+      - uses: actions-rs/toolchain@v1
+        if: steps.changes.outputs.dependencies == 'true'
+        with:
+          toolchain: nightly
+          override: true
+          profile: minimal
+      - uses: actions/cache@v2
+        if: steps.changes.outputs.dependencies == 'true'
+        id: cache
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: cargo-${{ runner.os }}-build-readme-gen-${{hashFiles('Cargo.lock')}}
+          restore-keys: |
+            cargo-${{ runner.os }}-build-readme-gen
+            cargo-${{ runner.os }}
+
+      - uses: jetli/trunk-action@v0.1.0
+        if: steps.changes.outputs.dependencies == 'true'
+        with:
+          version: 'latest'
+      - name: Timestamp Cached Target
+        if: steps.changes.outputs.dependencies == 'true'
+        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+      - name: Build the Binary
+        if: steps.changes.outputs.dependencies == 'true'
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: -p dev-tool --bin readme-gen --out-dir dev-tool/ci-bin -Z unstable-options
+      - name: Generate the Readme
+        if: steps.changes.outputs.dependencies == 'true'
+        run: ./dev-tool/ci-bin/readme-gen
+      - name: Remove Untouched Cache
+        if: steps.changes.outputs.dependencies == 'true'
+        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
+      - run: git pull
+        if: steps.changes.outputs.dependencies == 'true'
+      - name: Commit the Binary
+        if: steps.changes.outputs.dependencies == 'true'
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "🤖 build readme gen"

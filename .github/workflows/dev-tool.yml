@@ -42,7 +42,7 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: clippy
-          args: -p dev-tool
+          args: -p dev-tool --all-targets -- -D warnings
       - name: Remove Untouched Cache
         run: ./dev-tool/ci-bin/cargo-sweep sweep -f
 

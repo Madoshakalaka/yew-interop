@@ -7,12 +7,10 @@
 #[cfg(feature = "script")]
 pub mod script;
 
-#[cfg_attr(documenting, doc(cfg(feature = "script")))]
 #[cfg(feature = "script")]
 #[doc(inline)]
 pub use script::ScriptEffect;
 
-#[cfg_attr(documenting, doc(cfg(feature = "script")))]
 #[cfg(feature = "script")]
 #[doc(inline)]
 pub use script::ScriptEffectProps;
