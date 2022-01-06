@@ -85,7 +85,7 @@ mod interop{
         "/static/library-c.min.css"
     );
 }
-```
+```
 This macro expands into a `<ResourceProvider/>` component.
 you want to wrap the root of your application in the provider:
 
@@ -101,7 +101,7 @@ pub fn app() -> Html {
         </ResourceProvider>
     }
 }
-```
+```
 The macro will also expand into hooks by prepending your resource names with "_use__", in this case,
 the macro will expand into `pub fn use_library_a() -> bool` and `pub fn use_library_b() -> bool`
 
@@ -124,7 +124,7 @@ pub fn consumer() -> Html {
         }
     }
 }
-```
+```
 >For javascript libraries,
 you will also need to write some stubs using `wasm-bindgen` and `js-sys` before using the library in Rust.
 The wasm-bindgen book has [a good chapter](https://rustwasm.github.io/wasm-bindgen/examples/import-js.html) on that.
@@ -164,7 +164,7 @@ declare_resources!(
         js String::from("https://a.com/test.js")
     );
 
-```
+```
 ## Side Effect Javascript
 
 Here, side effect scripts refers to the JavaScript that run something onload,
@@ -196,7 +196,8 @@ declare_resources!(
     ! my_script // <- exclamation mark for side effect scripts
     "https://cdn.com/script.js"
 );
-```
+```
+
 You never need to specify the resource type explicitly, 
 since only JavaScript is allowed.
 
@@ -242,7 +243,7 @@ pub fn my_comp() -> Html {
         }
     }
 }
-```
+```
 If your script depends on other components being rendered,
 such as the fourth example [in the demo](https://madoshakalaka.github.io/yew-interop/master/),
 where the script adds onclick handlers to the rendered elements,
@@ -268,7 +269,8 @@ the rendering order here is B -> A -> ScriptEffect
         // <ScriptEffect {script}/> !!! do not place here, otherwise it would render first
         </>
     }
-```
+```
+
 Here's trickier one, where B is deeper, so we place our component on top of B:
 
 ```rust
@@ -295,7 +297,8 @@ pub fn container(props: &ContainerProps) -> Html {
         <ComponentC/>
         </>
     }
-```
+```
+
 The rendering order is C -> Container -> A -> B -> ScriptEffect.
 
 # Contributing
