@@ -197,7 +197,6 @@ declare_resources!(
     "https://cdn.com/script.js"
 );
 ```
-
 You never need to specify the resource type explicitly, 
 since only JavaScript is allowed.
 
@@ -270,7 +269,6 @@ the rendering order here is B -> A -> ScriptEffect
         </>
     }
 ```
-
 Here's trickier one, where B is deeper, so we place our component on top of B:
 
 ```rust
@@ -298,7 +296,6 @@ pub fn container(props: &ContainerProps) -> Html {
         </>
     }
 ```
-
 The rendering order is C -> Container -> A -> B -> ScriptEffect.
 
 # Contributing
