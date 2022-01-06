@@ -4,12 +4,14 @@ on:
   pull_request:
     branches: [ master ]
     paths:
+      - '.github/workflows/yew-next-pr.yml'
       - 'yew-interop/**'
       - 'yew-interop-core/**'
       - 'yew-interop-macro/**'
   push:
     branches: [ master ]
     paths:
+      - '.github/workflows/yew-next-pr.yml'
       - 'yew-interop/**'
       - 'yew-interop-core/**'
       - 'yew-interop-macro/**'
