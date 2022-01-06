@@ -30,34 +30,78 @@ impl Task for Command {
     }
 }
 
+// simplified version of cargo-expand
+// expects `cargo rustc` and `rustfmt` to exist
 pub fn generate_readme() {
-    let mut output = String::new();
+    let mut builder = tempfile::Builder::new();
+    builder.prefix("yew-interop-readme-gen");
+    let outdir = builder.tempdir().expect("failed to create tmp file");
+    let outfile_path = outdir.path().join("expanded");
+    let cmd = Command::new("cargo")
+        .args([
+            "+nightly",
+            "rustc",
+            "--features",
+            "yew-stable",
+            "--features",
+            "script",
+            "-p",
+            "yew-interop",
+            "--",
+            "-Zunpretty=expanded",
+            "-o",
+            outfile_path.to_str().unwrap(),
+        ])
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::null())
+        .output()
+        .unwrap()
+        .status;
+    assert!(
+        cmd.success(),
+        "rustc failed to expand yew-interop/src/lib.rs"
+    );
 
-    let content = std::fs::read_to_string("yew-interop/src/docs.md").unwrap();
+    let cmd = Command::new("rustfmt")
+        .args([
+            outfile_path.to_str().unwrap(),
+            "--edition=2021",
+            "--config",
+            "normalize_doc_attributes=true",
+        ])
+        .run();
+
+    assert!(cmd.success(), "rustfmt failed to normalize doc strings");
+
+    let mut output = String::new();
+    let content = std::fs::read_to_string(&outfile_path).unwrap();
 
     let lines = content.split('\n');
 
     let mut is_fence = false;
     let mut fence: String = String::new();
-    lines.for_each(|line| {
-        if line.starts_with("```rust") {
-            is_fence = true;
-            fence.push_str("```rust\n");
-        } else if line.starts_with("```") && is_fence {
-            output.push_str(&fence);
-            output.push_str(line);
-            is_fence = false;
-            fence.clear();
-        } else if is_fence {
-            if !line.starts_with("# ") || line == "#" {
-                fence.push_str(line);
-                fence.push('\n');
+    lines
+        .filter_map(|line| line.strip_prefix("//!"))
+        .for_each(|line| {
+            if line.starts_with("```rust") {
+                is_fence = true;
+                fence.push_str("```rust\n");
+            } else if line.starts_with("```") && is_fence {
+                output.push_str(&fence);
+                output.push_str(line);
+                output.push('\n');
+                is_fence = false;
+                fence.clear();
+            } else if is_fence {
+                if !line.starts_with("# ") && line != "#" {
+                    fence.push_str(line);
+                    fence.push('\n');
+                }
+            } else {
+                output.push_str(line);
+                output.push('\n')
             }
-        } else {
-            output.push_str(line);
-            output.push('\n')
-        }
-    });
+        });
 
     std::fs::write("README.md", output).unwrap();
 }

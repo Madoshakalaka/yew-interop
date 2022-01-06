@@ -693,6 +693,8 @@ jobs:
           toolchain: nightly
           override: true
           profile: minimal
+          components: rustfmt
+
       - uses: actions/cache@v2
         if: steps.changes.outputs.dependencies == 'true'
         id: cache

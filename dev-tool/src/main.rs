@@ -18,7 +18,7 @@ struct Args {
 enum Commands {
     /// run all checks, short circuiting on any failure
     PrePr,
-    /// generate README.md from yew-interop/src/docs.md
+    /// generate README.md from yew-interop/src/docs.md, requires nightly
     GenReadme,
     /// serve the demo website under ./example using trunk
     ServeDemo,

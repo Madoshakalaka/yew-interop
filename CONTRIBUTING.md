@@ -44,7 +44,7 @@ If you wish to build and view the docs locally, you can run `cargo -p dev-tool -
 
 ## Do Not Touch `README.md` Directly
 
-It's generated from [`yew-interop/src/docs.md`](yew-interop/src/docs.md).
+It's generated from the module level documentation of [`yew-interop/lib.rs`](yew-interop/src/lib.rs).
 
 Touch that one instead. 
 Same as the cases above,

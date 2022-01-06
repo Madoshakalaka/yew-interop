@@ -127,6 +127,8 @@ dependencies = [
  "semver",
  "strum",
  "strum_macros",
+ "syn",
+ "tempfile",
 ]
 
 [[package]]
