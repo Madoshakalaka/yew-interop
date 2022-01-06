@@ -1,3 +1,3 @@
 (function() {var implementors = {};
-implementors["yew_interop"] = [{"text":"impl !<a class=\"trait\" href=\"https://doc.rust-lang.org/1.57.0/core/marker/trait.Sync.html\" title=\"trait core::marker::Sync\">Sync</a> for <a class=\"struct\" href=\"yew_interop/struct.ScriptEffectProps.html\" title=\"struct yew_interop::ScriptEffectProps\">ScriptEffectProps</a>","synthetic":true,"types":["yew_interop::script::ScriptEffectProps"]}];
+implementors["yew_interop"] = [{"text":"impl !<a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html\" title=\"trait core::marker::Sync\">Sync</a> for <a class=\"struct\" href=\"yew_interop/struct.ScriptEffectProps.html\" title=\"struct yew_interop::ScriptEffectProps\">ScriptEffectProps</a>","synthetic":true,"types":["yew_interop::script::ScriptEffectProps"]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
