@@ -12,7 +12,8 @@ you can specify feature flags `yew-next`/`yew-stable`/`script`.
 Because of the said reason, this will enable `yew-stable` and `script` features for all crates automatically.
 
 As an alternative, The [the dev-tool](dev-tool/src) crate has everything you need.
-It is a CLI, and if you run without arguments (`cargo run -p dev-tool`),
+It is a CLI, run `cargo -p dev-tool -- -h` to see everything you can do.
+And if you run it without arguments (`cargo run -p dev-tool`),
 it will show an interactive menu with the tasks and checks you can run.
 
 > the interactive menu has bad integration with JetBrains' Run window, 
@@ -50,4 +51,3 @@ Same as the cases above,
 a workflow will build the readme and push to your branch.
 
 If you wish to generate the readme locally, you can run `cargo run -p dev-tool -- gen-readme`
-

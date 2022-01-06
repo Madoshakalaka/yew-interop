@@ -563,7 +563,7 @@ jobs:
       - name: Build the Docs
         if: steps.changes.outputs.dependencies == 'true'
         env:
-          RUSTDOCFLAG: --cfg documenting
+          RUSTDOCFLAGS: --cfg documenting
         uses: actions-rs/cargo@v1
         with:
           command: doc

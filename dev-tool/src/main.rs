@@ -167,7 +167,7 @@ impl Commands {
                         "--open",
                     ])
                     .run_with_note(
-                        "Note: CI builds the docs without the dependencies to save space,\
+                        "Note: CI will build the docs without the dependencies to save space,\
                 \nso the links to other crates will appear unresolved.\n\
                  This won't be a problem when the docs are published.",
                     ),
@@ -182,7 +182,7 @@ fn main() -> Result<(), ()> {
     if let Some(subcommand) = args.command.or_else(|| {
         let commands: Vec<_> = Commands::iter().collect();
         let selection = FuzzySelect::with_theme(&ColorfulTheme::default())
-            .with_prompt("which command do you want to run?")
+            .with_prompt("Type or use the arrow key to select the task")
             .items(&commands)
             .interact_opt()
             .unwrap();
