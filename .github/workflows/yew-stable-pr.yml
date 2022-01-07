@@ -464,7 +464,7 @@ jobs:
         run: ./dev-tool/ci-bin/cargo-sweep sweep -f
 
   build-example:
-    if: github.author != "dependabot[bot]"
+    if: github.author != 'dependabot[bot]'
     needs: [test-all, clippy-all, test-yew-interop,test-yew-interop-script , clippy-yew-interop, clippy-yew-interop-script, test-yew-interop-macro-script, clippy-yew-interop-macro, test-example, clippy-example]
     runs-on: ubuntu-latest
     steps:
@@ -525,7 +525,7 @@ jobs:
         with:
           commit_message: "🤖 build demo website"
   build-docs:
-    if: github.author != "dependabot[bot]"
+    if: github.author != 'dependabot[bot]'
     needs: build-example
     runs-on: ubuntu-latest
     steps:
@@ -673,7 +673,7 @@ jobs:
         if: steps.changes.outputs.dependencies == 'true'
         run: ./dev-tool/ci-bin/cargo-sweep sweep -f
   generate-readme:
-    if: github.author != "dependabot[bot]"
+    if: github.author != 'dependabot[bot]'
     needs: [clippy-dev-tool, test-dev-tool, build-docs]
     runs-on: ubuntu-latest
     steps:
@@ -686,7 +686,7 @@ jobs:
           filters: |
             dependencies:
               - 'dev-tool/**'
-              - 'yew-interop/src/docs.md'
+              - 'yew-interop/src/lib.rs'
       - uses: actions-rs/toolchain@v1
         if: steps.changes.outputs.dependencies == 'true'
         with:
