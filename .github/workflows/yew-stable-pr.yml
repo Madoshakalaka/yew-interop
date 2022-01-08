@@ -376,7 +376,7 @@ jobs:
       - uses: actions-rs/toolchain@v1
         if: steps.changes.outputs.dependencies == 'true'
         with:
-          toolchain: stable
+          toolchain: nightly
           override: true
           profile: minimal
 
