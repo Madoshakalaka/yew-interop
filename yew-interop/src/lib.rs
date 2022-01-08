@@ -3,7 +3,7 @@
 
 //!<div align="center"> <h1>Yew Interop</h1> <p> <strong>Load JavaScript and CSS asynchronously in Yew</strong> </p> <img alt="Crates.io" src="https://img.shields.io/crates/v/yew-interop">
 // use the latest demo after release
-//!<a href="https://madoshakalaka.github.io/yew-interop/v0.2.1"><img alt="demo badge released" src="https://img.shields.io/badge/demo-v0.2.1-brightgreen"/></a>
+//!<a href="https://madoshakalaka.github.io/yew-interop/v0.3.0"><img alt="demo badge released" src="https://img.shields.io/badge/demo-v0.2.1-brightgreen"/></a>
 //!<a href="https://madoshakalaka.github.io/yew-interop/master"><img alt="demo badge master" src="https://img.shields.io/badge/demo-master-brightgreen"/></a>
 //!<a href="https://docs.rs/yew-interop"><img alt="docs.rs" src="https://img.shields.io/badge/docs.rs-released-brightgreen"/></a>
 //!<a href="https://madoshakalaka.github.io/yew-interop/docsrs/yew_interop/"><img alt="docs master" src="https://img.shields.io/badge/docs-master-brightgreen"/></a>
@@ -58,7 +58,7 @@
 //!
 // bump this after release when 0.x or major version changed
 //!```toml
-//!yew-interop = "0.2"
+//!yew-interop = "0.3"
 //!```
 //!
 //!Note the `yew-next`/`yew-stable` features only exist in the master branch
@@ -226,7 +226,7 @@
 //!or
 // bump this after release when 0.x or major version changed
 //!```toml
-//!yew-interop = {version = "0.2", features = ["script"]}
+//!yew-interop = {version = "0.3", features = ["script"]}
 //!```
 //!
 //!You will need to prepend the identifier of a script with an exclamation mark (!).
