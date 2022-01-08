@@ -3,7 +3,7 @@
 
 //!<div align="center"> <h1>Yew Interop</h1> <p> <strong>Load JavaScript and CSS asynchronously in Yew</strong> </p> <img alt="Crates.io" src="https://img.shields.io/crates/v/yew-interop">
 // use the latest demo after release
-//!<a href="https://madoshakalaka.github.io/yew-interop/v0.3.0"><img alt="demo badge released" src="https://img.shields.io/badge/demo-v0.2.1-brightgreen"/></a>
+//!<a href="https://madoshakalaka.github.io/yew-interop/v0.3.0"><img alt="demo badge released" src="https://img.shields.io/badge/demo-v0.3.0-brightgreen"/></a>
 //!<a href="https://madoshakalaka.github.io/yew-interop/master"><img alt="demo badge master" src="https://img.shields.io/badge/demo-master-brightgreen"/></a>
 //!<a href="https://docs.rs/yew-interop"><img alt="docs.rs" src="https://img.shields.io/badge/docs.rs-released-brightgreen"/></a>
 //!<a href="https://madoshakalaka.github.io/yew-interop/docsrs/yew_interop/"><img alt="docs master" src="https://img.shields.io/badge/docs-master-brightgreen"/></a>
