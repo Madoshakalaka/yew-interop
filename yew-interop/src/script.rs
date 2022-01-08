@@ -87,10 +87,9 @@ pub struct Script {
 }
 
 #[cfg_attr(documenting, doc(cfg(feature = "script")))]
-/// If the script attribute is None, the component does nothing.
 #[derive(Properties, PartialEq)]
 pub struct ScriptEffectProps {
-    pub script: Option<Script>,
+    pub script: Script,
 }
 
 #[cfg_attr(documenting, doc(cfg(feature = "script")))]
@@ -98,24 +97,18 @@ pub struct ScriptEffectProps {
 /// Note this is different from the [`yew::use_effect`] hook, which runs __after rendering__.
 #[function_component(ScriptEffect)]
 pub fn script_effect(props: &ScriptEffectProps) -> Html {
-    props
-        .script
-        .as_ref()
-        .map(|s| {
-            create_portal(
-                html! {
-                    <script type="text/javascript">
-                        {s.content.clone()}
-                    </script>
-                },
-                web_sys::window()
-                    .unwrap()
-                    .document()
-                    .unwrap()
-                    .head()
-                    .unwrap()
-                    .into(),
-            )
-        })
-        .unwrap_or_default()
+    create_portal(
+        html! {
+            <script type="text/javascript">
+                {props.script.content.clone()}
+            </script>
+        },
+        web_sys::window()
+            .unwrap()
+            .document()
+            .unwrap()
+            .head()
+            .unwrap()
+            .into(),
+    )
 }

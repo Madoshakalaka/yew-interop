@@ -19,7 +19,7 @@ pub fn blessings_example() -> Html {
     let script = interop::use_blessings();
 
     html! {
-        if script.is_some() {
+        if let Some(script) = script {
             <ScriptEffect {script}/>
             <p>{"Now check your console!"}</p>
         }else{
@@ -98,10 +98,8 @@ pub fn social_media_buttons_example() -> Html {
     html! {
         <>
 
-        if script.is_none(){
-            <Progress id="social-media-button-progress" label="share-this.js is loading"/>
-        }else{
-            {
+        if let Some(script) = script{
+             {
             html!{
                 <>
                 <button onclick={move |_| dispatcher.dispatch(())}>{"Toggle"}</button>
@@ -131,7 +129,8 @@ pub fn social_media_buttons_example() -> Html {
             }
 
             }
-
+        }else{
+            <Progress id="social-media-button-progress" label="share-this.js is loading"/>
         }
         </>
     }

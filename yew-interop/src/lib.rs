@@ -255,9 +255,10 @@ declare_resources!(
 //!Same as previous examples, this will expand into a `use_<identifier>` hook.
 //!What's different is that instead of a bool,
 //!the hook returns an `Option<Script>`,
-//!it is none when the script is loading.
+//!it is `None` when the script is loading.
 //!
-//!To run the script, you will need to render a `<ScriptEffect/>` component.
+//!To run the script, you will need to render a `<ScriptEffect/>` component and pass
+//!the script object to the component.
 //!This allows you to freely control whether and when the script should be run.
 //!The `<ScriptEffect/>` component is a [portal](https://yew.rs/docs/next/advanced-topics/portals)
 //!to the `<head/>` element of the document,
@@ -285,18 +286,17 @@ use interop::use_my_script; // <-- generated hook
 /// this example simply runs the script on every re-render, if the script is ready.
 #[function_component(MyComp)]
 pub fn my_comp() -> Html {
-   let script = use_my_script();
+    let script = use_my_script(); // <-- returns Option<Script>
 
-   // ...snip
+    // ...snip
 
-   html! {
-       if script.is_none(){
-           <p>{"Please wait..."}</p>
-       }else{
-           <p>{"Script Completed!"}</p>
+    html! {
+        if let Some(script) = script{
            <ScriptEffect {script}/>
-       }
-   }
+        }else{
+           <p>{"Please wait..."}</p>
+        }
+    }
 }
 ```
 "##
@@ -344,7 +344,7 @@ pub fn my_comp() -> Html {
 # }
 # #[function_component(MyComp)]
 # pub fn my_comp() -> Html {
-#    let script = use_my_script();
+#    let script = use_my_script().unwrap();
 #
    html!{
        <>
@@ -408,7 +408,7 @@ pub fn container(props: &ContainerProps) -> Html {
 
 # #[function_component(MyComp)]
 # pub fn my_comp() -> Html {
-#    let script = use_my_script();
+#    let script = use_my_script().unwrap();
 #
    html!{
        <>
