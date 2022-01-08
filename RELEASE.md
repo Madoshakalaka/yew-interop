@@ -17,7 +17,7 @@ So that other documentation can refer to them.
 6. do `RUSTDOCFLAGS="--cfg documenting" cargo +nightly doc -p yew-interop --all-features --open`
 to preview the docs
 
-7. do `cargo clippy`, `cargo test --all-targets`,`cargo test --doc`, `cargo clippy --features script` `cargo test --features script` `cargo test --doc --features script`
+7. do `cargo clippy`, `cargo test --all-targets`, `cargo clippy --features script` `cargo test --features script` 
    and `cargo fmt`
 
 # After a Release
