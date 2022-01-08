@@ -14,12 +14,11 @@ So that other documentation can refer to them.
 
 5. uncomment the relative dependencies just to do the tests below.
 
-6. do `cargo clippy`, `cargo test --all-targets`, `cargo clippy --features script` `cargo test --features script`
-   and `cargo fmt`
-
-7. do `RUSTDOCFLAGS="--cfg documenting" cargo +nightly doc -p yew-interop --all-features --no-deps --open`
+6. do `RUSTDOCFLAGS="--cfg documenting" cargo +nightly doc -p yew-interop --all-features --open`
 to preview the docs
 
+7. do `cargo clippy`, `cargo test --all-targets`,`cargo test --doc`, `cargo clippy --features script` `cargo test --features script` `cargo test --doc --features script`
+   and `cargo fmt`
 
 # After a Release
 
