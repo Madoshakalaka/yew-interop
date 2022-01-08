@@ -74,10 +74,6 @@
 //!First you want to create a separate module `interop` and declare your dependencies there.
 //!
 #![doc = "```rust"]
-// remove this on release
-#![cfg_attr(feature = "yew-stable", doc = "# extern crate yew_19 as yew;")]
-// delete this on release
-#![cfg_attr(feature = "yew-next", doc = "# extern crate yew_master as yew;")]
 //!// alternatively, create a separate file `interop.rs`,
 //!// and add `mod interop;` to `main.rs` to have tidier code.
 //!mod interop{
@@ -99,10 +95,6 @@
 //!you want to wrap the root of your application in the provider:
 //!
 #![doc = "```rust"]
-// remove this on release
-#![cfg_attr(feature = "yew-stable", doc = "# extern crate yew_19 as yew;")]
-// delete this on release
-#![cfg_attr(feature = "yew-next", doc = "# extern crate yew_master as yew;")]
 //!# mod interop{
 //!#    use yew_interop::declare_resources;
 //!#
@@ -133,10 +125,6 @@
 //!At your consuming component, you can use these hooks to asynchronously wait for libraries to be loaded:
 //!
 #![doc = "```rust"]
-// remove this on release
-#![cfg_attr(feature = "yew-stable", doc = "# extern crate yew_19 as yew;")]
-// delete this on release
-#![cfg_attr(feature = "yew-next", doc = "# extern crate yew_master as yew;")]
 //!# mod interop{
 //!#    use yew_interop::declare_resources;
 //!#
@@ -189,10 +177,6 @@
 //!here's a more complex example:
 //!
 #![doc = "```rust"]
-// remove this on release
-#![cfg_attr(feature = "yew-stable", doc = "# extern crate yew_19 as yew;")]
-// delete this on release
-#![cfg_attr(feature = "yew-next", doc = "# extern crate yew_master as yew;")]
 //!use yew_interop::declare_resources;
 //!
 //!const MY_LIB_JS: &str = "https://cdn.com/my_lib.js";
@@ -233,10 +217,6 @@
 //!And only one script url for each identifier, here's an example:
 //!
 #![cfg_attr(feature = "script", doc = "```rust")]
-// remove this on release
-#![cfg_attr(feature = "yew-stable", doc = "# extern crate yew_19 as yew;")]
-// delete this on release
-#![cfg_attr(feature = "yew-next", doc = "# extern crate yew_master as yew;")]
 #![cfg_attr(
     feature = "script",
     doc = r##"use yew_interop::declare_resources; 
@@ -267,10 +247,6 @@ declare_resources!(
 //!so it won't render anything in its place,
 //!it will only run the script on render.
 #![cfg_attr(feature = "script", doc = "```rust")]
-// remove this on release
-#![cfg_attr(feature = "yew-stable", doc = "# extern crate yew_19 as yew;")]
-// delete this on release
-#![cfg_attr(feature = "yew-next", doc = "# extern crate yew_master as yew;")]
 #![cfg_attr(
     feature = "script",
     doc = r##"mod interop{
@@ -320,10 +296,6 @@ pub fn my_comp() -> Html {
 //!The case below shows a correct placement where A and B has the same depth,
 //!
 #![cfg_attr(feature = "script", doc = "```rust")]
-// remove this on release
-#![cfg_attr(feature = "yew-stable", doc = "# extern crate yew_19 as yew;")]
-// delete this on release
-#![cfg_attr(feature = "yew-next", doc = "# extern crate yew_master as yew;")]
 #![cfg_attr(
     feature = "script",
     doc = r##"# use yew_interop::declare_resources;
@@ -365,10 +337,6 @@ pub fn my_comp() -> Html {
 //!Here's trickier one, where B is deeper, so we place our component on top of B:
 //!
 #![cfg_attr(feature = "script", doc = "```rust")]
-// remove this on release
-#![cfg_attr(feature = "yew-stable", doc = "# extern crate yew_19 as yew;")]
-// delete this on release
-#![cfg_attr(feature = "yew-next", doc = "# extern crate yew_master as yew;")]
 #![cfg_attr(
     feature = "script",
     doc = r##"# use yew_interop::declare_resources;
@@ -448,23 +416,6 @@ pub use script::ScriptEffectProps;
 use std::borrow::Cow;
 
 use std::rc::Rc;
-
-// remove me on release
-#[cfg(all(feature = "yew-stable", feature = "yew-next"))]
-compile_error!(
-    "feature \"yew-stable\" and feature \"yew-next\" cannot be enabled at the same time"
-);
-// remove me on release
-#[cfg(not(any(feature = "yew-stable", feature = "yew-next")))]
-compile_error!("one of feature \"yew-stable\" and feature \"yew-next\" has to be enabled");
-
-// remove me on release
-#[cfg(feature = "yew-stable")]
-extern crate yew_19 as yew;
-
-// remove me on release
-#[cfg(feature = "yew-next")]
-extern crate yew_master as yew;
 
 use yew::Reducible;
 

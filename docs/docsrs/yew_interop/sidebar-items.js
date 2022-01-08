@@ -1,1 +1,0 @@
-initSidebarItems({"macro":[["declare_resources","Declare your libraries as whitespace separated groups of identifier and one or more urls"]],"struct":[["ScriptEffectProps",""]],"type":[["ScriptEffect","This component runs javascript on render. Note this is different from the [`yew::use_effect`] hook, which runs after rendering."]]});

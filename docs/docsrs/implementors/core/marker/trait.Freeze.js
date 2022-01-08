@@ -1,3 +1,0 @@
-(function() {var implementors = {};
-implementors["yew_interop"] = [{"text":"impl Freeze for <a class=\"struct\" href=\"yew_interop/struct.ScriptEffectProps.html\" title=\"struct yew_interop::ScriptEffectProps\">ScriptEffectProps</a>","synthetic":true,"types":["yew_interop::script::ScriptEffectProps"]}];
-if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

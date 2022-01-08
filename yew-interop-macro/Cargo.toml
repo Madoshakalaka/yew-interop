@@ -1,6 +1,6 @@
 [package]
 name = "yew-interop-macro"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 license = "MIT"
 description = "macros for the yew-interop crate"
@@ -17,17 +17,12 @@ syn = "1.0"
 quote = "1.0"
 proc-macro2 = "1.0"
 itertools = "0.10"
-# fix me on release
-yew-interop-core = {path = "../yew-interop-core" }
+yew-interop-core = "0.2"
 url = "2.2"
 
 
 [features]
 script = []
-# remove me on release
-yew-stable = []
-# remove me on release
-yew-next = []
 
 [dev-dependencies]
 yew = "0.19"
