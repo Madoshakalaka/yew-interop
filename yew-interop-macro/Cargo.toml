@@ -17,7 +17,8 @@ syn = "1.0"
 quote = "1.0"
 proc-macro2 = "1.0"
 itertools = "0.10"
-yew-interop-core = "0.2"
+# yew-interop-core = "0.2"
+yew-interop-core = {path = "../yew-interop-core"}
 url = "2.2"
 
 
@@ -26,4 +27,4 @@ script = []
 
 [dev-dependencies]
 yew = "0.19"
-yew-interop = {path = "../yew-interop", features = ["yew-stable", "script"]}
+yew-interop = {path = "../yew-interop", features = ["script"]}

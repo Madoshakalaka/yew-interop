@@ -14,8 +14,10 @@ categories = ["api-bindings", "asynchronous", "wasm", "web-programming"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-yew-interop-macro = "0.3"
-yew-interop-core = "0.2"
+# yew-interop-macro = "0.3"
+# yew-interop-core = "0.2"
+yew-interop-macro = {path = "../yew-interop-macro"}
+yew-interop-core = {path = "../yew-interop-core"}
 yew = "0.19"
 wasm-bindgen = {version="0.2", optional=true}
 js-sys = {version="0.3", optional=true}

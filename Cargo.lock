@@ -165,7 +165,7 @@ dependencies = [
  "stylist",
  "wasm-bindgen",
  "web-sys",
- "yew 0.19.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "yew",
  "yew-interop",
 ]
 
@@ -706,7 +706,7 @@ dependencies = [
  "stylist-macros",
  "wasm-bindgen",
  "web-sys",
- "yew 0.19.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "yew",
 ]
 
 [[package]]
@@ -1014,55 +1014,36 @@ dependencies = [
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "web-sys",
- "yew-macro 0.19.3 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
-name = "yew"
-version = "0.19.3"
-source = "git+https://github.com/yewstack/yew.git?branch=master#6f6519dab4c5990029fe8d85c47daf439fdc3988"
-dependencies = [
- "console_error_panic_hook",
- "gloo",
- "gloo-utils",
- "indexmap",
- "js-sys",
- "scoped-tls-hkt",
- "slab",
- "wasm-bindgen",
- "wasm-bindgen-futures",
- "web-sys",
- "yew-macro 0.19.3 (git+https://github.com/yewstack/yew.git?branch=master)",
+ "yew-macro",
 ]
 
 [[package]]
 name = "yew-interop"
-version = "0.2.1"
+version = "0.3.0"
 dependencies = [
  "js-sys",
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "web-sys",
- "yew 0.19.3 (registry+https://github.com/rust-lang/crates.io-index)",
- "yew 0.19.3 (git+https://github.com/yewstack/yew.git?branch=master)",
+ "yew",
  "yew-interop-core",
  "yew-interop-macro",
 ]
 
 [[package]]
 name = "yew-interop-core"
-version = "0.1.0"
+version = "0.2.0"
 
 [[package]]
 name = "yew-interop-macro"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "itertools",
  "proc-macro2",
  "quote",
  "syn",
  "url",
- "yew 0.19.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "yew",
  "yew-interop",
  "yew-interop-core",
 ]
@@ -1072,19 +1053,6 @@ name = "yew-macro"
 version = "0.19.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5fab79082b556d768d6e21811869c761893f0450e1d550a67892b9bce303b7bb"
-dependencies = [
- "boolinator",
- "lazy_static",
- "proc-macro-error",
- "proc-macro2",
- "quote",
- "syn",
-]
-
-[[package]]
-name = "yew-macro"
-version = "0.19.3"
-source = "git+https://github.com/yewstack/yew.git?branch=master#6f6519dab4c5990029fe8d85c47daf439fdc3988"
 dependencies = [
  "boolinator",
  "lazy_static",
