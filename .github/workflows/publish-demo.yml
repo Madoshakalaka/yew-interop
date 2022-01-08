@@ -21,6 +21,10 @@ jobs:
           override: true
           profile: minimal
 
+      - uses: jetli/trunk-action@v0.1.0
+        with:
+          version: 'latest'
+
       - name: Build
         uses: actions-rs/cargo@v1
         with:
