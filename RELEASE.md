@@ -4,8 +4,7 @@ Let's suppose the previous version is `4.3.1` and you are publishing `4.3.2`.
 
 
 
-1. use `dev-tool/bin/build-demo.rs` to build a new website with the new version.
-Example: `cargo run -p dev-tool --bin build-demo -- 4.3.2`.
+1. Dispatch the publish-demo workflow with the new version `4.3.2`.
 Also update the latest demo badge on the readme.
 Push it to master so the new site is deployed.
 This will deploy the versioned website and the versioned static files.

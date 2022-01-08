@@ -42,31 +42,16 @@ jobs:
           toolchain: stable
           override: true
           profile: minimal
-      - uses: actions/cache@v2
+
+      - uses: Swatinem/rust-cache@v1
         if: steps.changes.outputs.dependencies == 'true'
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-test-yew-interop-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-test-yew-interop
-            cargo-${{ runner.os }}
-      - name: Timestamp Cached Target
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+
       - name: Run tests
         if: steps.changes.outputs.dependencies == 'true'
         uses: actions-rs/cargo@v1
         with:
           command: test
           args: -p yew-interop --features yew-stable
-      - name: Remove Untouched Cache
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
 
   test-yew-interop-script:
     runs-on: ubuntu-latest
@@ -86,31 +71,16 @@ jobs:
           toolchain: stable
           override: true
           profile: minimal
-      - uses: actions/cache@v2
+
+      - uses: Swatinem/rust-cache@v1
         if: steps.changes.outputs.dependencies == 'true'
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-test-yew-interop-script-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-test-yew-interop-script
-            cargo-${{ runner.os }}
-      - name: Timestamp Cached Target
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+
       - name: Run tests
         if: steps.changes.outputs.dependencies == 'true'
         uses: actions-rs/cargo@v1
         with:
           command: test
           args: -p yew-interop --features yew-stable --features script
-      - name: Remove Untouched Cache
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
 
   clippy-yew-interop-macro:
     runs-on: ubuntu-latest
@@ -130,31 +100,16 @@ jobs:
           override: true
           profile: minimal
           components: clippy
-      - uses: actions/cache@v2
+
+      - uses: Swatinem/rust-cache@v1
         if: steps.changes.outputs.dependencies == 'true'
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-clippy-yew-interop-macro-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-clippy-yew-interop-macro
-            cargo-${{ runner.os }}
-      - name: Timestamp Cached Target
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+
       - name: Run clippy
         if: steps.changes.outputs.dependencies == 'true'
         uses: actions-rs/cargo@v1
         with:
           command: clippy
           args: -p yew-interop-macro --features yew-stable -- -D warnings
-      - name: Remove Untouched Cache
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
   test-yew-interop-macro-script:
     runs-on: ubuntu-latest
     steps:
@@ -172,31 +127,16 @@ jobs:
           toolchain: stable
           override: true
           profile: minimal
-      - uses: actions/cache@v2
+
+      - uses: Swatinem/rust-cache@v1
         if: steps.changes.outputs.dependencies == 'true'
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-test-yew-interop-macro-script-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-test-yew-interop-macro-script
-            cargo-${{ runner.os }}
-      - name: Timestamp Cached Target
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+
       - name: Run tests
         if: steps.changes.outputs.dependencies == 'true'
         uses: actions-rs/cargo@v1
         with:
           command: test
           args: -p yew-interop-macro --features yew-next --features script
-      - name: Remove Untouched Cache
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
   clippy-yew-interop:
     runs-on: ubuntu-latest
     steps:
@@ -216,23 +156,10 @@ jobs:
           override: true
           profile: minimal
           components: clippy
-      - uses: actions/cache@v2
-        if: steps.changes.outputs.dependencies == 'true'
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-clippy-yew-interop-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-clippy-yew-interop
-            cargo-${{ runner.os }}
 
-      - name: Timestamp Cached Target
+      - uses: Swatinem/rust-cache@v1
         if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+
 
       - name: Run clippy
         if: steps.changes.outputs.dependencies == 'true'
@@ -241,9 +168,6 @@ jobs:
           command: clippy
           args: -p yew-interop --features yew-stable --all-targets -- -D warnings
 
-      - name: Remove Untouched Cache
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
 
   clippy-yew-interop-script:
     runs-on: ubuntu-latest
@@ -265,23 +189,10 @@ jobs:
           override: true
           profile: minimal
           components: clippy
-      - uses: actions/cache@v2
-        if: steps.changes.outputs.dependencies == 'true'
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-clippy-yew-interop-script-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-clippy-yew-interop-script
-            cargo-${{ runner.os }}
 
-      - name: Timestamp Cached Target
+      - uses: Swatinem/rust-cache@v1
         if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+
 
       - name: Run clippy
         if: steps.changes.outputs.dependencies == 'true'
@@ -289,9 +200,6 @@ jobs:
         with:
           command: clippy
           args: -p yew-interop --features yew-stable --features script --all-targets -- -D warnings
-      - name: Remove Untouched Cache
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
 
   test-all:
     name: Test at Workspace Root
@@ -303,29 +211,17 @@ jobs:
           toolchain: stable
           override: true
           profile: minimal
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-test-all-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-test-all
-            cargo-${{ runner.os }}
 
-      - name: Timestamp Cached Target
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+      - uses: Swatinem/rust-cache@v1
+
+
 
       - name: Run tests
         uses: actions-rs/cargo@v1
         with:
           command: test
 
-      - name: Remove Untouched Cache
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
+
 
   clippy-all:
     name: Clippy at Workspace Root
@@ -339,21 +235,9 @@ jobs:
           profile: minimal
           components: clippy
 
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-clippy-all-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-clippy-all
-            cargo-${{ runner.os }}
+      - uses: Swatinem/rust-cache@v1
 
-      - name: Timestamp Cached Target
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+
 
       - name: Run clippy
         uses: actions-rs/cargo@v1
@@ -361,8 +245,7 @@ jobs:
           command: clippy
           args: --all-targets -- -D warnings
 
-      - name: Remove Untouched Cache
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
+
   clippy-example:
     name: Clippy on the Example Crate
     runs-on: ubuntu-latest
@@ -386,23 +269,9 @@ jobs:
           profile: minimal
           components: clippy
 
-      - uses: actions/cache@v2
+      - uses: Swatinem/rust-cache@v1
         if: steps.changes.outputs.dependencies == 'true'
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-clippy-example-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-clippy-example
-            cargo-${{ runner.os }}
 
-      - name: Timestamp Cached Target
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
 
       - name: Run clippy
         if: steps.changes.outputs.dependencies == 'true'
@@ -411,9 +280,6 @@ jobs:
           command: clippy
           args: -p example --all-targets -- -D warnings
 
-      - name: Remove Untouched Cache
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
 
 
 
@@ -436,32 +302,16 @@ jobs:
           toolchain: stable
           override: true
           profile: minimal
-      - uses: actions/cache@v2
-        if: steps.changes.outputs.dependencies == 'true'
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-test-example-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-test-example
-            cargo-${{ runner.os }}
 
-      - name: Timestamp Cached Target
+      - uses: Swatinem/rust-cache@v1
         if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+
       - name: Run tests
         if: steps.changes.outputs.dependencies == 'true'
         uses: actions-rs/cargo@v1
         with:
           command: test
           args: -p example
-      - name: Remove Untouched Cache
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
 
   build-example:
     if: github.author != 'dependabot[bot]'
@@ -487,36 +337,19 @@ jobs:
           override: true
           profile: minimal
           target: wasm32-unknown-unknown
-      - uses: actions/cache@v2
+
+      - uses: Swatinem/rust-cache@v1
         if: steps.changes.outputs.dependencies == 'true'
-        id: cache
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-build-example-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-build-example
-            cargo-${{ runner.os }}
 
       - uses: jetli/trunk-action@v0.1.0
         if: steps.changes.outputs.dependencies == 'true'
         with:
           version: 'latest'
-      - name: Timestamp Cached Target
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
       - name: Build the Website
         if: steps.changes.outputs.dependencies == 'true'
         env:
           YEW_INTEROP_DEMO_VERSION: master
         run: trunk build --release --dist docs/master --public-url /yew-interop/master example/index.html
-      - name: Remove Untouched Cache
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
       - run: git pull
         if: steps.changes.outputs.dependencies == 'true'
       - name: Commit Website
@@ -546,24 +379,10 @@ jobs:
           toolchain: stable
           override: true
           profile: minimal
-      - uses: actions/cache@v2
-        if: steps.changes.outputs.dependencies == 'true'
-        id: cache
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-build-docs-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-build-docs
-            cargo-${{ runner.os }}
 
-      - name: Timestamp Cached Target
+      - uses: Swatinem/rust-cache@v1
         if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+
       - name: Build the Docs
         if: steps.changes.outputs.dependencies == 'true'
         env:
@@ -572,9 +391,6 @@ jobs:
         with:
           command: doc
           args: -p yew-interop --features yew-stable --features script --no-deps
-      - name: Remove Untouched Cache
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
       - run: git pull
         if: steps.changes.outputs.dependencies == 'true'
       - name: Clean Old Docs
@@ -605,31 +421,16 @@ jobs:
           override: true
           profile: minimal
           components: clippy
-      - uses: actions/cache@v2
+
+      - uses: Swatinem/rust-cache@v1
         if: steps.changes.outputs.dependencies == 'true'
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-clippy-dev-tool-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-clippy-dev-tool
-            cargo-${{ runner.os }}
-      - name: Timestamp Cached Target
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+
       - name: Run Clippy
         if: steps.changes.outputs.dependencies == 'true'
         uses: actions-rs/cargo@v1
         with:
           command: clippy
           args: -p dev-tool --all-targets -- -D warnings
-      - name: Remove Untouched Cache
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
 
   test-dev-tool:
     runs-on: ubuntu-latest
@@ -647,31 +448,16 @@ jobs:
           toolchain: stable
           override: true
           profile: minimal
-      - uses: actions/cache@v2
+
+      - uses: Swatinem/rust-cache@v1
         if: steps.changes.outputs.dependencies == 'true'
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-test-dev-tool-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-test-dev-tool
-            cargo-${{ runner.os }}
-      - name: Timestamp Cached Target
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+
       - name: Run tests
         if: steps.changes.outputs.dependencies == 'true'
         uses: actions-rs/cargo@v1
         with:
           command: test
           args: -p dev-tool
-      - name: Remove Untouched Cache
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
   generate-readme:
     if: github.author != 'dependabot[bot]'
     needs: [clippy-dev-tool, test-dev-tool, build-docs]
@@ -695,28 +481,13 @@ jobs:
           profile: minimal
           components: rustfmt
 
-      - uses: actions/cache@v2
+      - uses: Swatinem/rust-cache@v1
         if: steps.changes.outputs.dependencies == 'true'
-        id: cache
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-build-readme-gen-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-build-readme-gen
-            cargo-${{ runner.os }}
 
       - uses: jetli/trunk-action@v0.1.0
         if: steps.changes.outputs.dependencies == 'true'
         with:
           version: 'latest'
-      - name: Timestamp Cached Target
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
       - name: Build the Binary
         if: steps.changes.outputs.dependencies == 'true'
         uses: actions-rs/cargo@v1
@@ -726,9 +497,6 @@ jobs:
       - name: Generate the Readme
         if: steps.changes.outputs.dependencies == 'true'
         run: ./dev-tool/ci-bin/readme-gen
-      - name: Remove Untouched Cache
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
       - run: git pull
         if: steps.changes.outputs.dependencies == 'true'
       - name: Commit the Binary

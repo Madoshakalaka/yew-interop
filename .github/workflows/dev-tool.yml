@@ -24,27 +24,15 @@ jobs:
           override: true
           profile: minimal
           components: clippy
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-clippy-dev-tool-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-clippy-dev-tool
-            cargo-${{ runner.os }}
-      - name: Timestamp Cached Target
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+
+      - uses: Swatinem/rust-cache@v1
+
       - name: Run tests
         uses: actions-rs/cargo@v1
         with:
           command: clippy
           args: -p dev-tool --all-targets -- -D warnings
-      - name: Remove Untouched Cache
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
+
 
   test:
     runs-on: ubuntu-latest
@@ -55,24 +43,12 @@ jobs:
           toolchain: stable
           override: true
           profile: minimal
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-test-dev-tool-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-test-dev-tool
-            cargo-${{ runner.os }}
-      - name: Timestamp Cached Target
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+
+      - uses: Swatinem/rust-cache@v1
+
       - name: Run tests
         uses: actions-rs/cargo@v1
         with:
           command: test
           args: -p dev-tool
-      - name: Remove Untouched Cache
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
+

@@ -29,27 +29,16 @@ jobs:
           toolchain: stable
           override: true
           profile: minimal
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-test-yew-interop-next-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-test-yew-interop-next
-            cargo-${{ runner.os }}
-      - name: Timestamp Cached Target
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+
+      - uses: Swatinem/rust-cache@v1
+
+
       - name: Run tests
         uses: actions-rs/cargo@v1
         with:
           command: test
           args: -p yew-interop --features yew-next
-      - name: Remove Untouched Cache
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
+
 
   test-yew-interop-script:
     runs-on: ubuntu-latest
@@ -60,27 +49,16 @@ jobs:
           toolchain: stable
           override: true
           profile: minimal
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-test-yew-interop-next-script-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-test-yew-interop-next-script
-            cargo-${{ runner.os }}
-      - name: Timestamp Cached Target
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+
+      - uses: Swatinem/rust-cache@v1
+
+
       - name: Run tests
         uses: actions-rs/cargo@v1
         with:
           command: test
           args: -p yew-interop --features yew-next --features script
-      - name: Remove Untouched Cache
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
+
 
   clippy-yew-interop-macro:
     runs-on: ubuntu-latest
@@ -100,31 +78,16 @@ jobs:
           override: true
           profile: minimal
           components: clippy
-      - uses: actions/cache@v2
+
+      - uses: Swatinem/rust-cache@v1
         if: steps.changes.outputs.dependencies == 'true'
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-clippy-yew-interop-macro-next-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-clippy-yew-interop-macro-next
-            cargo-${{ runner.os }}
-      - name: Timestamp Cached Target
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+
       - name: Run clippy
         if: steps.changes.outputs.dependencies == 'true'
         uses: actions-rs/cargo@v1
         with:
           command: clippy
           args: -p yew-interop-macro --features yew-next -- -D warnings
-      - name: Remove Untouched Cache
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
   clippy-yew-interop-macro-script:
     runs-on: ubuntu-latest
     steps:
@@ -143,22 +106,10 @@ jobs:
           override: true
           profile: minimal
           components: clippy
-      - uses: actions/cache@v2
+
+      - uses: Swatinem/rust-cache@v1
         if: steps.changes.outputs.dependencies == 'true'
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-clippy-yew-interop-macro-next-script-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-clippy-yew-interop-macro-next-script
-            cargo-${{ runner.os }}
-      - name: Timestamp Cached Target
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+
 
       - name: Run clippy
         if: steps.changes.outputs.dependencies == 'true'
@@ -167,9 +118,6 @@ jobs:
           command: clippy
           args: -p yew-interop-macro --features yew-next --features script -- -D warnings
 
-      - name: Remove Untouched Cache
-        if: steps.changes.outputs.dependencies == 'true'
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
   clippy-yew-interop:
     runs-on: ubuntu-latest
     steps:
@@ -180,21 +128,10 @@ jobs:
           override: true
           profile: minimal
           components: clippy
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-clippy-yew-interop-next-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-clippy-yew-interop-next
-            cargo-${{ runner.os }}
 
-      - name: Timestamp Cached Target
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+      - uses: Swatinem/rust-cache@v1
+
+
 
       - name: Run clippy
         uses: actions-rs/cargo@v1
@@ -202,8 +139,7 @@ jobs:
           command: clippy
           args: -p yew-interop --features yew-next -- -D warnings
 
-      - name: Remove Untouched Cache
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
+
 
   clippy-yew-interop-script:
     runs-on: ubuntu-latest
@@ -216,21 +152,10 @@ jobs:
           override: true
           profile: minimal
           components: clippy
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: cargo-${{ runner.os }}-clippy-yew-interop-next-script-${{hashFiles('Cargo.lock')}}
-          restore-keys: |
-            cargo-${{ runner.os }}-clippy-yew-interop-next-script
-            cargo-${{ runner.os }}
 
-      - name: Timestamp Cached Target
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -s
+      - uses: Swatinem/rust-cache@v1
+
+
 
       - name: Run clippy
         uses: actions-rs/cargo@v1
@@ -238,5 +163,4 @@ jobs:
           command: clippy
           args: -p yew-interop --features yew-next --features script -- -D warnings
 
-      - name: Remove Untouched Cache
-        run: ./dev-tool/ci-bin/cargo-sweep sweep -f
+
