@@ -1,5 +1,8 @@
 name: "Publish a Versioned Demo Website"
 
+permissions:
+  contents: write
+
 on:
   workflow_dispatch:
     inputs:
