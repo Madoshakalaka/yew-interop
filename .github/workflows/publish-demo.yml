@@ -35,6 +35,8 @@ jobs:
           command: run
           args: -p dev-tool --bin build-demo -- ${{ github.event.inputs.version }}
 
+      - run: git pull
+
       - name: Commit the Binary
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
