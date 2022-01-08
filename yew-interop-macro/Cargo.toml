@@ -17,8 +17,10 @@ syn = "1.0"
 quote = "1.0"
 proc-macro2 = "1.0"
 itertools = "0.10"
-# fix me on release
+# comment me out on release
 yew-interop-core = {path = "../yew-interop-core" }
+# uncomment me on release
+# yew-interop-core = "x.y"
 url = "2.2"
 
 
@@ -31,4 +33,5 @@ yew-next = []
 
 [dev-dependencies]
 yew = "0.19"
+# remove yew-stable on release
 yew-interop = {path = "../yew-interop", features = ["yew-stable", "script"]}

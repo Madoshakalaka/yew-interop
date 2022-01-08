@@ -14,10 +14,16 @@ categories = ["api-bindings", "asynchronous", "wasm", "web-programming"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-# fix me on release
+# comment me out on release
 yew-interop-macro = {path = "../yew-interop-macro" }
-# fix me on release
+# uncomment me on release
+# yew-interop-macro = "x.y"
+
+# comment me out on release
 yew-interop-core = {path = "../yew-interop-core" }
+# uncomment me on release
+# yew-interop-core = "x.y"
+
 # remove me on release
 yew_master = {package="yew", git="https://github.com/yewstack/yew.git", branch="master", optional=true}
 # change yew_19 to just yew, remove optional, fix version to latestest yew on release

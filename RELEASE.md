@@ -12,11 +12,14 @@ So that other documentation can refer to them.
 
 4. grep for "on release" globally and change them accordingly
 
-5. do `RUSTDOCFLAGS="--cfg documenting" cargo +nightly doc -p yew-interop --all-features --no-deps --open`
-to preview the docs
+5. uncomment the relative dependencies just to do the tests below.
 
 6. do `cargo clippy`, `cargo test --all-targets`, `cargo clippy --features script` `cargo test --features script`
-and `cargo fmt`
+   and `cargo fmt`
+
+7. do `RUSTDOCFLAGS="--cfg documenting" cargo +nightly doc -p yew-interop --all-features --no-deps --open`
+to preview the docs
+
 
 # After a Release
 
