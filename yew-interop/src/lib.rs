@@ -410,16 +410,16 @@ pub fn container(props: &ContainerProps) -> Html {
 # pub fn my_comp() -> Html {
 #    let script = use_my_script().unwrap();
 #
-   html!{
-       <>
-       <ComponentA/>
-       <Container>
-           <ScriptEffect {script}/>
-           <ComponentB/>
-       </Container>
-       <ComponentC/>
-       </>
-   }
+html!{
+    <>
+    <ComponentA/>
+    <Container>
+        <ScriptEffect {script}/>
+        <ComponentB/>
+    </Container>
+    <ComponentC/>
+    </>
+}
 # }
 ```
 "##
