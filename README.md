@@ -3,6 +3,7 @@
 <a href="https://madoshakalaka.github.io/yew-interop/master"><img alt="demo badge master" src="https://img.shields.io/badge/demo-master-brightgreen"/></a>
 <a href="https://docs.rs/yew-interop"><img alt="docs.rs" src="https://img.shields.io/badge/docs.rs-released-brightgreen"/></a>
 <a href="https://madoshakalaka.github.io/yew-interop/docsrs/yew_interop/"><img alt="docs master" src="https://img.shields.io/badge/docs-master-brightgreen"/></a>
+<a href="#"><img alt="minimal rustc" src="https://img.shields.io/badge/rustc-1.56%2B-lightgrey"/></a>
 </div>
 
 ## Load On Demand
@@ -298,7 +299,7 @@ The rendering order is C -> Container -> A -> B -> ScriptEffect.
 
 # Contributing
 
-Your PR on [GitHub](https://github.com/Madoshakalaka/yew-interop) is welcome!
-There is very extensive testing in CI.
+Your pull request is welcome!
+There is extensive testing in CI.
 Be sure to check out our [development guide](https://github.com/Madoshakalaka/yew-interop/blob/master/CONTRIBUTING.md).
 
