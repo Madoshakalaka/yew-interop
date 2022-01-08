@@ -23,6 +23,7 @@ jobs:
           toolchain: stable
           override: true
           profile: minimal
+          target: wasm32-unknown-unknown
 
       - uses: jetli/trunk-action@v0.1.0
         with:
