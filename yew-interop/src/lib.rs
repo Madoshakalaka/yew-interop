@@ -427,8 +427,8 @@ pub fn container(props: &ContainerProps) -> Html {
 //!
 //!# Contributing
 //!
-//!Your PR on [GitHub](https://github.com/Madoshakalaka/yew-interop) is welcome!
-//!There is very extensive testing in CI.
+//!Your pull request is welcome!
+//!There is extensive testing in CI.
 //!Be sure to check out our [development guide](https://github.com/Madoshakalaka/yew-interop/blob/master/CONTRIBUTING.md).
 //!
 #[doc(hidden)]
