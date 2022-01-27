@@ -314,7 +314,7 @@ jobs:
           args: -p example
 
   build-example:
-    if: github.author != 'dependabot[bot]'
+    if: github.event_name == 'push'
     needs: [test-all, clippy-all, test-yew-interop,test-yew-interop-script , clippy-yew-interop, clippy-yew-interop-script, test-yew-interop-macro-script, clippy-yew-interop-macro, test-example, clippy-example]
     runs-on: ubuntu-latest
     steps:
@@ -358,7 +358,7 @@ jobs:
         with:
           commit_message: "🤖 build demo website"
   build-docs:
-    if: github.author != 'dependabot[bot]'
+    if: github.event_name == 'push'
     needs: build-example
     runs-on: ubuntu-latest
     steps:
@@ -459,7 +459,7 @@ jobs:
           command: test
           args: -p dev-tool
   generate-readme:
-    if: github.author != 'dependabot[bot]'
+    if: github.event_name == 'push'
     needs: [clippy-dev-tool, test-dev-tool, build-docs]
     runs-on: ubuntu-latest
     steps:
