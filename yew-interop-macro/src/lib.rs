@@ -511,7 +511,7 @@ pub fn declare_resources(input: TokenStream) -> TokenStream {
             }
 
             #[::yew::function_component(ResourceProvider)]
-            pub fn resource_provider(props: &ResourceProviderProps) -> Html {
+            pub fn resource_provider(props: &ResourceProviderProps) -> ::yew::Html {
                 #(
                     let #reducer_idents = ::yew::use_reducer(::yew_interop::LinkGroupStatus::default);
                 )*
