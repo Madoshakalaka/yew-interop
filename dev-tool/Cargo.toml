@@ -10,7 +10,7 @@ default-run = 'dev-tool'
 
 [dependencies]
 derive_more = "0.99"
-strum = "0.23"
+strum = "0.24"
 strum_macros = "0.23"
 dialoguer = {version = "0.9", features = ["fuzzy-select"]}
 clap = {version = "3.0.13", features=["derive"]}
